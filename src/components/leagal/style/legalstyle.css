@@ -1,0 +1,63 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+.privacyPolicyWrapper {
+  margin: 0 30px;
+  font-family: "Poppins", sans-serif;
+}
+.privacyPolicyWrapper h1 {
+  text-align: center;
+}
+.policyHeading {
+  margin-bottom: 40px;
+  margin-top: 20px;
+  font-size: 40px;
+}
+.policyContact {
+  margin-top: 50px;
+  margin-bottom: 80px;
+}
+
+@media (min-width: 700px) {
+  .privacyPolicyWrapper {
+    margin: 0 170px;
+  }
+  .policyHeading {
+    font-size: 70px;
+  }
+}
+.disclamerText {
+  font-size: 20px;
+  margin-bottom: 40px;
+}
+.detailPolicyes > h2 {
+  margin-top: 30px;
+}
+.privacyPolicyWrapper {
+  padding-bottom: 50px;
+}
+.supportContentWrapper {
+  margin-top: 80px;
+}
+.supportContentWrapper h5 {
+  margin-top: 30px;
+}
+.supportContentWrapper h2 {
+  margin-top: 20px;
+}
+.supportContentWrapper span {
+  color: gray;
+}
+.supportContentWrapper .salesTeamHeader.first {
+  margin-top: 80px;
+}
+
+.otherSupports h2 {
+  margin-top: 60px;
+  font-weight: 600;
+}
+.otherSupports h5 {
+  margin-top: 10px;
+  font-weight: 600;
+  opacity: 0.85;
+  font-weight: 400;
+}

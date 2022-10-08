@@ -1,0 +1,29 @@
+.headerBarWrapper {
+    .headerBar {
+        margin: 6px 1px;
+        display: flex;
+        padding: 1px 4px;
+        border-radius: 20px;
+        align-items: center;
+        justify-content: space-between;
+        background: #f0f0fb;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+
+        .selectHotel {
+            font-size: 10px;
+        }
+
+        h3 {
+            font-size: 32px;
+            margin: 8px 8px 8px 20px;
+        }
+    }
+
+    .mainContents {
+        padding: 0px 20px;
+        height: 680px;
+        overflow: scroll;
+    }
+}

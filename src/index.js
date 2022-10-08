@@ -1,17 +1,41 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import { BrowserRouter } from "react-router-dom";
+import App from "./App";
+import axios from "axios";
+import * as ReactDOMClient from "react-dom/client";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+axios.defaults.baseURL = "http://localhost:3001/api/";
+axios.defaults.headers.common["secret_token"] = localStorage.getItem("Token");
+axios.defaults.headers.post["Content-Type"] = "application/json";
+
+axios.interceptors.request.use(
+  (request) => {
+    // Edit request config
+    return request;
+  },
+  (error) => {
+    console.log(error);
+    return Promise.reject(error);
+  }
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+axios.interceptors.response.use(
+  (response) => {
+    // Edit response config
+    return response;
+  },
+  (error) => {
+    // console.log(error);
+    if (error?.response?.data?.message) {
+      return Promise.reject(error?.response?.data?.message);
+    }
+    return Promise.reject(error);
+  }
+);
+
+const root = ReactDOMClient.createRoot(document.getElementById("root"));
+root.render(
+  <BrowserRouter>
+    <App />
+  </BrowserRouter>
+);

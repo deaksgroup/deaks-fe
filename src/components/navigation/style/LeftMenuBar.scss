@@ -1,0 +1,73 @@
+body {
+    background-image: linear-gradient(to right bottom, #f6f6ff, #f3f3ff, #f0f0ff, #ecedff, #e9eaff);
+}
+
+.applicationWrapper {
+    // position: absolute;
+
+    .appLogo {
+        border-radius: 20px;
+        margin: 27px auto;
+        height: 80px;
+        width: 80px;
+        display: flex;
+        border: 2px solid #c3af76;
+    }
+
+    display: grid;
+    grid-template-columns: 1fr 7fr;
+
+    .menubarParent {
+        // position: absolute;
+
+        .menubarWrapper {
+            // background-image: linear-gradient(to left bottom, #8c4af2, #824ef4, #7752f5, #6c56f6, #6059f7);
+            background-color: #232323;
+            height: 100vh;
+            width: 160px;
+            position: fixed;
+        }
+    }
+
+    .appMenuList {
+        margin-top: 50px;
+
+        ul {
+            padding: 0;
+
+            a {
+                display: flex;
+                align-items: center;
+                text-transform: capitalize;
+                padding: 10px 20px;
+                list-style: none;
+                margin: 10px;
+                color: white;
+                font-size: 14px;
+                display: flex;
+
+                svg {
+                    margin-right: 6px;
+                }
+            }
+
+            li {
+                .active {
+                    border-radius: 20px;
+                    border: 2px solid #c3af76;
+                    background: #534f4f;
+                }
+            }
+        }
+    }
+}
+
+.iconLeftBar {
+    font-size: 21px;
+}
+
+.addNewWrapper {
+    display: flex;
+    gap: 10px;
+    margin: 17px 0;
+}

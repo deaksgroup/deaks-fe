@@ -1,0 +1,86 @@
+.attendenceFilterBar {
+  margin-top: 10px;
+  display: flex;
+  padding: 1px 10px;
+  border-radius: 20px;
+  align-items: center;
+  justify-content: space-between;
+}
+.attendenceFilterBar .selectHotel {
+  font-size: 10px;
+}
+.attendenceFilterBar h3 {
+  margin-left: 20px;
+}
+
+.attendenceList {
+  margin-top: 30px;
+  display: grid;
+  grid-gap: 10px;
+  gap: 20px;
+  grid-template-columns: repeat(auto-fill, 370px);
+  justify-content: center;
+}
+.attendenceList .card {
+  min-height: 180px;
+  border-radius: 20px;
+}
+.attendenceList .card .outletIdentity {
+  font-size: 14px;
+  padding: 15px;
+  display: flex;
+}
+.attendenceList .card .outletIdentity .hotelImg {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  align-items: center;
+  background: #c3af77;
+  border-radius: 20px;
+  color: white;
+  text-transform: capitalize;
+}
+.attendenceList .card .outletIdentity .hotelImg p {
+  margin: 4px;
+  font-weight: 600;
+}
+.attendenceList .card .outletIdentity img {
+  border-radius: 20px;
+  width: 70px;
+  height: 70px;
+}
+.attendenceList .card .outletIdentity ul {
+  margin: auto auto auto 25px;
+  margin-left: 20px !important;
+  margin-left: 10px;
+}
+.attendenceList .card .outletIdentity ul h6 {
+  margin-bottom: 0;
+}
+.attendenceList .card .outletIdentity ul li {
+  list-style: none;
+}
+.attendenceList .card .outletIdentity ul li p {
+  margin-bottom: 7px;
+}
+.attendenceList .card .outletIdentity ul li .secondary {
+  color: gray;
+}
+.attendenceList .card .controls {
+  padding: 0px 15px;
+  display: flex;
+  justify-content: space-between;
+}
+.attendenceList .card .controls .otherControls ul {
+  list-style: none;
+}
+.attendenceList .card .controls .otherControls ul li button {
+  height: 30px;
+  width: 30px;
+  border-radius: 40px;
+  margin-right: 7px;
+  border: 1px solid #c3af77;
+}
+.attendenceList .card .controls .otherControls ul li button svg {
+  font-size: 16px;
+}/*# sourceMappingURL=attendenceStyle.css.map */

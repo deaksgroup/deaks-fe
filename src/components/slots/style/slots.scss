@@ -1,0 +1,19 @@
+.outletFormWrapper {
+    padding: 40px;
+
+    .outletInitialDetails {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 30px;
+    }
+
+    .createSlotsWrapper {
+        .slotDetail {
+            h3 {
+                margin: 8px 8px;
+            }
+
+            display: flex;
+        }
+    }
+}

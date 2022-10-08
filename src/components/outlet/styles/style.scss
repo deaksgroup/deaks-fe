@@ -1,0 +1,50 @@
+.OutletFormWrapper {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    padding: 10px 65px;
+    margin-top: 30px;
+
+    .item {
+        margin-bottom: 4rem;
+    }
+
+    .formBlock {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 20px;
+    }
+
+    .hourlyRates {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+        gap: 20px;
+    }
+
+    .specialCheckboxesWrapper {
+
+        margin-top: 20px;
+
+        .group {
+            display: grid;
+            grid-template-columns: 19rem 19rem 19rem 19rem;
+            gap: 30px;
+        }
+
+        .specialCheckboxes {
+
+            gap: 20px;
+        }
+    }
+}
+
+.specialCheckboxes {
+    display: flex;
+    flex-direction: row !important;
+    margin: 20px 61px;
+}
+
+.startingSerial {
+    margin-bottom: 20px;
+}
