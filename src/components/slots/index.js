@@ -17,7 +17,6 @@ import { StyledIconButton, StyledTableRow } from "../users/utils/userUtils";
 import { Stack } from "@mui/system";
 import GroupIcon from "@mui/icons-material/Group";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { SlotFullscreenDialog } from "./components/SlotFullscreenDialog";
 import "./style/slots.css";
 
 export const Slots = () => {
@@ -129,7 +128,7 @@ export const Slots = () => {
         sx={{ position: "absolute", bottom: 16, right: 16 }}
         icon={<SpeedDialIcon />}
       ></SpeedDial>
-      <SlotFullscreenDialog />
+      {/* <SlotFullscreenDialog /> */}
     </ContentWrapper>
   );
 };

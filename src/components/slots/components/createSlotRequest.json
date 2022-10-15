@@ -1,0 +1,51 @@
+{
+  "newSlots": [
+    {
+      "shiftName": "Amity Lindsay",
+      "startTime": "03:13",
+      "endTime": "13:55",
+      "hourlyPay": "58",
+      "vacancy": "84",
+      "release": "156",
+      "selectedPrivetGroup": [],
+      "selectedPublicGroup": [],
+      "subscribersView": true
+    },
+    {
+      "shiftName": "Blair Thornton",
+      "startTime": "00:58",
+      "endTime": "16:14",
+      "hourlyPay": "26",
+      "vacancy": "29",
+      "release": "59",
+      "dedicatedFilter": true,
+      "selectedPrivetGroup": [],
+      "selectedPublicGroup": [],
+      "selectedExclusiveUsers": ["633be4384485d4728e0c6bb4"],
+      "subscribersView": true
+    },
+    {
+      "shiftName": "Jolie Ramos",
+      "startTime": "03:13",
+      "endTime": "13:07",
+      "hourlyPay": "2",
+      "vacancy": "28",
+      "release": "95",
+      "dedicatedFilter": true,
+      "selectedPrivetGroup": ["633c2a631fb64d2c79715ee1"],
+      "selectedPublicGroup": ["633c286e88a18747aaa950cb"],
+      "selectedExclusiveUsers": [
+        "633b7e2769a5fe83623caaaf",
+        "633be4384485d4728e0c6bb4",
+        "633be4444485d4728e0c6bb6",
+        "633be3e34485d4728e0c6bb1",
+        "633be4524485d4728e0c6bb8"
+      ],
+      "subscribersView": true
+    }
+  ],
+  "date": "1978-06-23",
+  "hotel": "6336fd4fee03ae8e32885d92",
+  "outlet": "6342cf321f40f110f2887fcf",
+  "attendanceName": "D23W44 hotelName slotName"
+}

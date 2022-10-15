@@ -30,12 +30,12 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 export const DeaksTable = (props) => {
-  const { headings = "" } = props;
+  const { headings = "", maxHeight = 546 } = props;
   const columns = useTableHeader({ headings });
 
   return (
     <Paper sx={{ width: "100%", overflow: "hidden" }} variant="outlined">
-      <TableContainer sx={{ maxHeight: 546 }}>
+      <TableContainer sx={{ maxHeight: maxHeight }}>
         <Table stickyHeader aria-label="sticky table" size="small">
           <TableHead sx={{ height: "50px" }}>
             <StyledTableRow>

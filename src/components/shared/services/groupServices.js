@@ -11,3 +11,11 @@ export const fetchGroups = (params) => {
     params,
   });
 };
+
+export const fetchFilteredPublic = (params) => {
+  return axios.post("/get/publicFilter", params);
+};
+
+export const fetchFilteredPrivet = (params) => {
+  return axios.post("/get/privetFilter", params);
+};

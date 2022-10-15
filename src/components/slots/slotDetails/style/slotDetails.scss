@@ -1,0 +1,237 @@
+.slotDetailsWrapper {
+    gap: 15px;
+    display: grid;
+    // grid-template-columns: 6fr 2fr;
+
+    .rightPanel {
+        background-color: gray;
+        height: 100%;
+    }
+
+    .workersTablesWrapper {
+
+        display: grid;
+        grid-template-columns: 1.2fr 1.2fr 1fr;
+        gap: 15px;
+
+        .menuIcon {
+            font-size: 18px;
+        }
+
+        .RightPanel {
+            margin-top: 50px;
+        }
+
+        .tableName {
+            display: flex;
+            margin-left: 3px;
+            font-weight: 600;
+            align-content: center;
+            align-items: center;
+
+            span {
+                margin: 0 10px;
+                font-weight: 100;
+            }
+
+        }
+    }
+
+    .dedicatedWrapper {
+        min-height: 300px;
+        background-color: gray;
+
+        .filterSwitch {
+            font-weight: 700;
+        }
+
+        .dedicatedElements {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+    }
+}
+
+.statusPanelWrapper {
+    border: 1px solid black;
+    border-radius: 10px;
+    background-color: #1e2022;
+    color: white;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08),
+        0 2px 2px rgba(0, 0, 0, 0.12),
+        0 4px 4px rgba(0, 0, 0, 0.16),
+        0 8px 8px rgba(0, 0, 0, 0.20);
+    padding-bottom: 10px;
+
+    .headerCard {
+        .headerName {
+            display: flex;
+            align-items: center;
+
+            svg {
+                margin-left: 6px;
+                position: relative;
+                top: 3px;
+                color: darkgray;
+                font-size: 20px;
+            }
+        }
+
+        display: flex;
+        align-items: center;
+        align-content: center;
+        justify-content: space-between;
+        margin-right: 24px;
+        margin-bottom: 18px;
+
+        svg {
+            top: 3px;
+            position: relative;
+            font-size: 22px;
+        }
+    }
+
+    fieldset {
+        border-color: transparent;
+    }
+
+    input {
+        color: wheat;
+        font-size: 22px;
+    }
+
+    label {
+        color: white;
+        opacity: 0.75;
+    }
+
+    #Shortfall {
+        color: #E57373;
+    }
+
+    #Confirmed {
+        color: #81C784;
+    }
+
+    p {
+        font-size: 22px;
+        font-weight: 700;
+        color: #a9a9a9;
+        margin: 22px 0px 16px 31px;
+    }
+
+    .items {
+        display: grid;
+        padding: 0px 20px;
+        grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+        gap: 20px;
+        grid-column: span 3 / span 3;
+    }
+
+}
+
+.visibilityWrapper {
+    padding: 0px 20px;
+
+    p {
+        font-size: 22px;
+        font-weight: 700;
+        color: #a9a9a9;
+    }
+
+    .MuiChip-label {
+        color: white;
+        font-weight: 500;
+    }
+
+    display: flex;
+    gap: 7px;
+    align-items: center;
+    margin-left: 8px;
+
+    svg {
+        font-size: 18px;
+    }
+}
+
+.InfoPanelWrapper {
+    border: 2px dashed gray;
+    border-radius: 10px;
+    color: white;
+    margin: 22px;
+    margin-top: 30px;
+
+    .headerCard {
+        .headerName {
+            display: flex;
+            align-items: center;
+
+            svg {
+                margin-left: 6px;
+                position: relative;
+                top: 3px;
+                color: darkgray;
+                font-size: 20px;
+            }
+        }
+
+        display: flex;
+        align-items: center;
+        align-content: center;
+        justify-content: space-between;
+        margin-right: 24px;
+        margin-bottom: 15px;
+
+        svg {
+            top: 3px;
+            position: relative;
+            font-size: 22px;
+        }
+    }
+
+    fieldset {
+        border-color: transparent;
+    }
+
+    input {
+        // color: wheat;
+        font-size: 22px;
+    }
+
+    label {
+        color: white;
+        opacity: 0.75;
+
+    }
+
+    #Shortfall {
+        color: #E57373;
+    }
+
+    #Confirmed {
+        color: #81C784;
+    }
+
+    p {
+        font-size: 22px;
+        font-weight: 700;
+        color: #a9a9a9;
+        margin: 22px 0px 28px 31px;
+    }
+
+    .items {
+        display: grid;
+        padding: 28px 0px 3px 12px;
+        gap: 10px;
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    }
+}
+
+.headerVisibility {
+    margin-bottom: 18px;
+
+    .MuiSwitch-root {
+        top: 12px;
+    }
+}

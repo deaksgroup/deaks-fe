@@ -5,7 +5,7 @@ export const useTableHeader = (props) => {
     return normalWord
       .trim()
       .toLowerCase()
-      .replace(/([^A-Z0-9]+)(.)/gi, function(match) {
+      .replace(/([^A-Z0-9]+)(.)/gi, function (match) {
         return arguments[2].toUpperCase();
       });
   };
@@ -18,7 +18,7 @@ export const useTableHeader = (props) => {
       minWidth: item.width ? item.width : defaultMinWidth,
       maxWidth: defaultMaxWidth,
       disablePadding: true,
-      align: "left",
+      align: item?.align || "left",
       format: (value) => value.toLocaleString("en-US"),
     });
   });

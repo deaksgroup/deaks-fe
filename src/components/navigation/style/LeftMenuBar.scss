@@ -1,5 +1,7 @@
 body {
     background-image: linear-gradient(to right bottom, #f6f6ff, #f3f3ff, #f0f0ff, #ecedff, #e9eaff);
+    background-repeat: no-repeat;
+    height: 100%;
 }
 
 .applicationWrapper {
@@ -22,7 +24,7 @@ body {
 
         .menubarWrapper {
             // background-image: linear-gradient(to left bottom, #8c4af2, #824ef4, #7752f5, #6c56f6, #6059f7);
-            background-color: #232323;
+            background-color: #1e2022;
             height: 100vh;
             width: 160px;
             position: fixed;
