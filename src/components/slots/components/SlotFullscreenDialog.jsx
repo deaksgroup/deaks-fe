@@ -19,8 +19,15 @@ import CloseIcon from "@mui/icons-material/Close";
 import { Formik } from "formik";
 import { useFetchHotels } from "../../shared/hooks/useFetchHotels";
 import { useFetchOutlets } from "../../shared/hooks/useFetchOutlets";
+import ModeEditOutlinedIcon from "@mui/icons-material/ModeEditOutlined";
+import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
+import { DeaksTable } from "../../shared/components/DeaksTable";
+import { headings, headingSlots } from "../helpers/utils";
+import { NewSlotModal } from "./NewSlotModal";
+import { DeaksModal } from "../../shared/components/DeaksModal";
 
 export const SlotFullscreenDialog = () => {
+  const [openNewSlotModal, setOpenNewSlotModal] = useState(false);
   const [initialValues, setInitialValues] = useState({
     date: "",
     hotel: "",
@@ -116,13 +123,40 @@ export const SlotFullscreenDialog = () => {
 
             <div className="createSlotsWrapper">
               <div className="slotDetail">
-                <h3>Add Slots</h3> <Divider orientation="vertical" flexItem />
+                <h3>Add Slots</h3>
+                <Divider orientation="vertical" flexItem />
+                <h3 className="slotName">W23D223 Dec 3 Rithz catltron slots</h3>
+                <IconButton aria-label="delete" color="primary">
+                  <ModeEditOutlinedIcon />
+                </IconButton>
+
+                <Button
+                  className="addSlotButton"
+                  variant="contained"
+                  startIcon={<AddOutlinedIcon />}
+                  onClick={() => {
+                    setOpenNewSlotModal(true);
+                  }}
+                >
+                  New Slot
+                </Button>
               </div>
-              <div></div>
+              <div className="newSlotItemTable">
+                <DeaksTable headings={headingSlots}></DeaksTable>
+              </div>
             </div>
           </div>
         )}
       </Formik>
+      {/* <NewSlotModal open={openNewSlotModal} close={setOpenNewSlotModal} /> */}
+      <DeaksModal
+        modalOpen={openNewSlotModal}
+        setModalOpen={setOpenNewSlotModal}
+        modalWidth={1000}
+      >
+        <h1>Add New Slot</h1>
+        <div className="ModalFormWrapper"></div>
+      </DeaksModal>
     </Dialog>
   );
 };

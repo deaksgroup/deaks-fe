@@ -1,5 +1,5 @@
 .outletFormWrapper {
-    padding: 40px;
+    padding-top: 25px;
 
     .outletInitialDetails {
         display: grid;
@@ -14,6 +14,74 @@
             }
 
             display: flex;
+            margin-bottom: 40px;
+
+            .slotName {
+                color: gray;
+                margin: auto 0px auto 10px;
+                font-size: 14px;
+            }
+
+            svg {
+                fill: gray;
+                font-size: 20px;
+            }
+
+            .addSlotButton {
+                margin-left: auto;
+                background-color: black;
+            }
         }
+    }
+}
+
+.ModalFormWrapperSlots {
+    .mainFormItems {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+    }
+
+    .filterView {
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+
+        .switcher {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: lightslategray;
+        }
+
+        .labelAuto {
+            margin: 0;
+        }
+
+        max-height: 400px;
+        overflow: scroll;
+    }
+}
+
+.subscribersView {
+    // margin-top: 20px;
+}
+
+.switcherDedicatedView {
+    margin-top: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.saveNewSlot {
+    margin-top: 30px;
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: space-between;
+
+    button {
+        background-color: black;
     }
 }

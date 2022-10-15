@@ -33,3 +33,7 @@ export const deleteUserId = (userId) => {
 export const activateUser = (data) => {
   return axios.patch("/activateUser", data);
 };
+
+export const findManyUsers = (users) => {
+  return axios.post("/findManyUsers", users);
+};
