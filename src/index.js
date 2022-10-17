@@ -3,6 +3,7 @@ import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 import axios from "axios";
 import * as ReactDOMClient from "react-dom/client";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 axios.defaults.baseURL = "http://localhost:3001/api/";
 axios.defaults.headers.common["secret_token"] = localStorage.getItem("Token");
@@ -34,8 +35,12 @@ axios.interceptors.response.use(
 );
 
 const root = ReactDOMClient.createRoot(document.getElementById("root"));
+const queryClient = new QueryClient();
+
 root.render(
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>
+  <QueryClientProvider client={queryClient}>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </QueryClientProvider>
 );

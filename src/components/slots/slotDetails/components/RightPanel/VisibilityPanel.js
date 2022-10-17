@@ -4,14 +4,20 @@ import PublicIcon from "@mui/icons-material/Public";
 import ShieldIcon from "@mui/icons-material/Shield";
 import GroupIcon from "@mui/icons-material/Group";
 import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
+import { useSlotsQuery } from "../../../hooks/useSlots";
+import { useParams } from "react-router-dom";
 
 const VisibilityPanel = () => {
+  const { slotId } = useParams();
+  const { data } = useSlotsQuery(slotId);
   return (
     <div>
       <div className="headerVisibility">
         <FormControlLabel
           value="true"
-          control={<Switch color="primary" />}
+          control={
+            <Switch color="primary" defaultChecked={data?.subscribersView} />
+          }
           label={
             <p style={{ marginLeft: 16, marginBottom: 0 }}>Dedicated Filter</p>
           }
@@ -27,7 +33,7 @@ const VisibilityPanel = () => {
                 <PublicIcon />
               </Avatar>
             }
-            label="3"
+            label={data?.selectedPublicGroup?.length}
           />
         </Tooltip>
 
@@ -39,7 +45,7 @@ const VisibilityPanel = () => {
                 <ShieldIcon size="small" />
               </Avatar>
             }
-            label="3"
+            label={data?.selectedPrivateGroup?.length}
           />
         </Tooltip>
 
@@ -51,7 +57,7 @@ const VisibilityPanel = () => {
                 <GroupIcon size="small" />
               </Avatar>
             }
-            label="3"
+            label={data?.selectedExclusiveUsers?.length}
           />
         </Tooltip>
 
@@ -63,7 +69,7 @@ const VisibilityPanel = () => {
                 <NotificationsActiveIcon size="small" />
               </Avatar>
             }
-            label="yes"
+            label={data?.subscribersView === true ? "On" : "Off"}
           />
         </Tooltip>
       </div>

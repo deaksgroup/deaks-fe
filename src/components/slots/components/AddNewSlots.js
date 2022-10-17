@@ -18,14 +18,18 @@ import {
 } from "../../shared/services/slotsServices";
 import { NewSlotsTable } from "./NewSlotsTable";
 import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
+import { useNavigate } from "react-router-dom";
+import { NotificationManager } from "react-notifications";
 
 export const AddNewSlots = () => {
+  const navigate = useNavigate();
   const [openNewSlotModal, setOpenNewSlotModal] = useState(false);
   const [outletList, setOutletList] = useState([]);
   const [tableValues, setTableValues] = useState([]);
   const [formEditMode, setFormEditMode] = useState(false);
   const [editFormData, setEditFormData] = useState([]);
   const [editRowIndex, setEditRowIndex] = useState([]);
+  const [existList, setExistList] = useState([]);
   const [initialValues, setInitialValues] = useState({
     date: "",
     hotel: "",
@@ -65,7 +69,7 @@ export const AddNewSlots = () => {
     setOutletList(outletList?.data);
   }, [hotel]);
 
-  const handleSaveSlots = async () => {
+  const handleSaveSlots = useCallback(async () => {
     try {
       const newSlots = await addNewSlots({
         newSlots: tableValues,
@@ -74,21 +78,35 @@ export const AddNewSlots = () => {
         outlet,
         attendanceName: "D23W44 hotelName slotName",
       });
+      NotificationManager.success("New Slot added", "Success");
+      if (newSlots?.status === 200) {
+        navigate("/slots");
+      }
     } catch (error) {
       console.log(error);
     }
-  };
+  }, [date, hotel, outlet, tableValues, navigate]);
 
-  useEffect(() => {
-    fetchOutlets();
-    if (hotel && date && outlet) {
-      fetchExistingSlots({
+  const fetchExistingList = useCallback(async () => {
+    try {
+      const slotList = await fetchExistingSlots({
         date,
         hotel,
         outlet,
       });
+      setExistList(slotList?.data?.Slots);
+    } catch (error) {
+      console.log(error);
     }
-  }, [date, hotel, outlet, fetchOutlets]);
+  }, [date, hotel, outlet]);
+
+  useEffect(() => {
+    fetchOutlets();
+
+    if (hotel && date && outlet) {
+      fetchExistingList();
+    }
+  }, [date, hotel, outlet, fetchOutlets, fetchExistingList]);
 
   return (
     <ContentWrapper ContentWrapper headerName="Add new Slot">
@@ -179,6 +197,7 @@ export const AddNewSlots = () => {
                 formEditMode={formEditMode}
                 setEditRowIndex={setEditRowIndex}
                 setTableValues={setTableValues}
+                existList={existList}
               />
               <Button
                 className="addSlotButton"

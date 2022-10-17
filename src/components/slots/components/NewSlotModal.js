@@ -81,7 +81,6 @@ export const NewSlotModal = ({
     setEditFormPrivetGroups(group?.data);
   }, []);
 
-  console.log(editFormData);
   useEffect(() => {
     const {
       shiftName,

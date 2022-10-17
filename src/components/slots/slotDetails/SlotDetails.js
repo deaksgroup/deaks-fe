@@ -1,15 +1,20 @@
 import React from "react";
+import { useParams } from "react-router-dom";
 import { SlotContentWrapper } from "../../shared/components/SlotContentWrapper";
+import { timeConv } from "../../shared/helper/util";
+import { useSlotsQuery } from "../hooks/useSlots";
 import { WorkersTable } from "./components/WorkersTable/WorkersTable";
 import "./style/slotDetails.css";
 export const SlotDetails = () => {
+  const { slotId } = useParams();
+  const { data } = useSlotsQuery(slotId);
   const details = {
-    id: "S3241",
-    slot: "16th Jan Morning Shift : Ritz Carlton",
+    id: data?.id,
+    slot: data?.shiftName,
     outlet: "Banquet",
     hotel: "Ritz Carlton",
-    slotTime: "10:00am - 5:00pm",
-    slotDate: "10th Jan 2022",
+    slotTime: `${timeConv(data?.startTime)} - ${timeConv(data?.endTime)}`,
+    slotDate: data?.date,
   };
   return (
     <SlotContentWrapper {...details}>

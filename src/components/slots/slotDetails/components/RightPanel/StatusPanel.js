@@ -1,19 +1,14 @@
 import React from "react";
-import {
-  IconButton,
-  Menu,
-  MenuItem,
-  TextField,
-  Tooltip,
-  Typography,
-} from "@mui/material";
+import { IconButton, Menu, MenuItem, TextField } from "@mui/material";
 import SettingsIcon from "@mui/icons-material/Settings";
-import FilterAltIcon from "@mui/icons-material/FilterAlt";
-import { Stack } from "@mui/system";
 import VisibilityPanel from "./VisibilityPanel";
 import InfoPanel from "./InfoPanel";
+import { useSlotsQuery } from "../../../hooks/useSlots";
+import { useParams } from "react-router-dom";
 
 function StatusPanel() {
+  const { slotId } = useParams();
+  const { data } = useSlotsQuery(slotId);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -45,7 +40,7 @@ function StatusPanel() {
           id="Required"
           key={"req"}
           label="Vacancy"
-          value="18"
+          value={data?.vacancy}
           InputLabelProps={{
             shrink: true,
           }}
@@ -55,7 +50,7 @@ function StatusPanel() {
         />
         <TextField
           id="Confirmed"
-          value="12"
+          value={data?.confirmedRequests?.length}
           label="Filled"
           key={"Confirmed"}
           InputLabelProps={{
@@ -69,7 +64,7 @@ function StatusPanel() {
           id="Released"
           label="Released"
           key={"Released"}
-          value="23"
+          value={data?.release}
           InputLabelProps={{
             shrink: true,
           }}
@@ -80,7 +75,7 @@ function StatusPanel() {
 
         <TextField
           id="Waiting"
-          value="0"
+          value={data?.waitingRequests?.length}
           label="Waiting"
           key={"Waiting"}
           InputLabelProps={{
@@ -95,7 +90,7 @@ function StatusPanel() {
           className=""
           label={"Shortfall"}
           key={"shortfall"}
-          value="6"
+          value={data?.vacancy - data?.confirmedRequests.length}
           InputLabelProps={{
             shrink: true,
           }}
@@ -105,7 +100,7 @@ function StatusPanel() {
         />
         <TextField
           id="Priority"
-          value="High"
+          value={data?.priority}
           label="Priority"
           key={"Priority"}
           InputLabelProps={{
