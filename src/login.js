@@ -24,11 +24,11 @@ const LoginForm = () => {
         email,
         password,
       })
-      .then(function(res) {
+      .then(function (res) {
         localStorage.setItem("Token", res.data.token);
         localStorage.setItem("roles", res.data.user.roles);
         localStorage.setItem("email", res.data.user.email);
-        NotificationManager.success("User logged in sucessfully", "Success");
+        NotificationManager.success("User logged in successfully", "Success");
         navigation("/users");
       })
       .catch((err) => {

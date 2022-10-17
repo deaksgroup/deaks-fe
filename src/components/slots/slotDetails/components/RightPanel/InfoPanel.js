@@ -1,17 +1,34 @@
 import React from "react";
-import {
-  IconButton,
-  Menu,
-  MenuItem,
-  TextField,
-  Tooltip,
-  Typography,
-} from "@mui/material";
-import SettingsIcon from "@mui/icons-material/Settings";
-import FilterAltIcon from "@mui/icons-material/FilterAlt";
-import { Stack } from "@mui/system";
+import { Menu, MenuItem, TextField } from "@mui/material";
+import { useSlotsQuery } from "../../../hooks/useSlots";
+import { useParams } from "react-router-dom";
+import moment from "moment";
 
 function InfoPanel() {
+  const { slotId } = useParams();
+  const { data } = useSlotsQuery(slotId);
+  const currentDate = moment(new Date()).format("YYYY-MM-DD hh:mm");
+  const slotStartTime = `${data?.date} ${data?.startTime}`;
+  const slotEndTime = `${data?.date} ${data?.endTime}`;
+
+  function durationAsString(start, end) {
+    const duration = moment.duration(moment(end).diff(moment(start)));
+
+    //Get Days
+    const days = Math.floor(duration.asDays());
+    const daysFormatted = days ? `${days}d ` : "";
+
+    //Get Hours
+    const hours = duration.hours();
+    const hoursFormatted = `${hours}h `;
+
+    //Get Minutes
+    const minutes = duration.minutes();
+    const minutesFormatted = `${minutes}m`;
+    if (days < 0) return "-";
+    return [daysFormatted, hoursFormatted, minutesFormatted].join("");
+  }
+
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -20,6 +37,7 @@ function InfoPanel() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
   return (
     <div className="InfoPanelWrapper">
       <div className="items">
@@ -27,7 +45,7 @@ function InfoPanel() {
           id="Starts"
           key={"starts"}
           label="Starts In"
-          value="2d. 33h"
+          value={durationAsString(currentDate, slotStartTime)}
           InputLabelProps={{
             shrink: true,
           }}
@@ -37,7 +55,7 @@ function InfoPanel() {
         />
         <TextField
           id="payHour"
-          value="12"
+          value={data?.hourlyPay}
           label="$/hour"
           key={"payHour"}
           InputLabelProps={{
@@ -51,7 +69,7 @@ function InfoPanel() {
           id="duty"
           label="Duty Time"
           key={"duty"}
-          value="8 Hours"
+          value={durationAsString(slotStartTime, slotEndTime)}
           InputLabelProps={{
             shrink: true,
           }}

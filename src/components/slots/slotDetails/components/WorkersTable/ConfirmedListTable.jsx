@@ -9,8 +9,12 @@ import { StyledTableRow } from "../../../../users/utils/userUtils";
 import { headings } from "../utils";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import SettingsIcon from "@mui/icons-material/Settings";
+import { useParams } from "react-router-dom";
+import { useSlotsQuery } from "../../../hooks/useSlots";
 
 export const ConfirmedListTable = () => {
+  const { slotId } = useParams();
+  const { data } = useSlotsQuery(slotId);
   const options = ["Move user to waiting list", "Remove user form slot"];
   const ITEM_HEIGHT = 48;
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -40,7 +44,7 @@ export const ConfirmedListTable = () => {
           size="small"
           label={
             <p>
-              12 / <b>20</b>
+              {data?.confirmedRequests?.length} / <b>{data?.release}</b>
             </p>
           }
           // color="primary"

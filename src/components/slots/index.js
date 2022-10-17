@@ -18,8 +18,10 @@ import { Stack } from "@mui/system";
 import GroupIcon from "@mui/icons-material/Group";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import "./style/slots.css";
+import { useNavigate } from "react-router-dom";
 
 export const Slots = () => {
+  const navigate = useNavigate();
   const Paginations = usePagination(20);
   const { SearchInput, searchKeyword } = useSearch("Search Slots");
   return (
@@ -125,6 +127,9 @@ export const Slots = () => {
       {Paginations}
       <SpeedDial
         ariaLabel="SpeedDial for Outlets"
+        onClick={() => {
+          navigate("/addNewSlots");
+        }}
         sx={{ position: "absolute", bottom: 16, right: 16 }}
         icon={<SpeedDialIcon />}
       ></SpeedDial>
