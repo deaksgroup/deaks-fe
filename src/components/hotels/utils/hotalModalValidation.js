@@ -4,7 +4,7 @@ export const hotalModalValidation = yup.object({
     .string("Enter Hotel full name")
     .min(3, "Hotel name should be atleaste 3 letters")
     .required("Hotel name is required"),
-  SOAemail: yup
+  SOAmail: yup
     .string("Enter your email")
     .email("Enter a valid email")
     .required("Email is required"),

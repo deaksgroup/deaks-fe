@@ -208,7 +208,7 @@ const Users = () => {
       <DeaksModal
         modalOpen={modalOpen}
         setModalOpen={setModalOpen}
-        modalWidth={1000}
+        modalWidth={1100}
       >
         <UserModal
           userInfo={userInfo}

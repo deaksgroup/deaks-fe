@@ -1,6 +1,6 @@
 .infoBlock {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     grid-column-gap: 15px;
     grid-row-gap: 15px;
 }
@@ -14,5 +14,41 @@
 }
 
 .SubmitUserInfo {
+    margin-top: 0px;
+}
+
+.footerBar {
+    margin-top: 30px;
+
+    #unauthorizedReason {
+        // margin-top: 10px;
+    }
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.ImageBlock {
+    img {
+        height: 70px;
+        width: 70px;
+        border-radius: 10px;
+        cursor: pointer;
+        object-fit: cover;
+    }
+
     margin-top: 20px;
+    color: gray;
+    display: flex;
+    gap: 60px;
+
+    .profileImage {}
+
+    .attireImage {
+        .imageStack {
+            display: flex;
+            gap: 14px;
+        }
+    }
 }

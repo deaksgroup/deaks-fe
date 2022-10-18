@@ -9,6 +9,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutlined";
 import Slide from "@mui/material/Slide";
 import { Field, Formik } from "formik";
+import UploadIcon from "@mui/icons-material/Upload";
 import { AdditionalRowEditModal } from "./AdditionalRowEditModal";
 import {
   FormControl,
@@ -25,6 +26,9 @@ import {
 } from "../../shared/services/outletServices";
 import { NotificationManager } from "react-notifications";
 import { getHotels } from "../../shared/services/hotelServices";
+import { DeaksModal } from "../../shared/components/DeaksModal";
+import { MakeFormData } from "../utils/outletUtils";
+import { Stack } from "@mui/system";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -35,9 +39,12 @@ export default function OutletFullscreenDialog(props) {
   const [additionalColumnModalOpen, setAdditionalColumnModalOpen] =
     React.useState(false);
   const [invoiceColumn, setInvoiceColumn] = React.useState([]);
+  const [navigationImages, setNavigationImages] = React.useState([]);
+  const [outletImages, setOutletImages] = React.useState([]);
+  const [groomingImages, setGroomingImages] = React.useState([]);
   const [hotelData, setHotelData] = React.useState([]);
+  const [modalOpen, setModalOpen] = React.useState(false);
   const [fetchedOutletValue, setFetchedOutletValue] = React.useState([]);
-  const [selectedInvoiceColumn, setSelectedInvoiceColumn] = React.useState([]);
   const [initialValues, setInitialValues] = React.useState({
     hotel: "",
     outletName: "",
@@ -163,6 +170,32 @@ export default function OutletFullscreenDialog(props) {
     setOpen(false);
   };
 
+  // const UploadImageComponent = (currentState, settingState) => {
+  //   return (
+  //     <div className="uploadImageWrapper">
+  //       <div className="flexImages">
+  //         {currentState.length > 0 &&
+  //           currentState?.map(() => {
+  //             return (
+  //               <Badge badgeContent={4} color="primary">
+  //                 <div className="imageItem">
+  //                   <div className="image"></div>
+  //                   <div className="description">lorem</div>
+  //                 </div>
+  //               </Badge>
+  //             );
+  //           })}
+  //         <IconButton className="AddButton">
+  //           <div className="content">
+  //             <span>+</span>
+  //             <p>Add Image</p>
+  //           </div>
+  //         </IconButton>
+  //       </div>
+  //     </div>
+  //   );
+  // };
+
   React.useEffect(() => {
     fetchHotels();
     getAllInvoiceColumns();
@@ -206,8 +239,15 @@ export default function OutletFullscreenDialog(props) {
             enableReinitialize={true}
             initialValues={initialValues}
             onSubmit={async (values, actions) => {
+              const val = MakeFormData(
+                values,
+                navigationImages,
+                outletImages,
+                groomingImages
+              );
+
               try {
-                await saveNewOutlet(values);
+                await saveNewOutlet(val);
                 NotificationManager.success("New Outlet added");
                 setOpen(false);
               } catch (error) {
@@ -388,6 +428,81 @@ export default function OutletFullscreenDialog(props) {
                   </div>
 
                   <div className="item">
+                    <div className="requiredImagesWrapper">
+                      <div>
+                        <h3>Navigate Images (2)</h3>
+                        <Stack direction="row" spacing={2} className="">
+                          {/* {navigationImages?.map(() => {
+                            <Avatar size="md" src={avatarPreview} />;
+                          })} */}
+                          <IconButton
+                            color="primary"
+                            aria-label="upload picture"
+                            component="label"
+                          >
+                            <input
+                              name="howToImages"
+                              accept="image/*"
+                              id="contained-button-file"
+                              type="file"
+                              hidden
+                              multiple
+                              onChange={(e) => {
+                                setNavigationImages(Array.from(e.target.files));
+                              }}
+                            />
+                            <UploadIcon />
+                          </IconButton>
+                        </Stack>
+                      </div>
+                      <h3>Grooming Images (2)</h3>
+                      <Stack direction="row" spacing={2} className="">
+                        {/* {navigationImages?.map(() => {
+                            <Avatar size="md" src={avatarPreview} />;
+                          })} */}
+                        <IconButton
+                          color="primary"
+                          aria-label="upload picture"
+                          component="label"
+                        >
+                          <input
+                            name="groomingImages"
+                            accept="image/*"
+                            id="contained-button-file"
+                            type="file"
+                            hidden
+                            multiple
+                            onChange={(e) => {
+                              setGroomingImages(Array.from(e.target.files));
+                            }}
+                          />
+                          <UploadIcon />
+                        </IconButton>
+                      </Stack>
+                      <h3>Outlet Images (3)</h3>
+                      <Stack direction="row" spacing={2} className="">
+                        <IconButton
+                          color="primary"
+                          aria-label="upload picture"
+                          component="label"
+                        >
+                          <input
+                            name="outletImages"
+                            accept="image/*"
+                            id="contained-button-file"
+                            type="file"
+                            hidden
+                            multiple
+                            onChange={(e) => {
+                              setOutletImages(Array.from(e.target.files));
+                            }}
+                          />
+                          <UploadIcon />
+                        </IconButton>
+                      </Stack>
+                    </div>
+                  </div>
+                  <div className="item">
                     <h3>Hourly Rates ($)</h3>
                     <div className="hourlyRates">
                       <TextField
@@ -558,6 +673,17 @@ export default function OutletFullscreenDialog(props) {
           additionalColumnModalOpen={additionalColumnModalOpen}
           setAdditionalColumnModalOpen={setAdditionalColumnModalOpen}
         />
+        <DeaksModal
+          modalOpen={modalOpen}
+          setModalOpen={setModalOpen}
+          modalHeader={"Navigation Image"}
+          modalWidth={700}
+        >
+          {/* <UploadImageComponent
+            currentState={navigationImages}
+            settingState={AddNewImageObjectHandler}
+          /> */}
+        </DeaksModal>
       </Dialog>
     </div>
   );

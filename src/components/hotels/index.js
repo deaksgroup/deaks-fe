@@ -51,6 +51,7 @@ export const Hotels = () => {
   const fetchHotels = useCallback(async () => {
     try {
       const response = await getHotels(queryParams);
+      console.log(response.data);
       setHotelData(response.data);
     } catch (error) {
       NotificationManager.error(error);
@@ -60,7 +61,7 @@ export const Hotels = () => {
   const deleteHotel = useCallback(async () => {
     try {
       await deleteHotelApi(selectedDeleteHotel);
-      NotificationManager.success("User deleted sucessfully");
+      NotificationManager.success("User deleted successfully");
       setDeleteDialogOpen(false);
       fetchHotels();
     } catch (error) {
@@ -79,12 +80,23 @@ export const Hotels = () => {
       setModalType("Edit Hotel");
       setModalOpen(true);
       setSelectedHotelInfo(id);
-      const { SOAMail, hotelName, latitude, longitude } = info.data;
+      const {
+        SOAmail,
+        hotelName,
+        googleMapLink,
+        appleMapLink,
+        Abbreviation,
+        hotelLogo,
+        adminNumber,
+      } = info.data;
       setHotelInfo({
-        SOAemail: SOAMail,
+        SOAmail: SOAmail,
         hotelName: hotelName,
-        longitude: latitude,
-        latitude: longitude,
+        googleMapLink: googleMapLink,
+        appleMapLink: appleMapLink,
+        Abbreviation: Abbreviation,
+        hotelLogo: hotelLogo,
+        adminNumber: adminNumber,
       });
       console.log(info);
     } catch (error) {
@@ -92,10 +104,11 @@ export const Hotels = () => {
     }
   }, []);
 
+  console.log({ hotelInfo });
+
   useEffect(() => {
     fetchHotels();
   }, [fetchHotels]);
-
   return (
     <ContentWrapper headerName="Hotels">
       <FilterSection>{SearchInput}</FilterSection>
@@ -107,8 +120,8 @@ export const Hotels = () => {
                 <TableCell key={`${item.hotelName}`} align="left">
                   {item.hotelName}
                 </TableCell>
-                <TableCell key={`${item.SOAMail}`} align="left">
-                  {item.SOAMail}
+                <TableCell key={`${item.SOAmail}`} align="left">
+                  {item.SOAmail}
                 </TableCell>
                 <TableCell key={`${item._id}`} align="left">
                   <Stack direction="row" spacing={1}>

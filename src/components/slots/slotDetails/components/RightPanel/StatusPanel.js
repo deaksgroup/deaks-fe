@@ -90,7 +90,7 @@ function StatusPanel() {
           className=""
           label={"Shortfall"}
           key={"shortfall"}
-          value={data?.vacancy - data?.confirmedRequests.length}
+          value={data?.vacancy - data?.confirmedRequests?.length}
           InputLabelProps={{
             shrink: true,
           }}

@@ -4,21 +4,34 @@
     flex-wrap: nowrap;
     justify-content: space-between;
     padding: 10px 65px;
-    margin-top: 30px;
+    margin-top: 10px;
 
     .item {
-        margin-bottom: 4rem;
+        margin-bottom: 2rem;
+
+        .requiredImagesWrapper {
+            display: flex;
+            gap: 90px;
+            justify-content: space-between;
+
+            h3 {
+                cursor: pointer;
+            }
+
+            .item {}
+        }
     }
+
 
     .formBlock {
         display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-columns: repeat(5, 1fr);
         gap: 20px;
     }
 
     .hourlyRates {
         display: grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+        grid-template-columns: repeat(7, 120px);
         gap: 20px;
     }
 
@@ -28,7 +41,7 @@
 
         .group {
             display: grid;
-            grid-template-columns: 19rem 19rem 19rem 19rem;
+            grid-template-columns: repeat(5, 1fr);
             gap: 30px;
         }
 
@@ -47,4 +60,51 @@
 
 .startingSerial {
     margin-bottom: 20px;
+}
+
+.uploadImageWrapper {
+    .flexImages {
+        display: flex;
+        gap: 10px;
+
+        .imageItem {
+            width: 210px;
+            height: 110px;
+            background-color: red;
+            border-radius: 14px;
+            padding: 14px;
+
+            .image {
+                width: 70px;
+                height: 70px;
+                border-radius: 14px;
+                text-align: center;
+                margin: auto;
+                background-color: beige;
+            }
+        }
+    }
+
+    .AddButton {
+        width: 210px;
+        text-align: center;
+        border: 1px solid #6495ed;
+        background: #f0f8ff;
+        border-radius: 10px;
+        padding: 10px;
+
+        .content {
+            display: flex;
+            flex-direction: column;
+
+            p {
+                font-size: 13px;
+                font-weight: 600;
+            }
+        }
+
+        span {
+            color: blue;
+        }
+    }
 }
