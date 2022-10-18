@@ -13,9 +13,13 @@ import {
 import { useEffect } from "react";
 import { getUpdateUserInfo } from "../shared/services/usersService";
 import { NotificationManager } from "react-notifications";
+import { DeaksModal } from "../shared/components/DeaksModal";
+import { ImageView } from "../shared/helper/util";
 
 export const UserModal = (props) => {
   const { userInfo, fetchUsers, setModalOpen } = props;
+  const [imageModalOpen, setImageModalOpen] = useState(false);
+  const [imageLink, setImageLink] = useState("");
   const [initialValues, setInitialValues] = useState({
     userId: "",
     name: "",
@@ -40,6 +44,7 @@ export const UserModal = (props) => {
     accountStatus: "",
     jobStatus: "",
     verificationStatus: "",
+    unauthorizedReason: "",
   });
   const { userId } = initialValues;
   useEffect(() => {
@@ -63,12 +68,18 @@ export const UserModal = (props) => {
       NRIC: userInfo.NRIC,
       PayNow: userInfo.PayNow,
       bankName: userInfo.bankName,
-      bankAccNo: userInfo.bankAccNo,
-      accountStatus: userInfo.accountStatus,
-      jobStatus: userInfo.jobStatus,
-      verificationStatus: userInfo.verificationStatus,
+      bankAccNo: userInfo?.bankAccNo,
+      accountStatus: userInfo?.accountStatus,
+      jobStatus: userInfo?.jobStatus,
+      verificationStatus: userInfo?.verificationStatus,
+      unauthorizedReason: userInfo?.unauthorizedReason,
     });
   }, [userInfo]);
+
+  const handleImagePreview = (link) => {
+    setImageModalOpen(true);
+    setImageLink(link);
+  };
 
   const formik = useFormik({
     enableReinitialize: true,
@@ -138,13 +149,19 @@ export const UserModal = (props) => {
               </MenuItem>
             </Select>
           </FormControl>
-          <input
-            size="small"
+          <TextField
             type="date"
+            size="small"
             id="DOB"
             name="DOB"
+            label="DOB"
             value={formik.values.DOB}
             onChange={formik.handleChange}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            // error={formik.touched.email && Boolean(formik.errors.name)}
+            // helperText={formik.touched.email && formik.errors.name}
           />
           <TextField
             size="small"
@@ -257,12 +274,15 @@ export const UserModal = (props) => {
             // helperText={formik.touched.email && formik.errors.name}
           />
         </div>
-        <p className="BlockNameUserDataForm">Bank Informations</p>
+        <p className="BlockNameUserDataForm">Bank Information</p>
         <div className="infoBlock">
           <TextField
             id="NRIC"
             name="NRIC"
             label="NIRC"
+            InputProps={{
+              readOnly: true,
+            }}
             value={formik.values.NRIC}
             onChange={formik.handleChange}
             size="small"
@@ -276,7 +296,9 @@ export const UserModal = (props) => {
             value={formik.values.PayNow}
             onChange={formik.handleChange}
             size="small"
-
+            InputProps={{
+              readOnly: true,
+            }}
             // error={formik.touched.email && Boolean(formik.errors.name)}
             // helperText={formik.touched.email && formik.errors.name}
           />
@@ -300,6 +322,43 @@ export const UserModal = (props) => {
             // error={formik.touched.email && Boolean(formik.errors.name)}
             // helperText={formik.touched.email && formik.errors.name}
           />
+        </div>
+        <div className="ImageBlock">
+          <div className="profileImage">
+            <p>Profile image:</p>
+            {userInfo?.profilePicture ? (
+              <img
+                onClick={() => {
+                  handleImagePreview(userInfo?.profilePicture);
+                }}
+                src={ImageView(userInfo?.profilePicture)}
+                alt="profile_image"
+              />
+            ) : (
+              "- No Image -"
+            )}
+          </div>
+          <div className="attireImage">
+            <p>Attire image:</p>
+            {console.log(userInfo?.attirePictures?.length > 1)}
+            {userInfo?.attirePictures?.length > 1 ? (
+              <div className="imageStack">
+                {userInfo?.attirePictures.map((item) => {
+                  return (
+                    <img
+                      onClick={() => {
+                        handleImagePreview(item);
+                      }}
+                      src={ImageView(item)}
+                      alt="profile_image"
+                    />
+                  );
+                })}
+              </div>
+            ) : (
+              "- No images -"
+            )}
+          </div>
         </div>
         <p className="BlockNameUserDataForm">Deaks Information</p>
         <div className="infoBlock">
@@ -369,20 +428,41 @@ export const UserModal = (props) => {
             </Select>
           </FormControl>
         </div>
-        <Button
-          sx={{
-            marginTop: "20px",
-            background: "#1976d2",
-            float: "right",
-            width: "110px",
-            height: "45px",
-          }}
-          variant="contained"
-          type="submit"
-        >
-          Save
-        </Button>
+        <div className="footerBar">
+          {formik.values.accountStatus === "Unauthorized" ? (
+            <TextField
+              sx={{ width: "600px" }}
+              error
+              id="unauthorizedReason"
+              name="unauthorizedReason"
+              label="Unauthorized Reason"
+              value={formik.values.unauthorizedReason}
+              onChange={formik.handleChange}
+              size="small"
+              // error={formik.touched.email && Boolean(formik.errors.name)}
+              // helperText={formik.touched.email && formik.errors.name}
+            />
+          ) : (
+            ""
+          )}
+          <Button
+            sx={{
+              background: "black",
+              float: "right",
+              width: "110px",
+              height: "45px",
+              marginLeft: "auto",
+            }}
+            variant="contained"
+            type="submit"
+          >
+            Save
+          </Button>
+        </div>
       </form>
+      <DeaksModal modalOpen={imageModalOpen} setModalOpen={setImageModalOpen}>
+        <img src={ImageView(imageLink)} alt="imagePreview" />
+      </DeaksModal>
     </div>
   );
 };

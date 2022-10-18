@@ -6,7 +6,6 @@ import {
   Switch,
   TextField,
 } from "@mui/material";
-import moment from "moment";
 import React, { useCallback, useEffect, useState } from "react";
 import { DeaksModal } from "../../shared/components/DeaksModal";
 import {
@@ -32,7 +31,6 @@ export const NewSlotModal = ({
 }) => {
   const label = { inputProps: { "aria-label": "Switch demo" } };
   const [dedicatedFilter, setDedicatedFilter] = useState(false);
-  const [shiftTimeChecker, setShiftTimeChecker] = useState(false);
   const [exclusiveGroups, setExclusiveGroups] = useState([]);
   const [exclusiveUserList, setExclusiveUserList] = useState([]);
   const [publicGroups, setPublicGroups] = useState([]);
@@ -58,13 +56,13 @@ export const NewSlotModal = ({
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  useEffect(() => {
-    if (startTime && endTime) {
-      var beginningTime = moment(startTime, "h:mma");
-      var endingTime = moment(endTime, "h:mma");
-      setShiftTimeChecker(endingTime.isBefore(beginningTime));
-    }
-  }, [endTime, startTime]);
+  // useEffect(() => {
+  //   if (startTime && endTime) {
+  //     var beginningTime = moment(startTime, "h:mma");
+  //     var endingTime = moment(endTime, "h:mma");
+  //     // setShiftTimeChecker(endingTime.isBefore(beginningTime));
+  //   }
+  // }, [endTime, startTime]);
 
   const filterUsersFromTable = useCallback(async (userArray) => {
     const user = await findManyUsers(userArray);
@@ -143,10 +141,7 @@ export const NewSlotModal = ({
 
   var jobAllocationChecker = Number(vacancy) > Number(release);
   const allFormElementsValidator =
-    (shiftName?.length > 0) &
-    !jobAllocationChecker &
-    !shiftTimeChecker &
-    (hourlyPay?.length > 0);
+    (shiftName?.length > 0) & !jobAllocationChecker & (hourlyPay?.length > 0);
 
   // Fetching Public groups, Privet groups & users
   const dedicatedGroups = useCallback(async () => {
@@ -286,7 +281,6 @@ export const NewSlotModal = ({
             value={startTime}
           />
           <TextField
-            error={shiftTimeChecker}
             name="endTime"
             type="time"
             label="End Time"
@@ -294,11 +288,9 @@ export const NewSlotModal = ({
             onChange={isFormDataChanged}
             InputLabelProps={{ shrink: true, required: true }}
             value={endTime}
-            helperText={
-              shiftTimeChecker
-                ? "Shift end time should be greater than shift start time"
-                : ""
-            }
+            // helperText={
+
+            // }
           />
           <TextField
             name="hourlyPay"

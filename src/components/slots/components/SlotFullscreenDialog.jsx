@@ -5,11 +5,7 @@ import {
   Button,
   Dialog,
   Divider,
-  FormControl,
   IconButton,
-  InputLabel,
-  MenuItem,
-  Select,
   Slide,
   TextField,
   Toolbar,
@@ -22,8 +18,7 @@ import { useFetchOutlets } from "../../shared/hooks/useFetchOutlets";
 import ModeEditOutlinedIcon from "@mui/icons-material/ModeEditOutlined";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import { DeaksTable } from "../../shared/components/DeaksTable";
-import { headings, headingSlots } from "../helpers/utils";
-import { NewSlotModal } from "./NewSlotModal";
+import { headingSlots } from "../helpers/utils";
 import { DeaksModal } from "../../shared/components/DeaksModal";
 
 export const SlotFullscreenDialog = () => {

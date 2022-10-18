@@ -1,7 +1,10 @@
 import axios from "axios";
 
-export const addHotel = (values) => {
-  return axios.post("/addHotel", values);
+const config = {
+  headers: { "content-type": "multipart/form-data" },
+};
+export const addHotel = (formData) => {
+  return axios.post("/addHotel", formData, config);
 };
 
 export const getHotels = (params) => {
@@ -11,7 +14,7 @@ export const getHotels = (params) => {
 };
 
 export const deleteHotelApi = (hotelId) => {
-  return axios.post("/deleteHotel", { hotelId });
+  return axios.patch("/deleteHotel", { hotelId });
 };
 
 export const getHotelInfo = (id) => {

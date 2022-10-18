@@ -17,9 +17,11 @@ export const updateExtraColumns = (params) => {
     params,
   });
 };
-
-export const saveNewOutlet = (params) => {
-  return axios.post("/save/outlet", params);
+const config = {
+  headers: { "content-type": "multipart/form-data" },
+};
+export const saveNewOutlet = (formData) => {
+  return axios.post("/save/outlet", formData, config);
 };
 
 export const getOutlets = (params) => {
