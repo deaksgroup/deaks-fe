@@ -35,3 +35,6 @@ export const getOutletById = (id) => {
     },
   });
 };
+export const deleteOutletById = (id) => {
+  return axios.patch("/deleteOutlet", { id });
+};

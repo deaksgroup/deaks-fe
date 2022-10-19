@@ -27,6 +27,7 @@ import {
 import { NotificationManager } from "react-notifications";
 import { getHotels } from "../../shared/services/hotelServices";
 import { DeaksModal } from "../../shared/components/DeaksModal";
+import { ImageView } from "../../shared/helper/util";
 import { MakeFormData } from "../utils/outletUtils";
 import { Stack } from "@mui/system";
 
@@ -118,7 +119,7 @@ export default function OutletFullscreenDialog(props) {
   React.useEffect(() => {
     if (fetchedOutletValue) {
       setInitialValues({
-        hotel: fetchedOutletValue?.data?.hotel?._id,
+        hotel: fetchedOutletValue?.data?.hotel,
         outletName: fetchedOutletValue?.data?.outletName,
         customerDetails: fetchedOutletValue?.data?.customerDetails,
         billingAddress: fetchedOutletValue?.data?.billingAddress,
@@ -137,6 +138,9 @@ export default function OutletFullscreenDialog(props) {
         sunday: fetchedOutletValue?.data?.sunday,
         extraInvoiceColumn: fetchedOutletValue?.data?.extraInvoiceColumn,
         startingSerialNumber: fetchedOutletValue?.data?.startingSerialNumber,
+        groomingImages: fetchedOutletValue?.data?.groomingImages,
+        navigationImages: fetchedOutletValue?.data?.howToImages,
+        outletImages: fetchedOutletValue?.data?.outletImages,
       });
     }
   }, [fetchedOutletValue]);
@@ -426,15 +430,19 @@ export default function OutletFullscreenDialog(props) {
                       />
                     </div>
                   </div>
-
+                  {console.log(outletImages)}
                   <div className="item">
                     <div className="requiredImagesWrapper">
                       <div>
                         <h3>Navigate Images (2)</h3>
                         <Stack direction="row" spacing={2} className="">
-                          {/* {navigationImages?.map(() => {
-                            <Avatar size="md" src={avatarPreview} />;
-                          })} */}
+                          {initialValues?.navigationImages?.map((item) => (
+                            <img
+                              className="outletImages"
+                              src={ImageView(item)}
+                              alt="img"
+                            />
+                          ))}
                           <IconButton
                             color="primary"
                             aria-label="upload picture"
@@ -455,51 +463,66 @@ export default function OutletFullscreenDialog(props) {
                           </IconButton>
                         </Stack>
                       </div>
-                      <h3>Grooming Images (2)</h3>
-                      <Stack direction="row" spacing={2} className="">
-                        {/* {navigationImages?.map(() => {
-                            <Avatar size="md" src={avatarPreview} />;
-                          })} */}
-                        <IconButton
-                          color="primary"
-                          aria-label="upload picture"
-                          component="label"
-                        >
-                          <input
-                            name="groomingImages"
-                            accept="image/*"
-                            id="contained-button-file"
-                            type="file"
-                            hidden
-                            multiple
-                            onChange={(e) => {
-                              setGroomingImages(Array.from(e.target.files));
-                            }}
-                          />
-                          <UploadIcon />
-                        </IconButton>
-                      </Stack>
-                      <h3>Outlet Images (3)</h3>
-                      <Stack direction="row" spacing={2} className="">
-                        <IconButton
-                          color="primary"
-                          aria-label="upload picture"
-                          component="label"
-                        >
-                          <input
-                            name="outletImages"
-                            accept="image/*"
-                            id="contained-button-file"
-                            type="file"
-                            hidden
-                            multiple
-                            onChange={(e) => {
-                              setOutletImages(Array.from(e.target.files));
-                            }}
-                          />
-                          <UploadIcon />
-                        </IconButton>
-                      </Stack>
+                      <div>
+                        <h3>Grooming Images (2)</h3>
+                        <Stack direction="row" spacing={2} className="">
+                          {initialValues?.groomingImages?.map((item) => (
+                            <img
+                              className="outletImages"
+                              src={ImageView(item)}
+                              alt="img"
+                            />
+                          ))}
+                          <IconButton
+                            color="primary"
+                            aria-label="upload picture"
+                            component="label"
+                          >
+                            <input
+                              name="groomingImages"
+                              accept="image/*"
+                              id="contained-button-file"
+                              type="file"
+                              hidden
+                              multiple
+                              onChange={(e) => {
+                                setGroomingImages(Array.from(e.target.files));
+                              }}
+                            />
+                            <UploadIcon />
+                          </IconButton>
+                        </Stack>
+                      </div>
+                      <div>
+                        <h3>Outlet Images (3)</h3>
+                        <Stack direction="row" spacing={2} className="">
+                          {initialValues?.outletImages?.map((item) => (
+                            <img
+                              className="outletImages"
+                              src={ImageView(item)}
+                              alt="img"
+                            />
+                          ))}
+                          <IconButton
+                            color="primary"
+                            aria-label="upload picture"
+                            component="label"
+                          >
+                            <input
+                              name="outletImages"
+                              accept="image/*"
+                              id="contained-button-file"
+                              type="file"
+                              hidden
+                              multiple
+                              onChange={(e) => {
+                                setOutletImages(Array.from(e.target.files));
+                              }}
+                            />
+                            <UploadIcon />
+                          </IconButton>
+                        </Stack>
+                      </div>
                     </div>
                   </div>
                   <div className="item">
@@ -537,8 +560,8 @@ export default function OutletFullscreenDialog(props) {
                         type="number"
                         id="wednesday"
                         name="wednesday"
-                        label="Wednesday"
-                        value={props?.values?.Wednesday || ""}
+                        label="wednesday"
+                        value={props?.values?.wednesday || ""}
                         onChange={props.handleChange}
                         size="small"
                         error={
@@ -570,7 +593,7 @@ export default function OutletFullscreenDialog(props) {
                         id="friday"
                         name="friday"
                         label="Friday"
-                        value={props?.values?.Friday || ""}
+                        value={props?.values?.friday || ""}
                         onChange={props.handleChange}
                         size="small"
                         error={
@@ -583,7 +606,7 @@ export default function OutletFullscreenDialog(props) {
                         id="saturday"
                         name="saturday"
                         label="Saturday"
-                        value={props?.values?.Saturday || ""}
+                        value={props?.values?.saturday || ""}
                         onChange={props.handleChange}
                         size="small"
                         error={
@@ -599,7 +622,7 @@ export default function OutletFullscreenDialog(props) {
                         id="sunday"
                         name="sunday"
                         label="Sunday"
-                        value={props?.values?.Sunday || ""}
+                        value={props?.values?.sunday || ""}
                         onChange={props.handleChange}
                         size="small"
                         error={

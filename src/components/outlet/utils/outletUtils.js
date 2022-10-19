@@ -46,7 +46,7 @@ export const MakeFormData = (
   formData.append("friday", elem?.friday);
   formData.append("saturday", elem?.saturday);
   formData.append("startingSerialNumber", elem?.startingSerialNumber);
-  formData.append("userGroups", elem?.extraInvoiceColumn);
+  formData.append("extraInvoiceColumn", elem?.extraInvoiceColumn);
   navigationImages?.forEach((file) => {
     formData.append("howToImages", file);
   });
