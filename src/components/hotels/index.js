@@ -61,7 +61,7 @@ export const Hotels = () => {
   const deleteHotel = useCallback(async () => {
     try {
       await deleteHotelApi(selectedDeleteHotel);
-      NotificationManager.success("User deleted successfully");
+      NotificationManager.success("Hotel deleted successfully");
       setDeleteDialogOpen(false);
       fetchHotels();
     } catch (error) {

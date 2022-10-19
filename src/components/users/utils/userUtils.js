@@ -42,9 +42,8 @@ export const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 export const StyledIconButton = styled(IconButton)(({ theme }) => ({
   svg: {
-    "font-size": "20px",
+    "font-size": "19px",
   },
-  width: "40px",
 }));
 
 export const accountStatusOptions = [
