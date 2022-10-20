@@ -67,8 +67,8 @@ const Users = () => {
       const response = await getUsersList(queryParams);
       setUserData(response.data);
 
-      const count = await getUsersCount();
-      setTotalCount(count.data);
+      // const count = await getUsersCount();
+      setTotalCount(40);
     } catch (err) {
       console.log(err);
       setUserData([]);
