@@ -37,6 +37,7 @@ export const AddNewSlots = () => {
     outlet: "",
     outletName: "",
   });
+  console.log("existList", existList);
 
   const hotelList = useFetchHotels();
   const { date, hotel, hotelName, outlet, outletName } = initialValues;
@@ -94,6 +95,8 @@ export const AddNewSlots = () => {
         hotel,
         outlet,
       });
+
+      console.log("slotList", slotList?.data?.Slots);
       setExistList(slotList?.data?.Slots);
     } catch (error) {
       console.log(error);

@@ -1,11 +1,5 @@
 import { SpeedDial, SpeedDialIcon, Stack, TableCell } from "@mui/material";
-import React, {
-  Suspense,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { ContentWrapper } from "../shared/components/ContentWrapper";
 import { DeaksTable } from "../shared/components/DeaksTable";
 import { FilterSection } from "../shared/components/FilterSection";
