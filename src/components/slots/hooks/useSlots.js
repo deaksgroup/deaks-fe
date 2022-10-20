@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
 const fetchSlot = async (slotId) => {
-  const { data } = await axios.get(`/getSlot/${slotId}`);
+  const { data } = await axios.get(`/getSlotAdmin/${slotId}`);
   return data;
 };
 
