@@ -5,7 +5,7 @@ import axios from "axios";
 import * as ReactDOMClient from "react-dom/client";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
-axios.defaults.baseURL = "http://localhost:3001/api/";
+axios.defaults.baseURL = "https://deaksappbe.herokuapp.com/api";
 axios.defaults.headers.common["secret_token"] = localStorage.getItem("Token");
 axios.defaults.headers.post["Content-Type"] = "application/json";
 
