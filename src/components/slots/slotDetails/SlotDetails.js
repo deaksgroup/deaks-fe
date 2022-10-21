@@ -4,25 +4,30 @@ import { SlotContentWrapper } from "../../shared/components/SlotContentWrapper";
 import { timeConv } from "../../shared/helper/util";
 import { useSlotsQuery } from "../hooks/useSlots";
 import { WorkersTable } from "./components/WorkersTable/WorkersTable";
+import { SlotContextProvides } from "./SlotDetailsContext";
 import "./style/slotDetails.css";
 export const SlotDetails = () => {
   const { slotId } = useParams();
-  const { data } = useSlotsQuery(slotId);
+  const { data: slotInfos } = useSlotsQuery(slotId);
+  const data = slotInfos?.[0];
   const details = {
     id: data?.id,
     slot: data?.shiftName,
-    outlet: "Banquet",
-    hotel: "Ritz Carlton",
+    outlet: data?.outletDetails?.[0]?.outletName,
+    hotel: data?.hotelDetails?.[0]?.hotelName,
     slotTime: `${timeConv(data?.startTime)} - ${timeConv(data?.endTime)}`,
     slotDate: data?.date,
+    isActive: data?.isActive,
   };
   return (
-    <SlotContentWrapper {...details}>
-      <div className="slotDetailsWrapper">
-        <div className="workersTableView">
-          <WorkersTable />
+    <SlotContextProvides>
+      <SlotContentWrapper {...details}>
+        <div className="slotDetailsWrapper">
+          <div className="workersTableView">
+            <WorkersTable />
+          </div>
         </div>
-      </div>
-    </SlotContentWrapper>
+      </SlotContentWrapper>
+    </SlotContextProvides>
   );
 };

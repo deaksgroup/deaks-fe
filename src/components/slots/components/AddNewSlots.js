@@ -96,8 +96,7 @@ export const AddNewSlots = () => {
         outlet,
       });
 
-      console.log("slotList", slotList?.data?.Slots);
-      setExistList(slotList?.data?.Slots);
+      setExistList(slotList?.data?.[0]?.Slots);
     } catch (error) {
       console.log(error);
     }

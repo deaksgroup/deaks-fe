@@ -1,22 +1,37 @@
-import React from "react";
+import React, { useState } from "react";
 import { IconButton, Menu, MenuItem, TextField } from "@mui/material";
 import SettingsIcon from "@mui/icons-material/Settings";
 import VisibilityPanel from "./VisibilityPanel";
 import InfoPanel from "./InfoPanel";
-import { useSlotsQuery } from "../../../hooks/useSlots";
+import { useSlotCancelQuery, useSlotsQuery } from "../../../hooks/useSlots";
 import { useParams } from "react-router-dom";
+import DeaksDialog from "../../../../shared/components/DeaksDialog";
 
 function StatusPanel() {
   const { slotId } = useParams();
-  const { data } = useSlotsQuery(slotId);
+  const { data: slotInfos } = useSlotsQuery(slotId);
+  const data = slotInfos?.[0];
+  const { mutate: cancelSlotItem } = useSlotCancelQuery();
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [cancelModal, setCancelModal] = useState(false);
   const open = Boolean(anchorEl);
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const handleCancelClick = () => {
+    handleClose();
+    setCancelModal(true);
+  };
+  const cancel = () => {
+    cancelSlotItem(data?._id);
+    setCancelModal(false);
+  };
+
   return (
     <div className="statusPanelWrapper">
       <div className="headerCard">
@@ -113,6 +128,19 @@ function StatusPanel() {
       </div>
       <VisibilityPanel />
       <InfoPanel />
+
+      {/* Delete Dialog */}
+      <DeaksDialog
+        heading="Warning ..!"
+        message={
+          "The slot will get cancelled permanently, Do you wish ti continue?"
+        }
+        okButton="Yes"
+        cancelButton="Cancel"
+        deleteDialogOpen={cancelModal}
+        setDeleteDialogOpen={setCancelModal}
+        confirmFunction={cancel}
+      />
       <Menu
         id="aboutMenu"
         anchorEl={anchorEl}
@@ -122,7 +150,11 @@ function StatusPanel() {
           "aria-labelledby": "basic-button",
         }}
       >
-        <MenuItem size="small" onClick={handleClose}>
+        <MenuItem
+          disabled={data?.isDeleted === false ? data?.isDeleted : true}
+          size="small"
+          onClick={handleCancelClick}
+        >
           Cancel Slot
         </MenuItem>
         <MenuItem size="small" onClick={handleClose}>

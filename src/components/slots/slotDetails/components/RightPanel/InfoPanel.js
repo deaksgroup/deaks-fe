@@ -6,7 +6,8 @@ import moment from "moment";
 
 function InfoPanel() {
   const { slotId } = useParams();
-  const { data } = useSlotsQuery(slotId);
+  const { data: slotInfos } = useSlotsQuery(slotId);
+  const data = slotInfos?.[0];
   const currentDate = moment(new Date()).format("YYYY-MM-DD hh:mm");
   const slotStartTime = `${data?.date} ${data?.startTime}`;
   const slotEndTime = `${data?.date} ${data?.endTime}`;

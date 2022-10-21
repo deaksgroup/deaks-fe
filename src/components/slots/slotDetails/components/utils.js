@@ -1,5 +1,7 @@
+import { Menu, MenuItem } from "@mui/material";
+
 export const headings = [
   { name: "User" },
-  { name: "Joined At" },
+  { name: "Status" },
   { name: "Action", align: "right" },
 ];
