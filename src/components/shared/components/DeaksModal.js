@@ -18,8 +18,9 @@ export const DeaksModal = (props) => {
     boxShadow: 24,
     p: 4,
   };
-  const open = props.modalOpen;
-  const handleClose = () => props.setModalOpen(false);
+  const { modalOpen, setModalOpen, modalHeader } = props;
+  const open = modalOpen;
+  const handleClose = () => setModalOpen(false);
 
   return (
     <div>
@@ -42,7 +43,7 @@ export const DeaksModal = (props) => {
               component="h1"
               fontWeight={700}
             >
-              {props.modalHeader}
+              {modalHeader}
             </Typography>
             <div className="modalContent">{props.children}</div>
           </Box>

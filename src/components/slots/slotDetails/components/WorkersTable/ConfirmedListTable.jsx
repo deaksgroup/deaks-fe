@@ -1,8 +1,7 @@
-import { Chip, IconButton, TableCell } from "@mui/material";
+import { Chip, IconButton, TableCell, Tooltip } from "@mui/material";
 import React, { useState } from "react";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { DeaksTable } from "../../../../shared/components/DeaksTable";
 import { TimeView } from "../../../../shared/helper/util";
 import { StyledTableRow } from "../../../../users/utils/userUtils";
@@ -10,31 +9,39 @@ import { headings } from "../utils";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { useParams } from "react-router-dom";
-import { useSlotsQuery } from "../../../hooks/useSlots";
+import {
+  useMoveSlotUser,
+  useMoveSlotUserToWaitingList,
+  useRemoveConfirmedUser,
+  useSlotsQuery,
+} from "../../../hooks/useSlots";
+import PersonRemoveIcon from "@mui/icons-material/PersonRemove";
+import { CgMoveRight } from "react-icons/cg";
 
 export const ConfirmedListTable = () => {
   const { slotId } = useParams();
-  const { data } = useSlotsQuery(slotId);
-  const options = ["Move user to waiting list", "Remove user form slot"];
-  const ITEM_HEIGHT = 48;
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const open = Boolean(anchorEl);
 
   const [mainAnchorEl, setMainAnchorEl] = React.useState(null);
   const mainOpen = Boolean(mainAnchorEl);
+
+  // Query
+  const { mutate: MoveUserToWaitingLists } = useMoveSlotUserToWaitingList();
+  const { mutate: RemoveConfirmedUser } = useRemoveConfirmedUser();
+  const { data: slotInfos } = useSlotsQuery(slotId);
+  const data = slotInfos?.[0];
+
+  const handleMoveUserToWaiting = (userId) =>
+    MoveUserToWaitingLists({ slotId, userId });
+  const handleRemoveConfirmedUser = (userId) =>
+    RemoveConfirmedUser({ slotId, userId });
   const handleMainClick = (event) => {
     setMainAnchorEl(event.currentTarget);
   };
+
   const handleMainClose = () => {
     setMainAnchorEl(null);
   };
 
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
   return (
     <div>
       <div className="tableName">
@@ -78,696 +85,44 @@ export const ConfirmedListTable = () => {
         </Menu>
       </div>
       <DeaksTable headings={headings} maxHeight={560}>
-        <StyledTableRow hover role="checkbox" tabIndex={-1} key={""}>
-          <>
-            <TableCell key={``} align="left">
-              Karan
-            </TableCell>
-            <TableCell key={``} align="left">
-              {TimeView("10: 30PM")}
-              {/* <TimeView val="10: 30PM" /> */}
-            </TableCell>
+        {data?.confirmedRequests.map((item) => {
+          return (
+            <StyledTableRow hover role="checkbox" tabIndex={-1} key={""}>
+              <>
+                <TableCell key={``} align="left">
+                  Karan
+                </TableCell>
+                <TableCell key={``} align="left">
+                  {TimeView("10: 30PM")}
+                  {/* <TimeView val="10: 30PM" /> */}
+                </TableCell>
 
-            <TableCell key={``} align="right">
-              <IconButton
-                size="small"
-                aria-label="more"
-                id="long-button"
-                aria-controls={open ? "long-menu" : undefined}
-                aria-expanded={open ? "true" : undefined}
-                aria-haspopup="true"
-                onClick={handleClick}
-              >
-                <MoreVertIcon size="small" className="menuIcon" />
-              </IconButton>
-              <Menu
-                id="long-menu"
-                MenuListProps={{
-                  "aria-labelledby": "long-button",
-                }}
-                anchorEl={anchorEl}
-                open={open}
-                onClose={handleClose}
-                PaperProps={{
-                  style: {
-                    maxHeight: ITEM_HEIGHT * 4.5,
-                    width: "20ch",
-                  },
-                }}
-              >
-                {options.map((option) => (
-                  <MenuItem key={option} onClick={handleClose}>
-                    {option}
-                  </MenuItem>
-                ))}
-              </Menu>
-            </TableCell>
-          </>
-        </StyledTableRow>
-        <StyledTableRow hover role="checkbox" tabIndex={-1} key={""}>
-          <>
-            <TableCell key={``} align="left">
-              Karan
-            </TableCell>
-            <TableCell key={``} align="left">
-              {TimeView("10: 30PM")}
-              {/* <TimeView val="10: 30PM" /> */}
-            </TableCell>
-
-            <TableCell key={``} align="right">
-              <IconButton
-                size="small"
-                aria-label="more"
-                id="long-button"
-                aria-controls={open ? "long-menu" : undefined}
-                aria-expanded={open ? "true" : undefined}
-                aria-haspopup="true"
-                onClick={handleClick}
-              >
-                <MoreVertIcon size="small" className="menuIcon" />
-              </IconButton>
-              <Menu
-                id="long-menu"
-                MenuListProps={{
-                  "aria-labelledby": "long-button",
-                }}
-                anchorEl={anchorEl}
-                open={open}
-                onClose={handleClose}
-                PaperProps={{
-                  style: {
-                    maxHeight: ITEM_HEIGHT * 4.5,
-                    width: "20ch",
-                  },
-                }}
-              >
-                {options.map((option) => (
-                  <MenuItem key={option} onClick={handleClose}>
-                    {option}
-                  </MenuItem>
-                ))}
-              </Menu>
-            </TableCell>
-          </>
-        </StyledTableRow>
-        <StyledTableRow hover role="checkbox" tabIndex={-1} key={""}>
-          <>
-            <TableCell key={``} align="left">
-              Karan
-            </TableCell>
-            <TableCell key={``} align="left">
-              {TimeView("10: 30PM")}
-              {/* <TimeView val="10: 30PM" /> */}
-            </TableCell>
-
-            <TableCell key={``} align="right">
-              <IconButton
-                size="small"
-                aria-label="more"
-                id="long-button"
-                aria-controls={open ? "long-menu" : undefined}
-                aria-expanded={open ? "true" : undefined}
-                aria-haspopup="true"
-                onClick={handleClick}
-              >
-                <MoreVertIcon size="small" className="menuIcon" />
-              </IconButton>
-              <Menu
-                id="long-menu"
-                MenuListProps={{
-                  "aria-labelledby": "long-button",
-                }}
-                anchorEl={anchorEl}
-                open={open}
-                onClose={handleClose}
-                PaperProps={{
-                  style: {
-                    maxHeight: ITEM_HEIGHT * 4.5,
-                    width: "20ch",
-                  },
-                }}
-              >
-                {options.map((option) => (
-                  <MenuItem key={option} onClick={handleClose}>
-                    {option}
-                  </MenuItem>
-                ))}
-              </Menu>
-            </TableCell>
-          </>
-        </StyledTableRow>
-        <StyledTableRow hover role="checkbox" tabIndex={-1} key={""}>
-          <>
-            <TableCell key={``} align="left">
-              Karan
-            </TableCell>
-            <TableCell key={``} align="left">
-              {TimeView("10: 30PM")}
-              {/* <TimeView val="10: 30PM" /> */}
-            </TableCell>
-
-            <TableCell key={``} align="right">
-              <IconButton
-                size="small"
-                aria-label="more"
-                id="long-button"
-                aria-controls={open ? "long-menu" : undefined}
-                aria-expanded={open ? "true" : undefined}
-                aria-haspopup="true"
-                onClick={handleClick}
-              >
-                <MoreVertIcon size="small" className="menuIcon" />
-              </IconButton>
-              <Menu
-                id="long-menu"
-                MenuListProps={{
-                  "aria-labelledby": "long-button",
-                }}
-                anchorEl={anchorEl}
-                open={open}
-                onClose={handleClose}
-                PaperProps={{
-                  style: {
-                    maxHeight: ITEM_HEIGHT * 4.5,
-                    width: "20ch",
-                  },
-                }}
-              >
-                {options.map((option) => (
-                  <MenuItem key={option} onClick={handleClose}>
-                    {option}
-                  </MenuItem>
-                ))}
-              </Menu>
-            </TableCell>
-          </>
-        </StyledTableRow>
-        <StyledTableRow hover role="checkbox" tabIndex={-1} key={""}>
-          <>
-            <TableCell key={``} align="left">
-              Karan
-            </TableCell>
-            <TableCell key={``} align="left">
-              {TimeView("10: 30PM")}
-              {/* <TimeView val="10: 30PM" /> */}
-            </TableCell>
-
-            <TableCell key={``} align="right">
-              <IconButton
-                size="small"
-                aria-label="more"
-                id="long-button"
-                aria-controls={open ? "long-menu" : undefined}
-                aria-expanded={open ? "true" : undefined}
-                aria-haspopup="true"
-                onClick={handleClick}
-              >
-                <MoreVertIcon size="small" className="menuIcon" />
-              </IconButton>
-              <Menu
-                id="long-menu"
-                MenuListProps={{
-                  "aria-labelledby": "long-button",
-                }}
-                anchorEl={anchorEl}
-                open={open}
-                onClose={handleClose}
-                PaperProps={{
-                  style: {
-                    maxHeight: ITEM_HEIGHT * 4.5,
-                    width: "20ch",
-                  },
-                }}
-              >
-                {options.map((option) => (
-                  <MenuItem key={option} onClick={handleClose}>
-                    {option}
-                  </MenuItem>
-                ))}
-              </Menu>
-            </TableCell>
-          </>
-        </StyledTableRow>
-        <StyledTableRow hover role="checkbox" tabIndex={-1} key={""}>
-          <>
-            <TableCell key={``} align="left">
-              Karan
-            </TableCell>
-            <TableCell key={``} align="left">
-              {TimeView("10: 30PM")}
-              {/* <TimeView val="10: 30PM" /> */}
-            </TableCell>
-
-            <TableCell key={``} align="right">
-              <IconButton
-                size="small"
-                aria-label="more"
-                id="long-button"
-                aria-controls={open ? "long-menu" : undefined}
-                aria-expanded={open ? "true" : undefined}
-                aria-haspopup="true"
-                onClick={handleClick}
-              >
-                <MoreVertIcon size="small" className="menuIcon" />
-              </IconButton>
-              <Menu
-                id="long-menu"
-                MenuListProps={{
-                  "aria-labelledby": "long-button",
-                }}
-                anchorEl={anchorEl}
-                open={open}
-                onClose={handleClose}
-                PaperProps={{
-                  style: {
-                    maxHeight: ITEM_HEIGHT * 4.5,
-                    width: "20ch",
-                  },
-                }}
-              >
-                {options.map((option) => (
-                  <MenuItem key={option} onClick={handleClose}>
-                    {option}
-                  </MenuItem>
-                ))}
-              </Menu>
-            </TableCell>
-          </>
-        </StyledTableRow>
-        <StyledTableRow hover role="checkbox" tabIndex={-1} key={""}>
-          <>
-            <TableCell key={``} align="left">
-              Karan
-            </TableCell>
-            <TableCell key={``} align="left">
-              {TimeView("10: 30PM")}
-              {/* <TimeView val="10: 30PM" /> */}
-            </TableCell>
-
-            <TableCell key={``} align="right">
-              <IconButton
-                size="small"
-                aria-label="more"
-                id="long-button"
-                aria-controls={open ? "long-menu" : undefined}
-                aria-expanded={open ? "true" : undefined}
-                aria-haspopup="true"
-                onClick={handleClick}
-              >
-                <MoreVertIcon size="small" className="menuIcon" />
-              </IconButton>
-              <Menu
-                id="long-menu"
-                MenuListProps={{
-                  "aria-labelledby": "long-button",
-                }}
-                anchorEl={anchorEl}
-                open={open}
-                onClose={handleClose}
-                PaperProps={{
-                  style: {
-                    maxHeight: ITEM_HEIGHT * 4.5,
-                    width: "20ch",
-                  },
-                }}
-              >
-                {options.map((option) => (
-                  <MenuItem key={option} onClick={handleClose}>
-                    {option}
-                  </MenuItem>
-                ))}
-              </Menu>
-            </TableCell>
-          </>
-        </StyledTableRow>
-        <StyledTableRow hover role="checkbox" tabIndex={-1} key={""}>
-          <>
-            <TableCell key={``} align="left">
-              Karan
-            </TableCell>
-            <TableCell key={``} align="left">
-              {TimeView("10: 30PM")}
-              {/* <TimeView val="10: 30PM" /> */}
-            </TableCell>
-
-            <TableCell key={``} align="right">
-              <IconButton
-                size="small"
-                aria-label="more"
-                id="long-button"
-                aria-controls={open ? "long-menu" : undefined}
-                aria-expanded={open ? "true" : undefined}
-                aria-haspopup="true"
-                onClick={handleClick}
-              >
-                <MoreVertIcon size="small" className="menuIcon" />
-              </IconButton>
-              <Menu
-                id="long-menu"
-                MenuListProps={{
-                  "aria-labelledby": "long-button",
-                }}
-                anchorEl={anchorEl}
-                open={open}
-                onClose={handleClose}
-                PaperProps={{
-                  style: {
-                    maxHeight: ITEM_HEIGHT * 4.5,
-                    width: "20ch",
-                  },
-                }}
-              >
-                {options.map((option) => (
-                  <MenuItem key={option} onClick={handleClose}>
-                    {option}
-                  </MenuItem>
-                ))}
-              </Menu>
-            </TableCell>
-          </>
-        </StyledTableRow>
-        <StyledTableRow hover role="checkbox" tabIndex={-1} key={""}>
-          <>
-            <TableCell key={``} align="left">
-              Karan
-            </TableCell>
-            <TableCell key={``} align="left">
-              {TimeView("10: 30PM")}
-              {/* <TimeView val="10: 30PM" /> */}
-            </TableCell>
-
-            <TableCell key={``} align="right">
-              <IconButton
-                size="small"
-                aria-label="more"
-                id="long-button"
-                aria-controls={open ? "long-menu" : undefined}
-                aria-expanded={open ? "true" : undefined}
-                aria-haspopup="true"
-                onClick={handleClick}
-              >
-                <MoreVertIcon size="small" className="menuIcon" />
-              </IconButton>
-              <Menu
-                id="long-menu"
-                MenuListProps={{
-                  "aria-labelledby": "long-button",
-                }}
-                anchorEl={anchorEl}
-                open={open}
-                onClose={handleClose}
-                PaperProps={{
-                  style: {
-                    maxHeight: ITEM_HEIGHT * 4.5,
-                    width: "20ch",
-                  },
-                }}
-              >
-                {options.map((option) => (
-                  <MenuItem key={option} onClick={handleClose}>
-                    {option}
-                  </MenuItem>
-                ))}
-              </Menu>
-            </TableCell>
-          </>
-        </StyledTableRow>
-        <StyledTableRow hover role="checkbox" tabIndex={-1} key={""}>
-          <>
-            <TableCell key={``} align="left">
-              Karan
-            </TableCell>
-            <TableCell key={``} align="left">
-              {TimeView("10: 30PM")}
-              {/* <TimeView val="10: 30PM" /> */}
-            </TableCell>
-
-            <TableCell key={``} align="right">
-              <IconButton
-                size="small"
-                aria-label="more"
-                id="long-button"
-                aria-controls={open ? "long-menu" : undefined}
-                aria-expanded={open ? "true" : undefined}
-                aria-haspopup="true"
-                onClick={handleClick}
-              >
-                <MoreVertIcon size="small" className="menuIcon" />
-              </IconButton>
-              <Menu
-                id="long-menu"
-                MenuListProps={{
-                  "aria-labelledby": "long-button",
-                }}
-                anchorEl={anchorEl}
-                open={open}
-                onClose={handleClose}
-                PaperProps={{
-                  style: {
-                    maxHeight: ITEM_HEIGHT * 4.5,
-                    width: "20ch",
-                  },
-                }}
-              >
-                {options.map((option) => (
-                  <MenuItem key={option} onClick={handleClose}>
-                    {option}
-                  </MenuItem>
-                ))}
-              </Menu>
-            </TableCell>
-          </>
-        </StyledTableRow>
-        <StyledTableRow hover role="checkbox" tabIndex={-1} key={""}>
-          <>
-            <TableCell key={``} align="left">
-              Karan
-            </TableCell>
-            <TableCell key={``} align="left">
-              {TimeView("10: 30PM")}
-              {/* <TimeView val="10: 30PM" /> */}
-            </TableCell>
-
-            <TableCell key={``} align="right">
-              <IconButton
-                size="small"
-                aria-label="more"
-                id="long-button"
-                aria-controls={open ? "long-menu" : undefined}
-                aria-expanded={open ? "true" : undefined}
-                aria-haspopup="true"
-                onClick={handleClick}
-              >
-                <MoreVertIcon size="small" className="menuIcon" />
-              </IconButton>
-              <Menu
-                id="long-menu"
-                MenuListProps={{
-                  "aria-labelledby": "long-button",
-                }}
-                anchorEl={anchorEl}
-                open={open}
-                onClose={handleClose}
-                PaperProps={{
-                  style: {
-                    maxHeight: ITEM_HEIGHT * 4.5,
-                    width: "20ch",
-                  },
-                }}
-              >
-                {options.map((option) => (
-                  <MenuItem key={option} onClick={handleClose}>
-                    {option}
-                  </MenuItem>
-                ))}
-              </Menu>
-            </TableCell>
-          </>
-        </StyledTableRow>
-        <StyledTableRow hover role="checkbox" tabIndex={-1} key={""}>
-          <>
-            <TableCell key={``} align="left">
-              Karan
-            </TableCell>
-            <TableCell key={``} align="left">
-              {TimeView("10: 30PM")}
-              {/* <TimeView val="10: 30PM" /> */}
-            </TableCell>
-
-            <TableCell key={``} align="right">
-              <IconButton
-                size="small"
-                aria-label="more"
-                id="long-button"
-                aria-controls={open ? "long-menu" : undefined}
-                aria-expanded={open ? "true" : undefined}
-                aria-haspopup="true"
-                onClick={handleClick}
-              >
-                <MoreVertIcon size="small" className="menuIcon" />
-              </IconButton>
-              <Menu
-                id="long-menu"
-                MenuListProps={{
-                  "aria-labelledby": "long-button",
-                }}
-                anchorEl={anchorEl}
-                open={open}
-                onClose={handleClose}
-                PaperProps={{
-                  style: {
-                    maxHeight: ITEM_HEIGHT * 4.5,
-                    width: "20ch",
-                  },
-                }}
-              >
-                {options.map((option) => (
-                  <MenuItem key={option} onClick={handleClose}>
-                    {option}
-                  </MenuItem>
-                ))}
-              </Menu>
-            </TableCell>
-          </>
-        </StyledTableRow>
-        <StyledTableRow hover role="checkbox" tabIndex={-1} key={""}>
-          <>
-            <TableCell key={``} align="left">
-              Karan
-            </TableCell>
-            <TableCell key={``} align="left">
-              {TimeView("10: 30PM")}
-              {/* <TimeView val="10: 30PM" /> */}
-            </TableCell>
-
-            <TableCell key={``} align="right">
-              <IconButton
-                size="small"
-                aria-label="more"
-                id="long-button"
-                aria-controls={open ? "long-menu" : undefined}
-                aria-expanded={open ? "true" : undefined}
-                aria-haspopup="true"
-                onClick={handleClick}
-              >
-                <MoreVertIcon size="small" className="menuIcon" />
-              </IconButton>
-              <Menu
-                id="long-menu"
-                MenuListProps={{
-                  "aria-labelledby": "long-button",
-                }}
-                anchorEl={anchorEl}
-                open={open}
-                onClose={handleClose}
-                PaperProps={{
-                  style: {
-                    maxHeight: ITEM_HEIGHT * 4.5,
-                    width: "20ch",
-                  },
-                }}
-              >
-                {options.map((option) => (
-                  <MenuItem key={option} onClick={handleClose}>
-                    {option}
-                  </MenuItem>
-                ))}
-              </Menu>
-            </TableCell>
-          </>
-        </StyledTableRow>
-        <StyledTableRow hover role="checkbox" tabIndex={-1} key={""}>
-          <>
-            <TableCell key={``} align="left">
-              Karan
-            </TableCell>
-            <TableCell key={``} align="left">
-              {TimeView("10: 30PM")}
-              {/* <TimeView val="10: 30PM" /> */}
-            </TableCell>
-
-            <TableCell key={``} align="right">
-              <IconButton
-                size="small"
-                aria-label="more"
-                id="long-button"
-                aria-controls={open ? "long-menu" : undefined}
-                aria-expanded={open ? "true" : undefined}
-                aria-haspopup="true"
-                onClick={handleClick}
-              >
-                <MoreVertIcon size="small" className="menuIcon" />
-              </IconButton>
-              <Menu
-                id="long-menu"
-                MenuListProps={{
-                  "aria-labelledby": "long-button",
-                }}
-                anchorEl={anchorEl}
-                open={open}
-                onClose={handleClose}
-                PaperProps={{
-                  style: {
-                    maxHeight: ITEM_HEIGHT * 4.5,
-                    width: "20ch",
-                  },
-                }}
-              >
-                {options.map((option) => (
-                  <MenuItem key={option} onClick={handleClose}>
-                    {option}
-                  </MenuItem>
-                ))}
-              </Menu>
-            </TableCell>
-          </>
-        </StyledTableRow>
-        <StyledTableRow hover role="checkbox" tabIndex={-1} key={""}>
-          <>
-            <TableCell key={``} align="left">
-              Karan
-            </TableCell>
-            <TableCell key={``} align="left">
-              {TimeView("10: 30PM")}
-              {/* <TimeView val="10: 30PM" /> */}
-            </TableCell>
-
-            <TableCell key={``} align="right">
-              <IconButton
-                size="small"
-                aria-label="more"
-                id="long-button"
-                aria-controls={open ? "long-menu" : undefined}
-                aria-expanded={open ? "true" : undefined}
-                aria-haspopup="true"
-                onClick={handleClick}
-              >
-                <MoreVertIcon size="small" className="menuIcon" />
-              </IconButton>
-              <Menu
-                id="long-menu"
-                MenuListProps={{
-                  "aria-labelledby": "long-button",
-                }}
-                anchorEl={anchorEl}
-                open={open}
-                onClose={handleClose}
-                PaperProps={{
-                  style: {
-                    maxHeight: ITEM_HEIGHT * 4.5,
-                    width: "20ch",
-                  },
-                }}
-              >
-                {options.map((option) => (
-                  <MenuItem key={option} onClick={handleClose}>
-                    {option}
-                  </MenuItem>
-                ))}
-              </Menu>
-            </TableCell>
-          </>
-        </StyledTableRow>
+                <TableCell key={``} align="right">
+                  <Tooltip title="Remove user">
+                    <IconButton
+                      size="small"
+                      onClick={() => {
+                        handleRemoveConfirmedUser(item);
+                      }}
+                    >
+                      <PersonRemoveIcon size="small" className="menuIcon" />
+                    </IconButton>
+                  </Tooltip>
+                  <Tooltip title="Move user to waiting list">
+                    <IconButton
+                      size="small"
+                      onClick={() => {
+                        handleMoveUserToWaiting(item);
+                      }}
+                    >
+                      <CgMoveRight sx={{ fontSize: "60px" }} />
+                    </IconButton>
+                  </Tooltip>
+                </TableCell>
+              </>
+            </StyledTableRow>
+          );
+        })}
       </DeaksTable>
     </div>
   );

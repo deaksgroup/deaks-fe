@@ -376,10 +376,10 @@ export const UserModal = (props) => {
               size="small"
             >
               <MenuItem key="null" size="small" value={""}></MenuItem>
-              <MenuItem key="authorized" value={"Authorized"}>
+              <MenuItem key="AUTHORIZED" value={"AUTHORIZED"}>
                 Authorized
               </MenuItem>
-              <MenuItem key="unAutorized" value={"Unauthorized"}>
+              <MenuItem key="UNAUTHORIZED" value={"UNAUTHORIZED"}>
                 Unauthorized
               </MenuItem>
             </Select>
@@ -419,10 +419,13 @@ export const UserModal = (props) => {
               label="Verification Status"
             >
               <MenuItem size="small" value={""}></MenuItem>
-              <MenuItem size="small" value={"Submitted"}>
-                Submitted
+              <MenuItem size="small" value={"PENDING"}>
+                Pending
               </MenuItem>
-              <MenuItem size="small" value={"Not Submitted"}>
+              <MenuItem size="small" value={"COMPLETED"}>
+                Completed
+              </MenuItem>
+              <MenuItem size="small" value={"NOTSUBMITTED"}>
                 Not Submitted
               </MenuItem>
             </Select>

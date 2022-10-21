@@ -46,8 +46,15 @@ export default function DeaksDialog(props) {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>{cancelButton}</Button>
           <Button
+            onClick={() => {
+              handleClose();
+            }}
+          >
+            {cancelButton}
+          </Button>
+          <Button
+            id="bang"
             onClick={() => {
               handleOperation();
             }}
