@@ -55,7 +55,8 @@ export const editSlotDetails = async (values) => {
 };
 
 export const getAllSlotData = async (values) => {
-  console.log("values", values);
+  const dd = { ...values.pageParameters, search_query: values.searchKeyword };
+  console.log("values", dd);
   const { data } = await axios.post(`/getAllSlotData`, values);
   return data;
 };

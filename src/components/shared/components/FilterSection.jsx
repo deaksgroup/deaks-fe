@@ -10,4 +10,5 @@ const StyledFilterSection = styled.div`
   border-radius: 10px;
   display: flex;
   gap: 10px;
+  align-items: center;
 `;

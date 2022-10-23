@@ -98,3 +98,14 @@ export const useGetAllSlotData = () => {
     },
   });
 };
+
+export const useGetFullSlotsList = (pageParameters, searchKeyword) =>
+  useQuery(
+    ["slotsList", [pageParameters, searchKeyword]],
+    () => getAllSlotData(pageParameters),
+    {
+      // refetchOnMount: false,
+      // refetchOnReconnect: true,
+      // refetchOnWindowFocus: false,
+    }
+  );

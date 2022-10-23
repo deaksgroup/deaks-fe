@@ -35,10 +35,6 @@ export const Android12Switch = styled(Switch)(({ theme }) => ({
 }));
 
 export const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  textTransform: "lowercase",
-  "*:first-letter": {
-    textTransform: "capitalize",
-  },
   "&:nth-of-type(odd)": {
     backgroundColor: theme.palette.action.hover,
   },

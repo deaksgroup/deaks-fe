@@ -1,16 +1,14 @@
 import { Chip, IconButton, TableCell, Tooltip } from "@mui/material";
-import React, { useState } from "react";
+import React from "react";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { DeaksTable } from "../../../../shared/components/DeaksTable";
-import { TimeView } from "../../../../shared/helper/util";
 import { StyledTableRow } from "../../../../users/utils/userUtils";
 import { headings } from "../utils";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { useParams } from "react-router-dom";
 import {
-  useMoveSlotUser,
   useMoveSlotUserToWaitingList,
   useRemoveConfirmedUser,
   useSlotsQuery,
