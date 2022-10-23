@@ -326,6 +326,14 @@ export const NewSlotModal = ({
             }
           />
         </div>
+        {vacancy & hourlyPay ? (
+          <p className="totalText">
+            Total: $ {Number(vacancy) * Number(hourlyPay)}
+          </p>
+        ) : (
+          ""
+        )}
+
         <div className="switcherDedicatedView">
           <h2 className="labelAuto">Dedicated Filter</h2>
           <Switch
