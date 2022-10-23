@@ -17,6 +17,7 @@ import { Slots } from "./components/slots";
 import { Groups } from "./components/groups";
 import { AddNewSlots } from "./components/slots/components/AddNewSlots";
 import { SlotDetails } from "./components/slots/slotDetails/SlotDetails";
+import { DailyAttendance } from "./components/dailyAttendance";
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
           <Route path={"/outlets"} element={<Outlet />} />
           <Route path={"/slots"} element={<Slots />} />
           <Route path="/addNewSlots" element={<AddNewSlots />}></Route>
+          <Route path="/daily" element={<DailyAttendance />}></Route>
           <Route path="/slot/details/:slotId" element={<SlotDetails />}></Route>
           <Route path={"/groups"} element={<Groups />} />
           <Route path={"/privacy-policy"} element={<PrivacyPolicy />}></Route>
