@@ -10,14 +10,14 @@ import {
   dedicateFilterHandler,
   editSlotDetails,
   getAllSlotData,
+  moveAllUsersToWaiting,
+  moveAllUsersToConfirmed,
 } from "./helper";
 
 // Hooks
 export const useSlotsQuery = (slotId) =>
   useQuery(["slot"], () => fetchSlot(slotId), {
-    refetchOnMount: false,
-    refetchOnReconnect: true,
-    refetchOnWindowFocus: false,
+    refetchOnWindowFocus: true,
   });
 
 export const useSlotCancelQuery = () => {
@@ -109,3 +109,23 @@ export const useGetFullSlotsList = (pageParameters, searchKeyword) =>
       // refetchOnWindowFocus: false,
     }
   );
+
+export const useMoveAllUsersToWaiting = () => {
+  const queryClient = useQueryClient();
+  return useMutation(moveAllUsersToWaiting, {
+    onSuccess: () => {
+      queryClient.invalidateQueries("slots");
+      NotificationManager.success("All users moved to waiting list");
+    },
+  });
+};
+
+export const useMoveAllUsersToConfirmed = () => {
+  const queryClient = useQueryClient();
+  return useMutation(moveAllUsersToConfirmed, {
+    onSuccess: () => {
+      queryClient.invalidateQueries("slots");
+      NotificationManager.success("All users moved to confirmed list");
+    },
+  });
+};
