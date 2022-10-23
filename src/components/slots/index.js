@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./style/slots.css";
 import { ContentWrapper } from "../shared/components/ContentWrapper";
 import { useSearch } from "../shared/hooks/useSearch";
@@ -19,110 +19,94 @@ import GroupIcon from "@mui/icons-material/Group";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import "./style/slots.css";
 import { useNavigate } from "react-router-dom";
+import { useGetAllSlotData } from "./hooks/useSlots";
+import { timeConv } from "../shared/helper/util";
+import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 
 export const Slots = () => {
   const navigate = useNavigate();
   const Paginations = usePagination(20);
   const { SearchInput, searchKeyword } = useSearch("Search Slots");
+  const [pageParameters, setPageParameters] = useState({
+    page_num: 1,
+    page_size: 10000,
+    hotel_consolidated: true,
+    hotel_id: "",
+    outlet_consolidated: true,
+    outlet_id: "",
+    start_date: "",
+    end_date: "",
+    search_query: "",
+  });
+
+  // Query
+  const { mutate: slotsDataFetch, data: slotData } = useGetAllSlotData();
+  useEffect(() => {
+    slotsDataFetch(pageParameters);
+  }, [slotsDataFetch, pageParameters]);
+  console.log(slotData);
   return (
     <ContentWrapper headerName="Slots">
       <FilterSection>{SearchInput}</FilterSection>
       <DeaksTable headings={headings}>
-        <StyledTableRow hover role="checkbox" tabIndex={-1} key={""}>
-          <>
-            <TableCell key={`${""}`} align="left">
-              SRE321
-            </TableCell>
-            <TableCell key={`${""}`} align="left">
-              6th May RITZ CARLTON.COLONY
-            </TableCell>
-            <TableCell key={`${""}`} align="left">
-              <Chip label="10:00am - 5:00pm" />
-            </TableCell>
-            <TableCell key={`${""}`} align="left">
-              <Chip
-                sx={{ background: "#C8E6C9" }}
-                label={<p style={{ color: "#43A047" }}>Finished</p>}
-              />
-            </TableCell>
-            <TableCell key={`${""}`} align="left">
-              Ritz Carlton
-            </TableCell>
-            <TableCell key={`${""}`} align="left">
-              BANQUET
-            </TableCell>
-            <TableCell key={`${""}`} align="left">
-              <Chip
-                avatar={
-                  <Avatar>
-                    <GroupIcon fontSize="small" />
-                  </Avatar>
-                }
-                sx={{ background: "#C8E6C9" }}
-                label={<p style={{ color: "#43A047" }}>10/12</p>}
-              />
-            </TableCell>
-            <TableCell key={`${""}`} align="left">
-              <Stack direction="row" spacing={1}>
-                <StyledIconButton
-                  size="small"
-                  aria-label="delete user"
-                  onClick={() => {}}
-                >
-                  <MoreVertIcon size="small" />
-                </StyledIconButton>
-              </Stack>
-            </TableCell>
-          </>
-        </StyledTableRow>
-
-        <StyledTableRow hover role="checkbox" tabIndex={-1} key={""}>
-          <>
-            <TableCell key={`${""}`} align="left">
-              SRE321
-            </TableCell>
-            <TableCell key={`${""}`} align="left">
-              7th May RITZ CARLTON
-            </TableCell>
-            <TableCell key={`${""}`} align="left">
-              <Chip label="05:00pm - 11:00pm" />
-            </TableCell>
-            <TableCell key={`${""}`} align="left">
-              <Chip
-                sx={{ background: "#FFECB3" }}
-                label={<p style={{ color: "#FF9800" }}>Pending</p>}
-              />
-            </TableCell>
-            <TableCell key={`${""}`} align="left">
-              Ritz Carlton
-            </TableCell>
-            <TableCell key={`${""}`} align="left">
-              REPUBLIC
-            </TableCell>
-            <TableCell key={`${""}`} align="left">
-              <Chip
-                avatar={
-                  <Avatar>
-                    <GroupIcon fontSize="small" />
-                  </Avatar>
-                }
-                sx={{ background: "#FFECB3" }}
-                label={<p style={{ color: "#FF9800" }}>2/24</p>}
-              />
-            </TableCell>
-            <TableCell key={`${""}`} align="left">
-              <Stack direction="row" spacing={1}>
-                <StyledIconButton
-                  size="small"
-                  aria-label="delete user"
-                  onClick={() => {}}
-                >
-                  <MoreVertIcon size="small" />
-                </StyledIconButton>
-              </Stack>
-            </TableCell>
-          </>
-        </StyledTableRow>
+        {slotData?.map((item) => {
+          return (
+            <StyledTableRow hover role="checkbox" tabIndex={-1} key={""}>
+              <>
+                <TableCell key={`${""}`} align="left">
+                  {item.id}
+                </TableCell>
+                <TableCell key={`${""}`} align="left">
+                  {item.shiftName}
+                </TableCell>
+                <TableCell key={`${""}`} align="left">
+                  <Chip
+                    label={`${timeConv(item?.startTime)} - ${timeConv(
+                      item?.endTime
+                    )}`}
+                  />
+                </TableCell>
+                <TableCell key={`${""}`} align="left">
+                  <Chip label={!item?.isDeleted ? "Active" : "Deleted"} />
+                </TableCell>
+                <TableCell key={`${""}`} align="left">
+                  {item.hotelDetails}
+                </TableCell>
+                <TableCell key={`${""}`} align="left">
+                  {item.outletDetails}
+                </TableCell>
+                <TableCell key={`${""}`} align="left">
+                  <Chip
+                    avatar={
+                      <Avatar>
+                        <GroupIcon fontSize="small" />
+                      </Avatar>
+                    }
+                    sx={{ background: "#C8E6C9" }}
+                    label={
+                      <p style={{ color: "#43A047" }}>
+                        {item.confirmedRequests.length}/{item.vacancy}
+                      </p>
+                    }
+                  />
+                </TableCell>
+                <TableCell key={`${""}`} align="left">
+                  <Stack direction="row" spacing={1}>
+                    <StyledIconButton
+                      size="small"
+                      aria-label="delete user"
+                      onClick={() => {
+                        navigate(`/slot/details/${item?._id}`);
+                      }}
+                    >
+                      <OpenInNewIcon size="small" />
+                    </StyledIconButton>
+                  </Stack>
+                </TableCell>
+              </>
+            </StyledTableRow>
+          );
+        })}
       </DeaksTable>
       {Paginations}
       <SpeedDial

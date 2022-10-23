@@ -8,7 +8,6 @@ import {
   Tooltip,
 } from "@mui/material";
 import { DeaksTable } from "../../../../shared/components/DeaksTable";
-import { TimeView } from "../../../../shared/helper/util";
 import { StyledTableRow } from "../../../../users/utils/userUtils";
 import { headings } from "../utils";
 import SettingsIcon from "@mui/icons-material/Settings";
@@ -57,7 +56,7 @@ export const WaitingListTable = () => {
         <Chip
           icon={<AccountCircleIcon />}
           size="small"
-          label={data?.waitingRequests.length}
+          label={data?.waitingRequests?.length}
           // color="secondary"
           variant="outlined"
         />
@@ -94,10 +93,10 @@ export const WaitingListTable = () => {
             <StyledTableRow hover role="checkbox" tabIndex={-1} key={""}>
               <>
                 <TableCell key={``} align="left">
-                  Karan
+                  {item?.name}
                 </TableCell>
                 <TableCell key={``} align="left">
-                  {TimeView("10: 30PM")}
+                  {item?.status?.length > 0 ? item?.status : "-"}
                   {/* <TimeView val="10: 30PM" /> */}
                 </TableCell>
 
@@ -106,7 +105,7 @@ export const WaitingListTable = () => {
                     <IconButton
                       size="small"
                       onClick={() => {
-                        handleRemoveWaitingListUser(item);
+                        handleRemoveWaitingListUser(item._id);
                       }}
                     >
                       <PersonRemoveIcon size="small" className="menuIcon" />
@@ -116,7 +115,7 @@ export const WaitingListTable = () => {
                     <IconButton
                       size="small"
                       onClick={() => {
-                        handleMoveUserToConfirmed(item);
+                        handleMoveUserToConfirmed(item._id);
                       }}
                     >
                       <CgMoveLeft sx={{ fontSize: "60px" }} />

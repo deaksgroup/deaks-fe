@@ -9,6 +9,7 @@ import {
   removeWaitingListUser,
   dedicateFilterHandler,
   editSlotDetails,
+  getAllSlotData,
 } from "./helper";
 
 // Hooks
@@ -44,7 +45,7 @@ export const useMoveSlotUserToWaitingList = () => {
   return useMutation(moveSlotUserToWaiting, {
     onSuccess: () => {
       queryClient.invalidateQueries("slots");
-      NotificationManager.success("User moved to confirm list");
+      NotificationManager.success("User moved to waiting list");
     },
   });
 };
@@ -54,7 +55,7 @@ export const useRemoveWaitingListUser = () => {
   return useMutation(removeWaitingListUser, {
     onSuccess: () => {
       queryClient.invalidateQueries("slots");
-      NotificationManager.success("User moved to confirm list");
+      NotificationManager.success("User got removed");
     },
   });
 };
@@ -64,7 +65,7 @@ export const useRemoveConfirmedUser = () => {
   return useMutation(removeConfirmedListUser, {
     onSuccess: () => {
       queryClient.invalidateQueries("slots");
-      NotificationManager.success("User moved to confirm list");
+      NotificationManager.success("User got removed");
     },
   });
 };
@@ -85,6 +86,15 @@ export const useUpdateSlotData = () => {
     onSuccess: () => {
       queryClient.invalidateQueries("slots");
       NotificationManager.success("Slot details updated");
+    },
+  });
+};
+
+export const useGetAllSlotData = () => {
+  const queryClient = useQueryClient();
+  return useMutation(getAllSlotData, {
+    onSuccess: () => {
+      queryClient.invalidateQueries("slots");
     },
   });
 };
