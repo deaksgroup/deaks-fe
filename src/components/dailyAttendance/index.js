@@ -1,4 +1,4 @@
-import { Chip, TableCell } from "@mui/material";
+import { Chip, TableCell, TextField } from "@mui/material";
 import React from "react";
 import { ContentWrapper } from "../shared/components/ContentWrapper";
 import { DeaksTable } from "../shared/components/DeaksTable";
@@ -14,7 +14,16 @@ export const DailyAttendance = () => {
   const { SearchInput, searchKeyword } = useSearch("Search Name");
   return (
     <ContentWrapper headerName="Daily Attendance">
-      <FilterSection>{SearchInput}</FilterSection>
+      <FilterSection>
+        {SearchInput}
+        <TextField
+          name="date"
+          label="Select Date"
+          size="small"
+          InputLabelProps={{ shrink: true, required: true }}
+          type="date"
+        />
+      </FilterSection>
       <DeaksTable headings={headings}>
         <StyledTableRow hover role="checkbox" tabIndex={-1}>
           <TableCell key={``} align="left">
