@@ -6,6 +6,7 @@ import WorkHistoryIcon from "@mui/icons-material/WorkHistory";
 import { RiHotelFill } from "react-icons/ri";
 import { RiShoppingBasketFill } from "react-icons/ri";
 import GroupsIcon from "@mui/icons-material/Groups";
+import LightModeIcon from "@mui/icons-material/LightMode";
 
 import "./style/LeftMenuBar.css";
 const logo = require("../../assets/logo.jpg");
@@ -40,7 +41,7 @@ export const LeftMenuBar = (props) => {
               </li>
               <li>
                 <NavLink to="/daily" activeclassname="selected">
-                  <WorkHistoryIcon className="iconLeftBar" /> Daily
+                  <LightModeIcon className="iconLeftBar" /> Daily
                 </NavLink>
               </li>
               <li>
