@@ -13,6 +13,7 @@ import { headings } from "../utils";
 import SettingsIcon from "@mui/icons-material/Settings";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import {
+  useMoveAllUsersToConfirmed,
   useMoveSlotUser,
   useRemoveWaitingListUser,
   useSlotsQuery,
@@ -29,6 +30,7 @@ export const WaitingListTable = () => {
   // Query
   const { mutate: MoveUserToConfirmed } = useMoveSlotUser();
   const { mutate: RemoveUserFromWaitingList } = useRemoveWaitingListUser();
+  const { mutate: MoveAllusersToConfirmedList } = useMoveAllUsersToConfirmed();
   const { data: slotInfos } = useSlotsQuery(slotId);
   const data = slotInfos?.[0];
 
@@ -47,6 +49,11 @@ export const WaitingListTable = () => {
 
   const handleMainClose = () => {
     setMainAnchorEl(null);
+  };
+
+  const handleMoveAllToWaiting = () => {
+    handleMainClose();
+    MoveAllusersToConfirmedList(slotId);
   };
 
   return (
@@ -81,7 +88,11 @@ export const WaitingListTable = () => {
             "aria-labelledby": "basic-button",
           }}
         >
-          <MenuItem onClick={handleMainClose}>
+          <MenuItem
+            onClick={() => {
+              handleMoveAllToWaiting();
+            }}
+          >
             Override and move all to confirmed
           </MenuItem>
           <MenuItem onClick={handleMainClose}>Remove all users</MenuItem>

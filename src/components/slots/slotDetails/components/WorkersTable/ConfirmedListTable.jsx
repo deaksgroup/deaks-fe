@@ -9,6 +9,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { useParams } from "react-router-dom";
 import {
+  useMoveAllUsersToWaiting,
   useMoveSlotUserToWaitingList,
   useRemoveConfirmedUser,
   useSlotsQuery,
@@ -25,6 +26,7 @@ export const ConfirmedListTable = () => {
   // Query
   const { mutate: MoveUserToWaitingLists } = useMoveSlotUserToWaitingList();
   const { mutate: RemoveConfirmedUser } = useRemoveConfirmedUser();
+  const { mutate: moveAllUsersToWaitingList } = useMoveAllUsersToWaiting();
   const { data: slotInfos } = useSlotsQuery(slotId);
   const data = slotInfos?.[0];
 
@@ -38,6 +40,11 @@ export const ConfirmedListTable = () => {
 
   const handleMainClose = () => {
     setMainAnchorEl(null);
+  };
+
+  const handleMoveAllToWaiting = () => {
+    handleMainClose();
+    moveAllUsersToWaitingList(slotId);
   };
 
   return (
@@ -76,7 +83,11 @@ export const ConfirmedListTable = () => {
             "aria-labelledby": "basic-button",
           }}
         >
-          <MenuItem onClick={handleMainClose}>
+          <MenuItem
+            onClick={() => {
+              handleMoveAllToWaiting();
+            }}
+          >
             Move all users to waiting list
           </MenuItem>
           <MenuItem onClick={handleMainClose}>Remove all users</MenuItem>

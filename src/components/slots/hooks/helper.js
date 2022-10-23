@@ -55,8 +55,16 @@ export const editSlotDetails = async (values) => {
 };
 
 export const getAllSlotData = async (values) => {
-  const dd = values;
-  console.log("values", dd);
   const { data } = await axios.post(`/getAllSlotData`, values);
+  return data;
+};
+
+export const moveAllUsersToWaiting = async (slot_id) => {
+  const { data } = await axios.patch(`/moveAllToWaitingList/${slot_id}`);
+  return data;
+};
+
+export const moveAllUsersToConfirmed = async (slot_id) => {
+  const { data } = await axios.post(`/moveAllToConfirmList/${slot_id}`);
   return data;
 };
