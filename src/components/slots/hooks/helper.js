@@ -53,3 +53,9 @@ export const editSlotDetails = async (values) => {
   const { data } = await axios.patch(`/updateSlot`, values);
   return data;
 };
+
+export const getAllSlotData = async (values) => {
+  console.log("values", values);
+  const { data } = await axios.post(`/getAllSlotData`, values);
+  return data;
+};

@@ -90,10 +90,10 @@ export const ConfirmedListTable = () => {
             <StyledTableRow hover role="checkbox" tabIndex={-1} key={""}>
               <>
                 <TableCell key={``} align="left">
-                  Karan
+                  {item?.name}
                 </TableCell>
                 <TableCell key={``} align="left">
-                  {TimeView("10: 30PM")}
+                  {item?.status.length > 0 ? item?.status : "-"}
                   {/* <TimeView val="10: 30PM" /> */}
                 </TableCell>
 
@@ -102,7 +102,7 @@ export const ConfirmedListTable = () => {
                     <IconButton
                       size="small"
                       onClick={() => {
-                        handleRemoveConfirmedUser(item);
+                        handleRemoveConfirmedUser(item._id);
                       }}
                     >
                       <PersonRemoveIcon size="small" className="menuIcon" />
@@ -112,7 +112,7 @@ export const ConfirmedListTable = () => {
                     <IconButton
                       size="small"
                       onClick={() => {
-                        handleMoveUserToWaiting(item);
+                        handleMoveUserToWaiting(item._id);
                       }}
                     >
                       <CgMoveRight sx={{ fontSize: "60px" }} />
