@@ -39,6 +39,11 @@ export const LeftMenuBar = (props) => {
                 </NavLink>
               </li>
               <li>
+                <NavLink to="/daily" activeclassname="selected">
+                  <WorkHistoryIcon className="iconLeftBar" /> Daily
+                </NavLink>
+              </li>
+              <li>
                 <NavLink to="/groups" activeclassname="selected">
                   <GroupsIcon className="iconLeftBar" /> Groups
                 </NavLink>
