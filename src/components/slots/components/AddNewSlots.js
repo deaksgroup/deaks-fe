@@ -1,7 +1,9 @@
 import React, { useEffect, useMemo, useState, useCallback } from "react";
 import {
   Autocomplete,
+  Backdrop,
   Button,
+  CircularProgress,
   Divider,
   IconButton,
   TextField,
@@ -23,6 +25,7 @@ import { NotificationManager } from "react-notifications";
 
 export const AddNewSlots = () => {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const [openNewSlotModal, setOpenNewSlotModal] = useState(false);
   const [outletList, setOutletList] = useState([]);
   const [tableValues, setTableValues] = useState([]);
@@ -71,6 +74,7 @@ export const AddNewSlots = () => {
   }, [hotel]);
 
   const handleSaveSlots = useCallback(async () => {
+    setLoading(true);
     try {
       const newSlots = await addNewSlots({
         newSlots: tableValues,
@@ -84,6 +88,8 @@ export const AddNewSlots = () => {
         navigate("/slots");
       }
     } catch (error) {
+      NotificationManager.error("New slot adding failed", "Success");
+      setLoading(false);
       console.log(error);
     }
   }, [date, hotel, outlet, tableValues, navigate]);
@@ -233,6 +239,13 @@ export const AddNewSlots = () => {
         setEditRowIndex={setEditRowIndex}
         editRowIndex={editRowIndex}
       />
+
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={loading}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </ContentWrapper>
   );
 };
