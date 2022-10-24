@@ -11,6 +11,7 @@ import Slide from "@mui/material/Slide";
 import { Field, Formik } from "formik";
 import UploadIcon from "@mui/icons-material/Upload";
 import { AdditionalRowEditModal } from "./AdditionalRowEditModal";
+import { outletModalValidation } from "../utils/outletModalValidation";
 import {
   FormControl,
   Grid,
@@ -242,6 +243,7 @@ export default function OutletFullscreenDialog(props) {
           <Formik
             enableReinitialize={true}
             initialValues={initialValues}
+            validationSchema={outletModalValidation}
             onSubmit={async (values, actions) => {
               const val = MakeFormData(
                 values,
@@ -434,7 +436,7 @@ export default function OutletFullscreenDialog(props) {
                   <div className="item">
                     <div className="requiredImagesWrapper">
                       <div>
-                        <h3>Navigate Images (2)</h3>
+                        <h3>Navigate Images</h3>
                         <Stack direction="row" spacing={2} className="">
                           {initialValues?.navigationImages?.map((item) => (
                             <img
@@ -464,7 +466,7 @@ export default function OutletFullscreenDialog(props) {
                         </Stack>
                       </div>
                       <div>
-                        <h3>Grooming Images (2)</h3>
+                        <h3>Grooming Images</h3>
                         <Stack direction="row" spacing={2} className="">
                           {initialValues?.groomingImages?.map((item) => (
                             <img
@@ -494,7 +496,7 @@ export default function OutletFullscreenDialog(props) {
                         </Stack>
                       </div>
                       <div>
-                        <h3>Outlet Images (3)</h3>
+                        <h3>Outlet Images</h3>
                         <Stack direction="row" spacing={2} className="">
                           {initialValues?.outletImages?.map((item) => (
                             <img

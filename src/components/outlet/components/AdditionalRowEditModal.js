@@ -43,7 +43,7 @@ export const AdditionalRowEditModal = ({
   const [saveType, setSaveType] = React.useState("Add");
   const [updateId, setUpdateId] = React.useState("");
 
-  const handleOpen = () => setAdditionalColumnModalOpen(true);
+  // const handleOpen = () => setAdditionalColumnModalOpen(true);
   const handleClose = () => setAdditionalColumnModalOpen(false);
 
   const getAllInvoiceColumns = React.useCallback(async () => {

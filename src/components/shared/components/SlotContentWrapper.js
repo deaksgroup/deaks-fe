@@ -1,17 +1,12 @@
-import { Avatar, Chip, Divider } from "@mui/material";
-import React, { useContext } from "react";
+import { Avatar, Chip } from "@mui/material";
+import React from "react";
 import { RiHotelFill } from "react-icons/ri";
 import { RiShoppingBasketFill, RiCalendar2Line } from "react-icons/ri";
 import WorkHistoryIcon from "@mui/icons-material/WorkHistory";
-
 import "./styles/contentWrapper/style.css";
 import { Stack } from "@mui/system";
-import { SlotDetailsContext } from "../../slots/slotDetails/SlotDetailsContext";
-import DeaksDialog from "./DeaksDialog";
 
 export const SlotContentWrapper = (props) => {
-  const { setDialogOpen, dialogOpen, dialogMessage, actionFunction } =
-    useContext(SlotDetailsContext);
   const { id, slot, outlet, hotel, slotTime, slotDate, isActive } = props;
   return (
     <div className="headerBarWrapper">

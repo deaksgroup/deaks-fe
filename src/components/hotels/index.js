@@ -20,6 +20,7 @@ import { NotificationManager } from "react-notifications";
 import { StyledIconButton, StyledTableRow } from "../users/utils/userUtils";
 import { Stack } from "@mui/system";
 import DeaksDialog from "../shared/components/DeaksDialog";
+import Backdrops from "../shared/components/Backdrops";
 
 export const Hotels = () => {
   const { SearchInput, searchKeyword } = useSearch("Search Hotels");
@@ -28,6 +29,7 @@ export const Hotels = () => {
   const [selectedHotelInfo, setSelectedHotelInfo] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const [modalType, setModalType] = useState("");
+  const [loading, setLoading] = useState("");
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [selectedDeleteHotel, setSelectedDeleteHotel] = useState("");
   const Paginations = usePagination(20);
@@ -51,7 +53,6 @@ export const Hotels = () => {
   const fetchHotels = useCallback(async () => {
     try {
       const response = await getHotels(queryParams);
-      console.log(response.data);
       setHotelData(response.data);
     } catch (error) {
       NotificationManager.error(error);
@@ -75,6 +76,7 @@ export const Hotels = () => {
   };
 
   const handleEditHotel = useCallback(async (id) => {
+    setLoading(true);
     try {
       const info = await getHotelInfo(id);
       setModalType("Edit Hotel");
@@ -98,13 +100,12 @@ export const Hotels = () => {
         hotelLogo: hotelLogo,
         adminNumber: adminNumber,
       });
-      console.log(info);
+      setLoading(false);
     } catch (error) {
+      setLoading(false);
       NotificationManager.error(error);
     }
   }, []);
-
-  console.log({ hotelInfo });
 
   useEffect(() => {
     fetchHotels();
@@ -174,7 +175,7 @@ export const Hotels = () => {
         setDeleteDialogOpen={setDeleteDialogOpen}
         confirmFunction={deleteHotel}
       />
-
+      <Backdrops open={loading} />
       <SpeedDial
         onClick={speedDialClickHandler}
         ariaLabel="SpeedDial for hotels"
