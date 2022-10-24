@@ -1,5 +1,5 @@
 import { Chip, TableCell, TextField } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import { ContentWrapper } from "../shared/components/ContentWrapper";
 import { DeaksTable } from "../shared/components/DeaksTable";
 import { FilterSection } from "../shared/components/FilterSection";
@@ -7,11 +7,14 @@ import { useSearch } from "../shared/hooks/useSearch";
 import { StyledIconButton, StyledTableRow } from "../users/utils/userUtils";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import { headings } from "./utils";
-import usePagination from "@mui/material/usePagination/usePagination";
+// import usePagination from "@mui/material/usePagination/usePagination";
 
 export const DailyAttendance = () => {
-  const Paginations = usePagination(10);
+  // const Paginations = usePagination(10);
   const { SearchInput, searchKeyword } = useSearch("Search Name");
+  useEffect(() => {
+    console.log(searchKeyword);
+  }, [searchKeyword]);
   return (
     <ContentWrapper headerName="Daily Attendance">
       <FilterSection>

@@ -15,14 +15,12 @@ import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutl
 import {
   activateUser,
   deleteUserId,
-  getUsersCount,
   getUsersInfo,
   getUsersList,
 } from "../shared/services/usersService";
 import {
   accountStatusOptions,
   Android12Switch,
-  jobStatusOptions,
   StyledTableRow,
   StyledIconButton,
   headings,
@@ -34,7 +32,7 @@ const Users = () => {
   const { SearchInput, searchKeyword } = useSearch("Search Name");
   const [totalCount, setTotalCount] = useState("");
   const [accountStatus, setAccountStatus] = useState("");
-  const [jobStatus, setJobStatus] = useState("");
+  // const [jobStatus, setJobStatus] = useState("");
   const [selectedDeleteUser, setSelectedDeleteUser] = useState("");
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
@@ -46,7 +44,6 @@ const Users = () => {
   const queryParams = useMemo(() => {
     return {
       name: searchKeyword,
-      jobStatus: jobStatus,
       accountStatus: accountStatus,
       sortBy: "",
       orderBy: "",
@@ -56,7 +53,6 @@ const Users = () => {
   }, [
     accountStatus,
     searchKeyword,
-    jobStatus,
     Paginations.props.rowsPerPage,
     Paginations.props.page,
   ]);
@@ -213,7 +209,7 @@ const Users = () => {
       </DeaksModal>
       <DeaksDialog
         heading="Warning ..!"
-        message="User will be permenenatly get deleted from the application. Do you want to continue ?"
+        message="User will be permanently get deleted from the application. Do you want to continue ?"
         okButton="Yes"
         cancelButton="Cancel"
         deleteDialogOpen={deleteDialogOpen}

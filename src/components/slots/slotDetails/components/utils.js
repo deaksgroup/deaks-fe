@@ -1,5 +1,3 @@
-import { Menu, MenuItem } from "@mui/material";
-
 export const headings = [
   { name: "User" },
   { name: "Status" },

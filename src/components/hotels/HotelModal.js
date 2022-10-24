@@ -6,9 +6,11 @@ import { ImageView } from "../shared/helper/util";
 import { addHotel, getUpdateHotelInfo } from "../shared/services/hotelServices";
 import { hotalModalValidation } from "./utils/hotalModalValidation";
 import UploadIcon from "@mui/icons-material/Upload";
+import Backdrops from "../shared/components/Backdrops";
 
 export const HotelModal = (props) => {
   const [avatarPreview, setAvatarPreview] = useState("");
+  const [loading, setLoading] = useState(false);
   const { modalType, setModalOpen, fetchHotels, hotelInfo, selectedHotelInfo } =
     props;
 
@@ -57,15 +59,18 @@ export const HotelModal = (props) => {
 
       if (modalType === "Add Hotel") {
         try {
+          setLoading(true);
           await addHotel(formData);
-          NotificationManager.success("Hotel Added sucessfully");
+          NotificationManager.success("Hotel Added successfully");
           setModalOpen(false);
           fetchHotels();
         } catch (error) {
+          setLoading(false);
           NotificationManager.success(error);
         }
       } else {
         try {
+          setLoading(true);
           const params = {
             hotelId: selectedHotelInfo,
             updatedValue: values,
@@ -75,6 +80,7 @@ export const HotelModal = (props) => {
           setModalOpen(false);
           fetchHotels();
         } catch (error) {
+          setLoading(false);
           NotificationManager.success(error);
         }
       }
@@ -82,7 +88,7 @@ export const HotelModal = (props) => {
       //   updatedValue: values,
       // };
       // try {
-      //   NotificationManager.success("User updated sucessfully");
+      //   NotificationManager.success("User updated successfully");
       // } catch (error) {
       //   NotificationManager.error(error);
       // }
@@ -188,7 +194,6 @@ export const HotelModal = (props) => {
                   const fileReader = new FileReader();
                   fileReader.onload = () => {
                     if (fileReader.readyState === 2) {
-                      console.log({ fileReader });
                       formik.setFieldValue("hotelLogo", e.target.files[0]);
                       formik.setFieldValue(
                         "fileName",
@@ -202,6 +207,11 @@ export const HotelModal = (props) => {
               />
               <UploadIcon />
             </IconButton>
+            {!avatarPreview ? (
+              <p style={{ color: "red" }}>Please add a logo</p>
+            ) : (
+              ""
+            )}
             {/* <Button
               variant="contained"
               component="label"
@@ -248,6 +258,7 @@ export const HotelModal = (props) => {
           Save
         </Button>
       </form>
+      <Backdrops open={loading} />
     </div>
   );
 };

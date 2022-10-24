@@ -1,4 +1,4 @@
-import { Backdrop, SpeedDial, SpeedDialIcon, TableCell } from "@mui/material";
+import { SpeedDial, SpeedDialIcon, TableCell } from "@mui/material";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { ContentWrapper } from "../shared/components/ContentWrapper";
 import { DeaksModal } from "../shared/components/DeaksModal";
@@ -53,7 +53,6 @@ export const Hotels = () => {
   const fetchHotels = useCallback(async () => {
     try {
       const response = await getHotels(queryParams);
-      console.log(response.data);
       setHotelData(response.data);
     } catch (error) {
       NotificationManager.error(error);

@@ -1,11 +1,9 @@
 import {
-  Autocomplete,
   Avatar,
   Chip,
   FormControlLabel,
   IconButton,
   Switch,
-  TextField,
   Tooltip,
 } from "@mui/material";
 import React, { useState } from "react";
@@ -16,16 +14,14 @@ import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 import { useDedicatedFilter, useSlotsQuery } from "../../../hooks/useSlots";
 import { useParams } from "react-router-dom";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
-import { DeaksModal } from "../../../../shared/components/DeaksModal";
-import { NewSlotModal } from "../../../components/NewSlotModal";
 import { DetailSlotEditModal } from "../../../components/DetailSlotEditModal";
 
 const VisibilityPanel = () => {
   const { slotId } = useParams();
   const [editUserGroupModal, setEditUserGroupModal] = useState(false);
   const [tableValues, setTableValues] = useState([]);
-  const [editFormData, setEditFormData] = useState([]);
   const [editRowIndex, setEditRowIndex] = useState([]);
+  // const [editFormData, setEditFormData] = useState([]);
 
   // Query
   const { mutate: editDedicatedView } = useDedicatedFilter();
@@ -120,7 +116,7 @@ const VisibilityPanel = () => {
         tableValues={tableValues}
         setTableValues={setTableValues}
         editFormData={data}
-        setEditFormData={setEditFormData}
+        setEditFormData={() => {}}
         setFormEditMode={() => {}}
         formEditMode={true}
         setEditRowIndex={setEditRowIndex}
