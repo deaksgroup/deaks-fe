@@ -134,12 +134,6 @@ const Users = () => {
           options={accountStatusOptions}
           label={"Account Status"}
         />
-        <SelectItem
-          key="jobStatusOptions"
-          options={jobStatusOptions}
-          setFunction={(data) => setJobStatus(data)}
-          label={"Job Status"}
-        />
       </FilterSection>
       <DeaksTable headings={headings}>
         {userData?.map((item, index) => {
@@ -155,9 +149,9 @@ const Users = () => {
                 <TableCell key={`${item.accountStatus}`} align="left">
                   {item.accountStatus}
                 </TableCell>
-                <TableCell key={`${item.jobStatus}`} align="left">
+                {/* <TableCell key={`${item.jobStatus}`} align="left">
                   {item.jobStatus}
-                </TableCell>
+                </TableCell> */}
                 <TableCell key={`${item._id}`} align="left">
                   <Stack direction="row" spacing={1}>
                     <StyledIconButton

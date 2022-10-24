@@ -340,7 +340,6 @@ export const UserModal = (props) => {
           </div>
           <div className="attireImage">
             <p>Attire image:</p>
-            {console.log(userInfo?.attirePictures?.length > 1)}
             {userInfo?.attirePictures?.length > 1 ? (
               <div className="imageStack">
                 {userInfo?.attirePictures.map((item) => {

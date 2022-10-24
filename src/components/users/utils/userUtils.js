@@ -48,8 +48,8 @@ export const StyledIconButton = styled(IconButton)(({ theme }) => ({
 
 export const accountStatusOptions = [
   { item: "All", value: "" },
-  { item: "Unauthorized", value: "Unauthorized" },
-  { item: "Authorized", value: "Authorized" },
+  { item: "Unauthorized", value: "UNAUTHORIZED" },
+  { item: "Authorized", value: "AUTHORIZED" },
 ];
 
 export const jobStatusOptions = [
@@ -62,6 +62,6 @@ export const headings = [
   { name: "Name", width: 50 },
   { name: "Email", width: 50 },
   { name: "Account Status", width: 50 },
-  { name: "Job Status", width: 50 },
+  // { name: "Job Status", width: 50 },
   { name: "Actions", width: 50 },
 ];
