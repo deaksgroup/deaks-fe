@@ -51,9 +51,7 @@ export const Slots = () => {
   const [pageParameters, setPageParameters] = useState({
     page_num: 1,
     page_size: 10000,
-    hotel_consolidated: true,
     hotel_id: "",
-    outlet_consolidated: true,
     outlet_id: "",
   });
   const { hotel, outlet } = pageParameters;
@@ -135,7 +133,7 @@ export const Slots = () => {
             console.log(newValue);
             setPageParameters({
               ...pageParameters,
-              hotel: newValue?.id,
+              hotel_id: newValue?.id,
             });
           }}
         />
@@ -152,7 +150,7 @@ export const Slots = () => {
             onChange={(event, newValue) => {
               setPageParameters({
                 ...pageParameters,
-                outlet: newValue?.id,
+                outlet_id: newValue?.id,
               });
             }}
           />
