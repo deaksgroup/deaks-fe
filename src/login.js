@@ -4,11 +4,13 @@ import "./styles/login.css";
 
 import { useNavigate } from "react-router-dom";
 import { NotificationManager } from "react-notifications";
+import { CircularProgress } from "@mui/material";
 
 const LoginForm = () => {
   const navigation = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const emailChangeHandler = (event) => {
     setEmail(event.target.value);
@@ -18,9 +20,10 @@ const LoginForm = () => {
   };
 
   const onLogin = (event) => {
+    setLoading(true);
     event.preventDefault();
     axios
-      .post(`${process.env.REACT_APP_BASE_URL}/userLogin`, {
+      .post(`/userLogin`, {
         email,
         password,
       })
@@ -32,6 +35,7 @@ const LoginForm = () => {
         navigation("/users");
       })
       .catch((err) => {
+        setLoading(false);
         console.log(err);
         NotificationManager.error(
           "Incorrect password or username",
@@ -76,14 +80,28 @@ const LoginForm = () => {
               ></input>
             </div>
 
-            <div className="my-4"></div>
-            <button className="w-100 btn btn-lg  loginButton" type="submit">
-              Sign In
-            </button>
-            <p className="mt-4 text-center mb-3 text-muted">
-              &copy;DeaksApp 2022
-            </p>
+            <div className="my-4">
+              <button
+                disabled={loading}
+                className="w-100 btn btn-lg  loginButton"
+                type="submit"
+              >
+                SIGN IN
+                {loading ? (
+                  <span>
+                    <CircularProgress
+                      size="1rem"
+                      sx={{ color: "white", marginLeft: "10px" }}
+                    />
+                  </span>
+                ) : (
+                  ""
+                )}
+              </button>
+              {/*  */}
+            </div>
           </form>
+          <p className="copyright">&copy;DeaksApp 2022</p>
         </div>
       </div>
     </React.Fragment>
