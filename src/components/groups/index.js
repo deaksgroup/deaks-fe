@@ -9,18 +9,26 @@ import { GroupModal } from "./components/GroupModal";
 import { DeaksTable } from "../shared/components/DeaksTable";
 import { headings } from "./utils/utils";
 import { usePagination } from "../shared/hooks/usePagination";
-import { fetchGroups } from "../shared/services/groupServices";
+import {
+  deleteGroup,
+  fetchGroups,
+  getGroupById,
+} from "../shared/services/groupServices";
 import { useHotelFilter } from "../shared/hooks/useHotelFilter";
 import { StyledIconButton, StyledTableRow } from "../users/utils/userUtils";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutlined";
 import { Stack } from "@mui/system";
+import DeaksDialog from "../shared/components/DeaksDialog";
 
 export const Groups = () => {
   const { SearchInput, searchKeyword } = useSearch("Search Groups");
   const [modalOpen, setModalOpen] = useState(false);
+  const [dialog, setDialog] = useState(false);
+  const [selectedId, setSelectedId] = useState("");
   const [modalType, setModalType] = useState("add");
   const [groups, setGroups] = useState([]);
+  const [updateInfo, setUpdateInfo] = useState({});
   const { HotelSelectList, selectedHotel } = useHotelFilter();
   const Paginations = usePagination(20);
   const query = useMemo(() => {
@@ -39,6 +47,12 @@ export const Groups = () => {
     Paginations.props.page,
   ]);
 
+  const editGroup = useCallback(async (id) => {
+    setModalOpen(true);
+    const groupInfo = await getGroupById(id);
+    setUpdateInfo(groupInfo);
+  }, []);
+
   const userGroups = useCallback(async () => {
     try {
       const groupsInfo = await fetchGroups(query);
@@ -48,8 +62,16 @@ export const Groups = () => {
     }
   }, [query]);
 
+  const deleteGroupById = async (id) => {
+    await deleteGroup(selectedId);
+    setDialog(false);
+    setModalOpen(false);
+    userGroups();
+  };
+
   useEffect(() => {
     userGroups();
+    setModalType("edit");
   }, [userGroups]);
 
   return (
@@ -81,14 +103,19 @@ export const Groups = () => {
                     <StyledIconButton
                       size="small"
                       aria-label="delete Hotel"
-                      onClick={() => {}}
+                      onClick={() => {
+                        setDialog(true);
+                        setSelectedId(item._id);
+                      }}
                     >
                       <DeleteOutlinedIcon size="small" />
                     </StyledIconButton>
                     <StyledIconButton
                       size="small"
                       aria-label="Edit User"
-                      onClick={() => {}}
+                      onClick={() => {
+                        editGroup(item._id);
+                      }}
                     >
                       <ModeEditOutlineOutlinedIcon size="small" />
                     </StyledIconButton>
@@ -105,6 +132,7 @@ export const Groups = () => {
         icon={<SpeedDialIcon />}
         onClick={() => {
           setModalOpen(true);
+          setModalType("add");
         }}
       ></SpeedDial>
       {Paginations}
@@ -114,7 +142,19 @@ export const Groups = () => {
         setModalOpen={setModalOpen}
         modalType={modalType}
         setModalType={setModalType}
+        updateInfo={updateInfo}
+        setUpdateInfo={setUpdateInfo}
+        userGroups={userGroups}
+        confirmFunction={() => {}}
       />
+      <DeaksDialog
+        heading="Warning"
+        message="This group will permanently get deleted, Do you wish to continue?"
+        setDeleteDialogOpen={setDialog}
+        deleteDialogOpen={dialog}
+        confirmFunction={deleteGroupById}
+        okButton="delete"
+      ></DeaksDialog>
     </ContentWrapper>
   );
 };

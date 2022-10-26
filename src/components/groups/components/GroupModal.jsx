@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import OutlinedInput from "@mui/material/OutlinedInput";
@@ -12,13 +12,23 @@ import { DeaksModal } from "../../shared/components/DeaksModal";
 import { useHotelFilter } from "../../shared/hooks/useHotelFilter";
 import { Button, TextField } from "@mui/material";
 import { useFetchUsers } from "../../shared/hooks/useFetchUsers";
-import { addGroup } from "../../shared/services/groupServices";
+import { addGroup, updateGroup } from "../../shared/services/groupServices";
 import { NotificationManager } from "react-notifications";
 import { formErrors } from "../utils/utils";
 
-export const GroupModal = ({ modalOpen, setModalOpen, modalType }) => {
+export const GroupModal = ({
+  modalOpen,
+  setModalOpen,
+  modalType,
+  updateInfo,
+  userGroups,
+  setUpdateInfo,
+  setModalType,
+}) => {
   const users = useFetchUsers();
-  const { HotelSelectList, selectedHotel } = useHotelFilter();
+  const { HotelSelectList, selectedHotel } = useHotelFilter(
+    updateInfo?.data?.groupType
+  );
   const [visibility, setVisibility] = React.useState("Public");
   const [personName, setPersonName] = React.useState([]);
   const [groupName, setGroupName] = React.useState("");
@@ -63,14 +73,41 @@ export const GroupModal = ({ modalOpen, setModalOpen, modalType }) => {
     };
     if (modalType === "add") {
       try {
-        const groupAdd = await addGroup(payload);
-        console.log(groupAdd);
+        await addGroup(payload);
+        setModalOpen(false);
+        userGroups();
+      } catch (error) {
+        NotificationManager.error(error);
+      }
+    } else {
+      try {
+        payload.id = updateInfo?.data?._id;
+        await updateGroup(payload);
+        NotificationManager.success("Group Updates successfully");
+        setModalOpen(false);
+        userGroups();
       } catch (error) {
         NotificationManager.error(error);
       }
     }
     console.log(payload);
   };
+
+  useEffect(() => {
+    if (modalType === "edit") {
+      setVisibility(updateInfo?.data?.groupType);
+      setPersonName(updateInfo?.data?.groupMembers);
+      setGroupName(updateInfo?.data?.groupTitle);
+    }
+  }, [modalType, updateInfo]);
+
+  useEffect(() => {
+    if (modalType === "add") {
+      setVisibility("Public");
+      setPersonName([]);
+      setGroupName("");
+    }
+  }, [modalType]);
 
   return (
     <DeaksModal
@@ -107,7 +144,7 @@ export const GroupModal = ({ modalOpen, setModalOpen, modalType }) => {
             labelId="demo-mutiple-chip-label"
             id="MembersListSelect"
             multiple
-            value={personName}
+            value={personName || []}
             onChange={handleChange}
             input={
               <OutlinedInput label="Add Members" id="select-multiple-chip" />
