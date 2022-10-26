@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, BrowserRouter } from "react-router-dom";
 import LoginForm from "./login";
 import TermsConditions from "./components/leagal/TermsConditions";
 import PrivacyPolicy from "./components/leagal/PrivacyPolicy";
@@ -18,6 +18,7 @@ import { Groups } from "./components/groups";
 import { AddNewSlots } from "./components/slots/components/AddNewSlots";
 import { SlotDetails } from "./components/slots/slotDetails/SlotDetails";
 import { DailyAttendance } from "./components/dailyAttendance";
+import ProtectedRoute from "./components/shared/components/ProtectedRoute";
 
 function App() {
   return (
@@ -29,13 +30,62 @@ function App() {
       <LeftMenuBar>
         <Routes>
           <Route path={"/"} element={<Navigate replace to="/login" />}></Route>
-          <Route path={"/users"} element={<Users />} />
-          <Route path={"/hotels"} element={<Hotels />} />
-          <Route path={"/outlets"} element={<Outlet />} />
-          <Route path={"/slots"} element={<Slots />} />
-          <Route path="/addNewSlots" element={<AddNewSlots />}></Route>
-          <Route path="/daily" element={<DailyAttendance />}></Route>
-          <Route path="/slot/details/:slotId" element={<SlotDetails />}></Route>
+          <Route
+            path={"/users"}
+            element={
+              <ProtectedRoute>
+                <Users />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path={"/hotels"}
+            element={
+              <ProtectedRoute>
+                <Hotels />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path={"/outlets"}
+            element={
+              <ProtectedRoute>
+                <Outlet />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path={"/slots"}
+            element={
+              <ProtectedRoute>
+                <Slots />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/addNewSlots"
+            element={
+              <ProtectedRoute>
+                <AddNewSlots />
+              </ProtectedRoute>
+            }
+          ></Route>
+          <Route
+            path="/daily"
+            element={
+              <ProtectedRoute>
+                <DailyAttendance />
+              </ProtectedRoute>
+            }
+          ></Route>
+          <Route
+            path="/slot/details/:slotId"
+            element={
+              <ProtectedRoute>
+                <SlotDetails />
+              </ProtectedRoute>
+            }
+          ></Route>
           <Route path={"/groups"} element={<Groups />} />
           <Route path={"/privacy-policy"} element={<PrivacyPolicy />}></Route>
           <Route

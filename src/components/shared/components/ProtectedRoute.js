@@ -1,13 +1,10 @@
 import { Route, Navigate } from "react-router-dom";
 
 const ProtectedRoute = ({ children, ...rest }) => {
-  let auth = localStorage.getItem("Token");
-  const userValidator = localStorage.getItem("roles") === "ADMIN";
-  return (
-    <Route {...rest}>
-      {auth && userValidator ? <Navigate to="/login" /> : children}
-    </Route>
-  );
+  let auth =
+    (localStorage.getItem("Token")?.length > 0) &
+    (localStorage.getItem("roles") === "ADMIN");
+  return auth ? children : <Navigate to="/login" />;
 };
 
 export default ProtectedRoute;

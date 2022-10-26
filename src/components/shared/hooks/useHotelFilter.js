@@ -6,14 +6,13 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { getHotels } from "../services/hotelServices";
 
-export const useHotelFilter = () => {
+export const useHotelFilter = (hotel) => {
   const [selectedHotel, setSelectedHotel] = React.useState("");
   const [hotels, setHotels] = React.useState("");
-
+  React.useEffect(() => {});
   const handleChange = (event) => {
     setSelectedHotel(event.target.value);
   };
-
   const fetchHotels = React.useCallback(async () => {
     try {
       const hotels = await getHotels();

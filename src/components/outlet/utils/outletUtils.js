@@ -27,6 +27,7 @@ export const MakeFormData = (
   outletImages,
   groomingImages
 ) => {
+  console.log("selectedOutlet", elem);
   let formData = new FormData();
   formData.append("hotel", elem?.hotel);
   formData.append("outletName", elem?.outletName);
@@ -47,6 +48,7 @@ export const MakeFormData = (
   formData.append("saturday", elem?.saturday);
   formData.append("startingSerialNumber", elem?.startingSerialNumber);
   formData.append("extraInvoiceColumn", elem?.extraInvoiceColumn);
+  formData.append("outletId", elem?.outletId || "");
   navigationImages?.forEach((file) => {
     formData.append("howToImages", file);
   });

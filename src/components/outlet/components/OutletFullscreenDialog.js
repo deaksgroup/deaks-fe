@@ -24,6 +24,7 @@ import {
   fetchExtraColumns,
   getOutletById,
   saveNewOutlet,
+  updateOutlet,
 } from "../../shared/services/outletServices";
 import { NotificationManager } from "react-notifications";
 import { getHotels } from "../../shared/services/hotelServices";
@@ -243,21 +244,33 @@ export default function OutletFullscreenDialog(props) {
           <Formik
             enableReinitialize={true}
             initialValues={initialValues}
-            validationSchema={outletModalValidation}
             onSubmit={async (values, actions) => {
+              values.outletId = selectedOutlet;
               const val = MakeFormData(
                 values,
                 navigationImages,
                 outletImages,
                 groomingImages
               );
-
-              try {
-                await saveNewOutlet(val);
-                NotificationManager.success("New Outlet added");
-                setOpen(false);
-              } catch (error) {
-                NotificationManager.error(error);
+              if (dialogType === "add") {
+                try {
+                  await saveNewOutlet(val);
+                  NotificationManager.success("New Outlet added");
+                  setOpen(false);
+                } catch (error) {
+                  NotificationManager.error(error);
+                }
+              } else {
+                try {
+                  const vale = values;
+                  vale.outletId = selectedOutlet;
+                  console.log(vale);
+                  await updateOutlet(val);
+                  NotificationManager.success("Outlet Updated");
+                  setOpen(false);
+                } catch (error) {
+                  NotificationManager.error(error);
+                }
               }
             }}
             id="form1"

@@ -19,3 +19,15 @@ export const fetchFilteredPublic = (params) => {
 export const fetchFilteredPrivet = (params) => {
   return axios.post("/get/privetFilter", params);
 };
+
+export const getGroupById = (id) => {
+  return axios.get("/get/userGroupById", { params: id });
+};
+
+export const updateGroup = (params) => {
+  return axios.patch("/updateGroup", { params });
+};
+
+export const deleteGroup = (params) => {
+  return axios.patch("/deleteGroup", { params });
+};
