@@ -69,12 +69,16 @@
             display: flex;
             align-items: center;
 
+            .priorityStar {
+                color: #FFD700;
+            }
+
             svg {
                 margin-left: 6px;
                 position: relative;
                 top: 3px;
-                color: darkgray;
-                font-size: 20px;
+                font-size: 22px;
+                color: #a9a9a9;
             }
         }
 

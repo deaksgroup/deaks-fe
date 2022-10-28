@@ -32,7 +32,9 @@ const LoginForm = () => {
         localStorage.setItem("roles", res.data.user.roles);
         localStorage.setItem("email", res.data.user.email);
         NotificationManager.success("User logged in successfully", "Success");
-        navigation("/users");
+        setTimeout(() => {
+          navigation("/users");
+        }, 1000);
       })
       .catch((err) => {
         setLoading(false);

@@ -3,9 +3,15 @@ import { IconButton, Menu, MenuItem, TextField } from "@mui/material";
 import SettingsIcon from "@mui/icons-material/Settings";
 import VisibilityPanel from "./VisibilityPanel";
 import InfoPanel from "./InfoPanel";
-import { useSlotCancelQuery, useSlotsQuery } from "../../../hooks/useSlots";
+import {
+  useSlotCancelQuery,
+  useSlotsQuery,
+  useUpdateSlotData,
+} from "../../../hooks/useSlots";
 import { useParams } from "react-router-dom";
 import DeaksDialog from "../../../../shared/components/DeaksDialog";
+import StarIcon from "@mui/icons-material/Star";
+import { NotificationManager } from "react-notifications";
 
 function StatusPanel() {
   const { slotId } = useParams();
@@ -16,6 +22,7 @@ function StatusPanel() {
   const [cancelModal, setCancelModal] = useState(false);
   const open = Boolean(anchorEl);
 
+  const { mutate: updateSotDetails } = useUpdateSlotData();
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -31,12 +38,36 @@ function StatusPanel() {
     cancelSlotItem(data?._id);
     setCancelModal(false);
   };
+  const onChangePriorityHandler = async () => {
+    const priority = data.priority === "HIGH" ? "LOW" : "HIGH";
+    try {
+      const updatedSlotDataPayload = {
+        requiredUpdate: "slot_priority",
+        _id: slotId,
+        priority: priority,
+      };
+      updateSotDetails(updatedSlotDataPayload);
+    } catch (error) {
+      NotificationManager.error("Priority update failed");
+    }
+  };
 
   return (
     <div className="statusPanelWrapper">
       <div className="headerCard">
         <div className="headerName">
           <p>About Slot</p>
+          <div
+            onClick={() => {
+              onChangePriorityHandler();
+            }}
+          >
+            {data.priority === "HIGH" ? (
+              <StarIcon className="priorityStar" />
+            ) : (
+              <StarIcon />
+            )}
+          </div>
         </div>
         <IconButton
           color="primary"
@@ -156,9 +187,6 @@ function StatusPanel() {
           onClick={handleCancelClick}
         >
           Cancel Slot
-        </MenuItem>
-        <MenuItem size="small" onClick={handleClose}>
-          Add High priority
         </MenuItem>
       </Menu>
     </div>
