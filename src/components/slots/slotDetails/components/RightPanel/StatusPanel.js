@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { IconButton, Menu, MenuItem, TextField } from "@mui/material";
+import { IconButton, Menu, MenuItem, TextField, Tooltip } from "@mui/material";
 import SettingsIcon from "@mui/icons-material/Settings";
 import VisibilityPanel from "./VisibilityPanel";
 import InfoPanel from "./InfoPanel";
@@ -38,8 +38,10 @@ function StatusPanel() {
     cancelSlotItem(data?._id);
     setCancelModal(false);
   };
+  const priorityTooltipMessage =
+    data?.priority === "HIGH" ? "High priority job" : "Low priority job";
   const onChangePriorityHandler = async () => {
-    const priority = data.priority === "HIGH" ? "LOW" : "HIGH";
+    const priority = data?.priority === "HIGH" ? "LOW" : "HIGH";
     try {
       const updatedSlotDataPayload = {
         requiredUpdate: "slot_priority",
@@ -57,17 +59,19 @@ function StatusPanel() {
       <div className="headerCard">
         <div className="headerName">
           <p>About Slot</p>
-          <div
-            onClick={() => {
-              onChangePriorityHandler();
-            }}
-          >
-            {data.priority === "HIGH" ? (
-              <StarIcon className="priorityStar" />
-            ) : (
-              <StarIcon />
-            )}
-          </div>
+          <Tooltip title={priorityTooltipMessage}>
+            <div
+              onClick={() => {
+                onChangePriorityHandler();
+              }}
+            >
+              {data?.priority === "HIGH" ? (
+                <StarIcon className="priorityStar" />
+              ) : (
+                <StarIcon />
+              )}
+            </div>
+          </Tooltip>
         </div>
         <IconButton
           color="primary"
