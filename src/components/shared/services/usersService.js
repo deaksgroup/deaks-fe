@@ -1,6 +1,7 @@
 import axios from "axios";
 
 export const getUsersList = (params) => {
+  console.log("data")
   return axios.get("/users", {
     params,
   });
