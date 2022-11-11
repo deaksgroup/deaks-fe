@@ -1,6 +1,7 @@
 import axios from "axios";
 
 export const getUsersList = (params) => {
+  console.log("data")
   return axios.get("/users", {
     params,
   });
@@ -13,7 +14,7 @@ export const getUsersCount = (params) => {
 };
 
 export const getUsersInfo = (id) => {
-  return axios.get("/getUserInfo", {
+  return axios.get("/getUserInfoAdmin", {
     params: {
       userId: id,
     },

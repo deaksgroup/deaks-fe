@@ -29,12 +29,18 @@ const LoginForm = () => {
       })
       .then(function (res) {
         localStorage.setItem("Token", res.data.token);
+        axios.defaults.headers.common["secret_token"] = res?.data?.token;
         localStorage.setItem("roles", res.data.user.roles);
         localStorage.setItem("email", res.data.user.email);
         NotificationManager.success("User logged in successfully", "Success");
-        setTimeout(() => {
-          navigation("/users");
-        }, 1000);
+       if(localStorage.getItem("Token")){
+        navigation("/users");
+       }else{
+        console.log("tata")
+       }
+        // setTimeout(() => {
+        //   navigation("/users");
+        // }, 1000);
       })
       .catch((err) => {
         setLoading(false);
