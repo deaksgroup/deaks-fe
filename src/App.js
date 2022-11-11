@@ -19,6 +19,8 @@ import { AddNewSlots } from "./components/slots/components/AddNewSlots";
 import { SlotDetails } from "./components/slots/slotDetails/SlotDetails";
 import { DailyAttendance } from "./components/dailyAttendance";
 import ProtectedRoute from "./components/shared/components/ProtectedRoute";
+import { Attendance } from "./components/attendance/AttendaceTable";
+import { StaffAttendance } from "./components/staffAttendance";
 
 function App() {
   return (
@@ -35,6 +37,23 @@ function App() {
             element={
               <ProtectedRoute>
                 <Users />
+              </ProtectedRoute>
+            }
+          />
+            <Route
+            path={"/attendance"}
+            element={
+              <ProtectedRoute>
+                <Attendance />
+              </ProtectedRoute>
+            }
+          />
+          
+            <Route
+            path={"/staff-attendance"}
+            element={
+              <ProtectedRoute>
+                <StaffAttendance/>
               </ProtectedRoute>
             }
           />
