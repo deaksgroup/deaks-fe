@@ -485,13 +485,13 @@ export default function OutletFullscreenDialog(props) {
                               accept="image/*"
                               id="contained-button-file"
                               type="file"
-                              hidden
+                              // hidden
                               multiple
                               onChange={(e) => {
                                 setNavigationImages(Array.from(e.target.files));
                               }}
                             />
-                            <UploadIcon />
+                            {/* <UploadIcon /> */}
                           </IconButton>
                         </Stack>
                       </div>
@@ -515,13 +515,13 @@ export default function OutletFullscreenDialog(props) {
                               accept="image/*"
                               id="contained-button-file"
                               type="file"
-                              hidden
+                              // hidden
                               multiple
                               onChange={(e) => {
                                 setGroomingImages(Array.from(e.target.files));
                               }}
                             />
-                            <UploadIcon />
+                            {/* <UploadIcon /> */}
                           </IconButton>
                         </Stack>
                       </div>
@@ -545,13 +545,13 @@ export default function OutletFullscreenDialog(props) {
                               accept="image/*"
                               id="contained-button-file"
                               type="file"
-                              hidden
+                              // hidden
                               multiple
                               onChange={(e) => {
                                 setOutletImages(Array.from(e.target.files));
                               }}
                             />
-                            <UploadIcon />
+                            {/* <UploadIcon /> */}
                           </IconButton>
                         </Stack>
                       </div>
