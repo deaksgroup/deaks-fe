@@ -68,6 +68,7 @@ export default function OutletFullscreenDialog(props) {
     attendanceEmail: "",
     invoiceEmail: "",
     startingSerialNumber: "",
+    Abbreviation:""
   });
 
   React.useEffect(() => {
@@ -92,6 +93,7 @@ export default function OutletFullscreenDialog(props) {
         attendanceEmail: "",
         invoiceEmail: "",
         startingSerialNumber: "",
+        Abbreviation:""
       });
       setDialogType("add");
     }
@@ -143,6 +145,7 @@ export default function OutletFullscreenDialog(props) {
         groomingImages: fetchedOutletValue?.data?.groomingImages,
         navigationImages: fetchedOutletValue?.data?.howToImages,
         outletImages: fetchedOutletValue?.data?.outletImages,
+        Abbreviation: fetchedOutletValue?.data?.Abbreviation,
       });
     }
   }, [fetchedOutletValue]);
@@ -441,6 +444,20 @@ export default function OutletFullscreenDialog(props) {
                         helperText={
                           props.touched.outletAdminNo &&
                           props.errors.outletAdminNo
+                        }
+                      />
+                      <TextField
+                        id="Abbreviation"
+                        name="Abbreviation"
+                        label="Abbreviation"
+                        value={props?.values?.Abbreviation}
+                        onChange={props.handleChange}
+                        size="small"
+                        error={
+                          props.touched.Abbreviation && Boolean(props.errors.Abbreviation)
+                        }
+                        helperText={
+                          props.touched.Abbreviation && props.errors.Abbreviation
                         }
                       />
                     </div>

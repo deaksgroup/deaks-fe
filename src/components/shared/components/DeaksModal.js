@@ -9,14 +9,16 @@ export const DeaksModal = (props) => {
     position: "absolute",
     top: "50%",
     left: "50%",
-    overFlow: "scroll",
+    overflowY: "scroll",
     transform: "translate(-50%, -50%)",
-    width: props.modalWidth,
+    width: "80%",
     height: "auto",
     bgcolor: "background.paper",
     border: "2px solid #000",
     boxShadow: 24,
     p: 4,
+    maxHeight: "80%",
+    
   };
   const { modalOpen, setModalOpen, modalHeader } = props;
   const open = modalOpen;

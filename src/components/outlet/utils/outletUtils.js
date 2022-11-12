@@ -49,6 +49,7 @@ export const MakeFormData = (
   formData.append("startingSerialNumber", elem?.startingSerialNumber);
   formData.append("extraInvoiceColumn", elem?.extraInvoiceColumn);
   formData.append("outletId", elem?.outletId || "");
+  formData.append("Abbreviation",elem?.Abbreviation )
   navigationImages?.forEach((file) => {
     formData.append("howToImages", file);
   });
