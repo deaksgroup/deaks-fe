@@ -49,6 +49,16 @@ export const LeftMenuBar = (props) => {
                   <GroupsIcon className="iconLeftBar" /> Groups
                 </NavLink>
               </li>
+              <li>
+                <NavLink to="/attendance" activeclassname="selected">
+                  <PeopleAltIcon /> Attendance
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/staff-attendance" activeclassname="selected">
+                  <PeopleAltIcon /> Staff Attendance
+                </NavLink>
+              </li>
             </ul>
           </div>
         </div>

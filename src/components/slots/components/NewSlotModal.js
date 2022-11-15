@@ -48,14 +48,14 @@ export const NewSlotModal = ({
     hourlyPay: "",
     vacancy: 0,
     release: 0,
-    priority:"",
   });
-  const { shiftName, startTime, endTime, hourlyPay, vacancy, release,priority } =
+  const { shiftName, startTime, endTime, hourlyPay, vacancy, release } =
     formData;
-const priorityOption = [{id:"HIGH", label : "HIGH"},{id:"LOW", label : "LOW"}]
+
   const isFormDataChanged = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+
   // useEffect(() => {
   //   if (startTime && endTime) {
   //     var beginningTime = moment(startTime, "h:mma");
@@ -92,7 +92,6 @@ const priorityOption = [{id:"HIGH", label : "HIGH"},{id:"LOW", label : "LOW"}]
       selectedExclusiveUsers,
       selectedPublicGroup,
       selectedPrivetGroup,
-      priority,
     } = editFormData;
     if (editFormData) {
       setFormData({
@@ -102,7 +101,6 @@ const priorityOption = [{id:"HIGH", label : "HIGH"},{id:"LOW", label : "LOW"}]
         hourlyPay,
         vacancy,
         release,
-        priority,
       });
       if (selectedExclusiveUsers) {
         filterUsersFromTable(selectedExclusiveUsers);
@@ -133,7 +131,6 @@ const priorityOption = [{id:"HIGH", label : "HIGH"},{id:"LOW", label : "LOW"}]
         hourlyPay: "",
         vacancy: "",
         release: "",
-        priority:""
       });
       setEditFormData([]);
       setEditFormExclusiveUsers([]);
@@ -233,7 +230,6 @@ const priorityOption = [{id:"HIGH", label : "HIGH"},{id:"LOW", label : "LOW"}]
       selectedPublicGroup,
       selectedExclusiveUsers,
       subscribersView,
-      priority,
     });
     setTableValues(tableArrayElement);
     setOpen(false);
@@ -252,7 +248,6 @@ const priorityOption = [{id:"HIGH", label : "HIGH"},{id:"LOW", label : "LOW"}]
       selectedPublicGroup,
       selectedExclusiveUsers,
       subscribersView,
-      priority,
     };
     tableArrayElement = tableArrayElement.splice(
       editRowIndex,
@@ -261,19 +256,7 @@ const priorityOption = [{id:"HIGH", label : "HIGH"},{id:"LOW", label : "LOW"}]
     );
     setOpen(false);
   };
-  const convertToMinutes = (timeString) => {
-    var hms = timeString.split(':');
-    return Math.ceil(parseInt(hms[1]) / 60) + parseInt(hms[0])
-  }
-  const total = () => {
-    if (convertToMinutes(endTime) > convertToMinutes(startTime)) {
-      const total = convertToMinutes(endTime) - convertToMinutes(startTime);
-      return ((total) * hourlyPay);
-    } else {
-      const total = ((convertToMinutes('24:00') - convertToMinutes(startTime)) + (convertToMinutes(endTime) - convertToMinutes('00:00')));
-      return ((total) * hourlyPay);
-    }
-  }
+
   return (
     <DeaksModal modalOpen={open} setModalOpen={setOpen} modalWidth={1000}>
       <h1>Add New Slot</h1>
@@ -305,9 +288,9 @@ const priorityOption = [{id:"HIGH", label : "HIGH"},{id:"LOW", label : "LOW"}]
             onChange={isFormDataChanged}
             InputLabelProps={{ shrink: true, required: true }}
             value={endTime}
-          // helperText={
+            // helperText={
 
-          // }
+            // }
           />
           <TextField
             name="hourlyPay"
@@ -342,30 +325,10 @@ const priorityOption = [{id:"HIGH", label : "HIGH"},{id:"LOW", label : "LOW"}]
                 : ""
             }
           />
-          <Autocomplete
-              id="priority"
-              size="small"
-              options={priorityOption}
-              inputValue={priority}
-              value={ priority ?
-                {id:priority,label:priority}:""
-              }
-              renderInput={(params) => (
-                <TextField {...params} value="" label="Select Priority" />
-              )}
-              onChange={(event, newValue) => {
-                setFormData({
-                  ...formData,
-                  priority: newValue.id,
-                });
-              }}
-            />
         </div>
-        {endTime && startTime && hourlyPay ? (
+        {vacancy & hourlyPay ? (
           <p className="totalText">
-            Total: $ {
-              total()
-            }
+            Total: $ {Number(vacancy) * Number(hourlyPay)}
           </p>
         ) : (
           ""

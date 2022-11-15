@@ -60,11 +60,13 @@
         }
 
         max-height: 400px;
-       
+        overflow: scroll;
     }
 }
 
-
+.subscribersView {
+    // margin-top: 20px;
+}
 
 .switcherDedicatedView {
     margin-top: 15px;

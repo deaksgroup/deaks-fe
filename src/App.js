@@ -19,14 +19,15 @@ import { AddNewSlots } from "./components/slots/components/AddNewSlots";
 import { SlotDetails } from "./components/slots/slotDetails/SlotDetails";
 import { DailyAttendance } from "./components/dailyAttendance";
 import ProtectedRoute from "./components/shared/components/ProtectedRoute";
-
+import { Attendance } from "./components/attendance/AttendaceTable";
+import { StaffAttendance } from "./components/staffAttendance";
+import {AttendanceEdit} from "./components/attendance/AttendanceEdit"
 function App() {
   return (
     <div>
       <Routes>
         <Route path="/login" element={<LoginForm />}></Route>
       </Routes>
-
       <LeftMenuBar>
         <Routes>
           <Route path={"/"} element={<Navigate replace to="/login" />}></Route>
@@ -35,6 +36,30 @@ function App() {
             element={
               <ProtectedRoute>
                 <Users />
+              </ProtectedRoute>
+            }
+          />
+            <Route
+            path={"/attendance"}
+            element={
+              <ProtectedRoute>
+                <Attendance />
+              </ProtectedRoute>
+            }
+          />
+           <Route
+            path="/edit-attendance/:attendanceId"
+            element={
+              <ProtectedRoute>
+                <AttendanceEdit />
+              </ProtectedRoute>
+            }
+          ></Route>
+            <Route
+            path={"/staff-attendance"}
+            element={
+              <ProtectedRoute>
+                <StaffAttendance/>
               </ProtectedRoute>
             }
           />

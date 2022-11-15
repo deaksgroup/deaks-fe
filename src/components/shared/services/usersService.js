@@ -14,7 +14,7 @@ export const getUsersCount = (params) => {
 };
 
 export const getUsersInfo = (id) => {
-  return axios.get("/getUserInfoAdmin", {
+  return axios.get("/getUserInfo", {
     params: {
       userId: id,
     },

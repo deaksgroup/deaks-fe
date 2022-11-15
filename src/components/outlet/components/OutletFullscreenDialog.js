@@ -68,7 +68,6 @@ export default function OutletFullscreenDialog(props) {
     attendanceEmail: "",
     invoiceEmail: "",
     startingSerialNumber: "",
-    Abbreviation:""
   });
 
   React.useEffect(() => {
@@ -93,7 +92,6 @@ export default function OutletFullscreenDialog(props) {
         attendanceEmail: "",
         invoiceEmail: "",
         startingSerialNumber: "",
-        Abbreviation:""
       });
       setDialogType("add");
     }
@@ -145,7 +143,6 @@ export default function OutletFullscreenDialog(props) {
         groomingImages: fetchedOutletValue?.data?.groomingImages,
         navigationImages: fetchedOutletValue?.data?.howToImages,
         outletImages: fetchedOutletValue?.data?.outletImages,
-        Abbreviation: fetchedOutletValue?.data?.Abbreviation,
       });
     }
   }, [fetchedOutletValue]);
@@ -446,20 +443,6 @@ export default function OutletFullscreenDialog(props) {
                           props.errors.outletAdminNo
                         }
                       />
-                      <TextField
-                        id="Abbreviation"
-                        name="Abbreviation"
-                        label="Abbreviation"
-                        value={props?.values?.Abbreviation}
-                        onChange={props.handleChange}
-                        size="small"
-                        error={
-                          props.touched.Abbreviation && Boolean(props.errors.Abbreviation)
-                        }
-                        helperText={
-                          props.touched.Abbreviation && props.errors.Abbreviation
-                        }
-                      />
                     </div>
                   </div>
                   {console.log(outletImages)}
@@ -485,13 +468,13 @@ export default function OutletFullscreenDialog(props) {
                               accept="image/*"
                               id="contained-button-file"
                               type="file"
-                              // hidden
+                              hidden
                               multiple
                               onChange={(e) => {
                                 setNavigationImages(Array.from(e.target.files));
                               }}
                             />
-                            {/* <UploadIcon /> */}
+                            <UploadIcon />
                           </IconButton>
                         </Stack>
                       </div>
@@ -515,13 +498,13 @@ export default function OutletFullscreenDialog(props) {
                               accept="image/*"
                               id="contained-button-file"
                               type="file"
-                              // hidden
+                              hidden
                               multiple
                               onChange={(e) => {
                                 setGroomingImages(Array.from(e.target.files));
                               }}
                             />
-                            {/* <UploadIcon /> */}
+                            <UploadIcon />
                           </IconButton>
                         </Stack>
                       </div>
@@ -545,13 +528,13 @@ export default function OutletFullscreenDialog(props) {
                               accept="image/*"
                               id="contained-button-file"
                               type="file"
-                              // hidden
+                              hidden
                               multiple
                               onChange={(e) => {
                                 setOutletImages(Array.from(e.target.files));
                               }}
                             />
-                            {/* <UploadIcon /> */}
+                            <UploadIcon />
                           </IconButton>
                         </Stack>
                       </div>
