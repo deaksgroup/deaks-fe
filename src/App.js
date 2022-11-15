@@ -28,7 +28,6 @@ function App() {
       <Routes>
         <Route path="/login" element={<LoginForm />}></Route>
       </Routes>
-
       <LeftMenuBar>
         <Routes>
           <Route path={"/"} element={<Navigate replace to="/login" />}></Route>
