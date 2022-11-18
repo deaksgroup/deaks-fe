@@ -14,75 +14,35 @@ import {UseAttendencelist} from './hooks/useAttendence'
 import { useEffect } from "react";
 export const Attendance = () => {
   const navigate=useNavigate();
-  const [hotelData, setHotelData] = useState(
-    [
-      {
-        "_id": "6367cb03cf40fae278709142",
-        "id": "A19",
-        "attendanceName": "D23W44 hotelName slotName",
-        "dateObj": "2022-11-09T18:30:00.000Z",
-        "status": "PENDING STAFF",
-        "isAmended": false,
-        "isApproved": false,
-        "hotelName": "Sample Hotel",
-        "outletName": "Scarlet English"
-      },
-      {
-        "_id": "635bb8ee645108fee2341323",
-        "id": "A18",
-        "attendanceName": "D23W44 hotelName slotName",
-        "dateObj": "2022-11-07T18:30:00.000Z",
-        "hotelName": "Sample Hotel",
-        "outletName": "Scarlet English"
-      },
-      {
-        "_id": "635bb8d8645108fee2341309",
-        "id": "A17",
-        "attendanceName": "D23W44 hotelName slotName",
-        "dateObj": "2022-11-06T18:30:00.000Z",
-        "hotelName": "Sample Hotel",
-        "outletName": "Scarlet English"
-      },
-      {
-        "_id": "635bb8ad645108fee23412ef",
-        "id": "A16",
-        "attendanceName": "D23W44 hotelName slotName",
-        "dateObj": "2022-11-05T18:30:00.000Z",
-        "isAmended": false,
-        "isApproved": true,
-        "status": "PENDING STAFF",
-        "hotelName": "Sample Hotel",
-        "outletName": "Scarlet English"
-      },
-      {
-        "_id": "635bb800645108fee23412bb",
-        "id": "A14",
-        "attendanceName": "D23W43 hotelName slotName",
-        "dateObj": "2022-11-04T18:30:00.000Z",
-        "isAmended": false,
-        "isApproved": false,
-        "status": "PENDING STAFF",
-        "hotelName": "Sacha Hanson",
-        "outletName": "Heather Rosario"
-      },
-      {
-        "_id": "635bb844645108fee23412d5",
-        "id": "A15",
-        "attendanceName": "D23W44 hotelName slotName",
-        "dateObj": "2022-11-04T18:30:00.000Z",
-        "isAmended": false,
-        "status": "SENT",
-        "isApproved": false,
-        "hotelName": "Sample Hotel",
-        "outletName": "Scarlet English"
-      }
-    ]
-  );
-  const Paginations = usePagination(20);
+  const [totalCount, setTotalCount] = useState("");
+  const [attendanceData, setAttendanceData] = useState([ ]);
+  const Paginations = usePagination(totalCount);
   useEffect(()=>{
-const data=UseAttendencelist();
-console.log(data);
+    getAllAttendancelist();
   },[])
+  const getAllAttendancelist = () =>{
+  const param={
+    "startDate":"2022-11-04T18:30:00.000+00:00",
+    "endDate":"2022-11-20T18:30:00.000+00:00",
+    "status":"",
+    "hotel":"",
+    "outlet":"",
+    "searchQuery":"",
+    "pageNum":1,
+    "pageSize": Paginations.props.rowsPerPage,
+    "skip": Paginations.props.page * Paginations.props.rowsPerPage,
+}
+   UseAttendencelist(param).then((res)=>{
+      console.log(res.data);
+      if(res?.data?.attendanceList){
+        setAttendanceData(res?.data?.attendanceList);
+        setTotalCount(2);
+          }
+    });
+  }
+
+
+  
   return (
     <ContentWrapper headerName="Attendance">
       <div className="attendanceFilterDiv">
@@ -162,7 +122,7 @@ console.log(data);
         <TextField />
       </div>
       <DeaksTable headings={attendanceHeading}>
-        {hotelData.map((item, index) => {
+        {attendanceData?.map((item, index) => {
           return (
             <StyledTableRow hover role="attendance" tabIndex={-1} key={index}>
               <>

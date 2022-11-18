@@ -14,10 +14,11 @@ import {
 import { ContentWrapper } from "../shared/components/ContentWrapper";
 import { useNavigate, useParams } from "react-router-dom";
 import { useFormik } from "formik";
-import { UseAttendenceQuery } from "./hooks/useAttendence";
+import { UseAttendenceQuery, patchAttendencestatus } from "./hooks/useAttendence";
 import { getUsersList } from "../shared/services/usersService";
 import { DeaksModal } from "../shared/components/DeaksModal";
-import { AttendanceModal } from './AttendanceModal'
+import { AttendanceModal } from './AttendanceModal';
+import { NotificationManager } from "react-notifications";
 import './style/attendenceStyle.css'
 export const AttendanceEdit = () => {
     const navigate = useNavigate();
@@ -30,7 +31,15 @@ export const AttendanceEdit = () => {
     const [slotUsers, setslotUsers] = useState([]);
     const [addModalOpen, setAddModalOpen] = useState(false)
     const [data, setData] = useState([]);
-    //   const data = info;
+    const [initialValues, setInitialValues] = useState({
+        _id: "",
+        attendanceName: "",
+        hotelName: "",
+        outletName: "",
+        status: "",
+        date: "",
+        slots: []
+    });
     useEffect(() => {
         userList();
         getuserDataBYId();
@@ -45,43 +54,50 @@ export const AttendanceEdit = () => {
         setUserData(exclusiveUserOptionData);
     }
     const getuserDataBYId = () => {
-        const data = UseAttendenceQuery(attendanceId);
-        setData(data);
+        console.log(attendanceId);
+        UseAttendenceQuery(attendanceId).then((res) => {
+            if (res.message && res.message.code === 200 && res.data) {
+                console.log(res.data);
+                setData(res.data);
+                setInitialValues({
+                    _id: res.data._id,
+                    attendanceName: res.data.attendanceName,
+                    hotelName: res.data.hotelName,
+                    outletName: res.data.outletName,
+                    status: res.data.status,
+                    date: res.data.date,
+                    slots: res.data.slots
+                })
+            }
+
+        });
+
+
     }
-    const [initialValues, setInitialValues] = useState({
-        _id:data?._id,
-        attendanceName: data?.attendanceName,
-        hotelName: data?.hotelName,
-        outletName: data?.outletName,
-        status: data?.status,
-        date: data?.date,
-        slots: data?.slots
-    });
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setInitialValues((prev) => {
+            return { ...prev, [name]: value }
+        })
+
+    }
+
     const formik = useFormik({
         enableReinitialize: true,
         initialValues,
         validationSchema: "",
-
         onSubmit: async (values) => {
-            //   const {
-            //     Abbreviation,
-            //     SOAmail,
-            //     appleMapLink,
-            //     googleMapLink,
-            //     hotelName,
-            //     hotelLogo,
-            //     fileName,
-            //     adminNumber,
-            //   } = values;
-            //   let formData = new FormData();
-            //   formData.append("Abbreviation", Abbreviation); //append the values with key, value pair
-            //   formData.append("SOAmail", SOAmail);
-            //   formData.append("appleMapLink", appleMapLink);
-            //   formData.append("googleMapLink", googleMapLink);
-            //   formData.append("hotelName", hotelName);
-            //   formData.append("hotelLogo", hotelLogo);
-            //   formData.append("filename", fileName);
-            //   formData.append("adminNumber", adminNumber); 
+            setLoading(true);
+            patchAttendencestatus(attendanceId, values.status).then((res) => {
+                console.log(res);
+                setLoading(false);
+                if (res?.message?.code === 200) {
+                    NotificationManager.success("Updated Successfully");
+                } else {
+                    NotificationManager.console.error("Update Failed");
+                }
+
+            })
         },
     })
 
@@ -115,32 +131,38 @@ export const AttendanceEdit = () => {
                         size="small"
                         disabled
                     />
-                    <FormControl sx={{ minWidth: 180 }}>
-                        <InputLabel size="small" id="verificationStatus">
+                    <FormControl sx={{ minWidth: 90 }}>
+                        <InputLabel size="small" id="status">
                             Attendence Status
                         </InputLabel>
                         <Select
                             size="small"
-                            name="verificationStatus"
-                            labelId="verificationStatus"
-                            id="verificationStatus"
+                            name="status"
+                            labelId="status"
+                            id="status"
                             value={formik.values.status}
-                            onChange={formik.handleChange}
-                            label="Verification Status"
+                            onChange={handleChange}
+                            label="status"
                         >
-                            <MenuItem size="small" value={"Pending"}>
-                                Pending
+                            <MenuItem size="small" value={"PENDING STAFF"}>
+                                PENDING STAFF
                             </MenuItem>
-                            <MenuItem size="small" value={"Completed"}>
-                                Completed
+                            <MenuItem size="small" value={"READY TO SEND"}>
+                                READY TO SEND
                             </MenuItem>
-                            <MenuItem size="small" value={"Not Submitted"}>
-                                Not Submitted
+                            <MenuItem size="small" value={"SEND"}>
+                                SEND
+                            </MenuItem>
+                            <MenuItem size="small" value={"RECEIVED BACK"}>
+                                RECEIVED BACK
+                            </MenuItem>
+                            <MenuItem size="small" value={"COMPLETED"}>
+                                COMPLETED
                             </MenuItem>
                         </Select>
                     </FormControl>
                 </div>
-                {data.slots?.map((item, index) => {
+                {data?.slots?.map((item, index) => {
                     return (
                         <div className="slotsection" key={index}>
                             <Typography className="heading">{item.name}</Typography>
@@ -163,7 +185,7 @@ export const AttendanceEdit = () => {
                                 }
                                 filterSelectedOptions
                                 onChange={(event, newValue) => {
-                                    // onChangeSelectedUsers(newValue);
+                                    //  onChangeSelectedUsers(newValue);
                                 }}
                                 renderInput={(params) => (
                                     <TextField {...params} label="Select Users" />
@@ -186,6 +208,36 @@ export const AttendanceEdit = () => {
                                     size="small"
                                     disabled
                                 />
+                                <FormControl sx={{ minWidth: 180 }}>
+                                    <InputLabel size="small" id="verificationStatus">
+                                        Slot Status
+                                    </InputLabel>
+                                    <Select
+                                        size="small"
+                                        name="slotStatus"
+                                        labelId="slotStatus"
+                                        id="slotStatus"
+                                        value={item.status}
+                                        onChange={formik.handleChange}
+                                        label="Slot Status"
+                                    >
+                                        <MenuItem size="small" value={"PENDING STAFF"}>
+                                            PENDING STAFF
+                                        </MenuItem>
+                                        <MenuItem size="small" value={"READY TO SEND"}>
+                                            READY TO SEND
+                                        </MenuItem>
+                                        <MenuItem size="small" value={"SEND"}>
+                                            SEND
+                                        </MenuItem>
+                                        <MenuItem size="small" value={"RECEIVED BACK"}>
+                                            RECEIVED BACK
+                                        </MenuItem>
+                                        <MenuItem size="small" value={"COMPLETED"}>
+                                            COMPLETED
+                                        </MenuItem>
+                                    </Select>
+                                </FormControl>
                             </div>
                             <Button
                                 sx={{
@@ -257,16 +309,16 @@ export const AttendanceEdit = () => {
                 <DeaksModal
                     modalOpen={addModalOpen}
                     setModalOpen={setAddModalOpen}
-                    modalHeader={modalType}
+                    modalHeader="Add New SLOT"
                     modalWidth={700}
                 >
                     <AttendanceModal
-                        modalType={modalType}
+                        modalType="Add New SLOT"
                         setModalOpen={setAddModalOpen}
                         userData={userData}
+                        availableattendenceData={data}
                     />
                 </DeaksModal>
-
             </form>
             <Backdrop
                 sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
