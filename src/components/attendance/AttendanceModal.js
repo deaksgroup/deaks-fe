@@ -40,7 +40,7 @@ const isSameOrBefore = (StartTime, EndTime) => {
 }
 export const AttendanceModal = (props) => {
   const [loading, setLoading] = useState(false);
-  const { userData, availableattendenceData, attendencedata, setslotUsers, slotUsers, selectedSlot, setModalOpen } = props;
+  const { userData, availableattendenceData, attendencedata, setslotUsers, slotUsers, selectedSlot, setModalOpen,getAttendanceDataBYId } = props;
   const [initialValues, setInitialValues] = useState({
     AttendanceCreatedDate: attendencedata ? attendencedata?.date : availableattendenceData?.date,
     HotelName: attendencedata ? attendencedata.hotelName : availableattendenceData?.hotelName,
@@ -87,9 +87,11 @@ export const AttendanceModal = (props) => {
           setLoading(false);
           if (res?.message?.code === 200) {
             NotificationManager.success("Added Successfully");
-            setTimeout(() => {
-              setModalOpen(false);
-            }, 3000);
+            getAttendanceDataBYId()
+            setModalOpen(false);
+            // setTimeout(() => {
+              
+            // }, 3000);
 
           } else {
             NotificationManager.error("Added Failed");
@@ -126,9 +128,8 @@ export const AttendanceModal = (props) => {
           setLoading(false);
           if (res?.message?.code === 200) {
             NotificationManager.success("Added Successfully");
-            setTimeout(() => {
-              setModalOpen(false);
-            }, 3000);
+            getAttendanceDataBYId()
+            setModalOpen(false);
           } else {
             NotificationManager.error("Added Failed");
           }
@@ -287,6 +288,7 @@ export const AttendanceModal = (props) => {
               id="StartTime"
               name="StartTime"
               label="Start Time"
+              InputLabelProps={{ shrink: true }}
               type="time"
               onChange={handleChange}
               error={formik.touched.StartTime && Boolean(formik.errors.StartTime)}
@@ -309,6 +311,7 @@ export const AttendanceModal = (props) => {
               name="EndTime"
               type="time"
               label="End Time"
+              InputLabelProps={{ shrink: true }}
               onChange={handleChange}
               error={formik.touched.EndTime && Boolean(formik.errors.EndTime)}
               helperText={formik.touched.EndTime && formik.errors.EndTime}
@@ -375,6 +378,20 @@ export const AttendanceModal = (props) => {
           type="submit"
         >
           Save
+        </Button>
+        <Button
+          sx={{
+            marginTop: "20px",
+            background: "#d21991",
+            float: "right",
+            width: "110px",
+            height: "45px",
+            marginRight:"10px"
+          }}
+          variant="contained"
+          onClick={()=>{setModalOpen(false);}}
+        >
+          Cancel
         </Button>
       </form>
       <Backdrops open={loading} />

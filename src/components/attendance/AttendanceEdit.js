@@ -42,7 +42,7 @@ export const AttendanceEdit = () => {
     });
     useEffect(() => {
         userList();
-        getuserDataBYId();
+        getAttendanceDataBYId();
 
     }, []);
     const userList = async () => {
@@ -60,7 +60,7 @@ export const AttendanceEdit = () => {
         }));
         return value
     }
-    const getuserDataBYId = () => {
+    const getAttendanceDataBYId = () => {
         UseAttendenceQuery(attendanceId).then((res) => {
             if (res.message && res.message.code === 200 && res.data) {
                 setData(res.data);
@@ -94,9 +94,9 @@ export const AttendanceEdit = () => {
         onSubmit: async (values) => {
             setLoading(true);
             patchAttendencestatus(attendanceId, values.status).then((res) => {
-                console.log(res);
                 setLoading(false);
                 if (res?.message?.code === 200) {
+                    navigate("/attendance")
                     NotificationManager.success("Updated Successfully");
                 } else {
                     NotificationManager.console.error("Update Failed");
@@ -147,7 +147,7 @@ export const AttendanceEdit = () => {
                             id="status"
                             value={formik.values.status}
                             onChange={handleChange}
-                            label="status"
+                            label="Attendance Status"
                         >
                             <MenuItem size="small" value={"PENDING STAFF"}>
                                 PENDING STAFF
@@ -258,23 +258,7 @@ export const AttendanceEdit = () => {
                             >
                                 Edit
                             </Button>
-                            <DeaksModal
-                                modalOpen={modalOpen}
-                                setModalOpen={setModalOpen}
-                                modalHeader={modalType}
-                                modalWidth={700}
-                            >
-                                <AttendanceModal
-                                    modalType={modalType}
-                                    setModalOpen={setModalOpen}
-                                    userData={userData}
-                                    selectedSlot={selectedSlot}
-                                    attendencedata={data}
-                                    setslotUsers={setslotUsers}
-                                    slotUsers={slotUsers}
-
-                                />
-                            </DeaksModal>
+                           
                         </div>
                     )
                 })}
@@ -285,7 +269,8 @@ export const AttendanceEdit = () => {
                         float: "left",
                         width: "110px",
                         height: "45px",
-                        marginBottom: '20px'
+                        marginBottom: '20px',
+                        color:"#fff"
                     }}
                     onClick={() => { setAddModalOpen(true) }}
                 >
@@ -306,6 +291,20 @@ export const AttendanceEdit = () => {
                 >
                     SAVE
                 </Button>
+                <Button
+          sx={{
+            marginTop: "20px",
+            background: "#d21991",
+            float: "right",
+            width: "110px",
+            height: "45px",
+            marginRight:"10px"
+          }}
+          variant="contained"
+          onClick={()=>{navigate("/attendance")}}
+        >
+          Cancel
+        </Button>
                 <DeaksModal
                     modalOpen={addModalOpen}
                     setModalOpen={setAddModalOpen}
@@ -317,8 +316,27 @@ export const AttendanceEdit = () => {
                         setModalOpen={setAddModalOpen}
                         userData={userData}
                         availableattendenceData={data}
+                        getAttendanceDataBYId={getAttendanceDataBYId}
                     />
                 </DeaksModal>
+                <DeaksModal
+                                modalOpen={modalOpen}
+                                setModalOpen={setModalOpen}
+                                modalHeader={modalType}
+                                modalWidth={700}
+                            >
+                                <AttendanceModal
+                                    modalType={modalType}
+                                    setModalOpen={setModalOpen}
+                                    userData={userData}
+                                    selectedSlot={selectedSlot}
+                                    attendencedata={data}
+                                    setslotUsers={setslotUsers}
+                                    slotUsers={slotUsers}
+                                    getAttendanceDataBYId={getAttendanceDataBYId}
+
+                                />
+                            </DeaksModal>
             </form>
             <Backdrop
                 sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
