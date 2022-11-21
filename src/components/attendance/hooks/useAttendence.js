@@ -22,3 +22,13 @@ export const Addnewslot = async (params) =>{
   console.log(data);
   return data.data;
 }
+//update amend
+export const updateAmend = async (attendance_id) =>{
+  const data =await axios.patch(`/attendance/amend/${attendance_id}`);
+  return data.data;
+}
+//update aprove
+export const updateAprove = async (attendance_id) =>{
+  const data =await axios.patch(`/attendance/approve/${attendance_id}`);
+  return data.data;
+}

@@ -10,39 +10,54 @@ import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import ModeEditOutlineOutlined from "@mui/icons-material/ModeEditOutlineOutlined";
 import { CloseOutlined, DoneOutlineOutlined } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
-import {UseAttendencelist} from './hooks/useAttendence'
+import { updateAmend, updateAprove, UseAttendencelist } from './hooks/useAttendence'
 import { useEffect } from "react";
 export const Attendance = () => {
-  const navigate=useNavigate();
+  const navigate = useNavigate();
   const [totalCount, setTotalCount] = useState("");
-  const [attendanceData, setAttendanceData] = useState([ ]);
+  const [attendanceData, setAttendanceData] = useState([]);
   const Paginations = usePagination(totalCount);
-  useEffect(()=>{
+  useEffect(() => {
     getAllAttendancelist();
-  },[])
-  const getAllAttendancelist = () =>{
-  const param={
-    "startDate":"2022-11-04T18:30:00.000+00:00",
-    "endDate":"2022-11-20T18:30:00.000+00:00",
-    "status":"",
-    "hotel":"",
-    "outlet":"",
-    "searchQuery":"",
-    "pageNum":1,
-    "pageSize": Paginations.props.rowsPerPage,
-    "skip": Paginations.props.page * Paginations.props.rowsPerPage,
-}
-   UseAttendencelist(param).then((res)=>{
+  }, [])
+  const getAllAttendancelist = () => {
+    const param = {
+      "startDate": "2022-11-04T18:30:00.000+00:00",
+      "endDate": "2022-11-20T18:30:00.000+00:00",
+      "status": "",
+      "hotel": "",
+      "outlet": "",
+      "searchQuery": "",
+      "pageNum": 1,
+      "pageSize": Paginations.props.rowsPerPage,
+      "skip": Paginations.props.page * Paginations.props.rowsPerPage,
+    }
+    UseAttendencelist(param).then((res) => {
       console.log(res.data);
-      if(res?.data?.attendanceList){
+      if (res?.data?.attendanceList) {
         setAttendanceData(res?.data?.attendanceList);
         setTotalCount(2);
-          }
+      }
     });
   }
 
+  const amending = (id) => {
+    updateAmend(id).then((res) => {
+      console.log(res)
+      window.location.reload(false);
+    })
 
-  
+  }
+  const aproving = (id) => {
+    updateAprove(id).then((res) => {
+      console.log(res)
+      window.location.reload(false);
+    })
+
+  }
+
+
+
   return (
     <ContentWrapper headerName="Attendance">
       <div className="attendanceFilterDiv">
@@ -168,7 +183,7 @@ export const Attendance = () => {
                   </StyledIconButton> : <StyledIconButton
                     size="small"
                     aria-label="delete Hotel"
-
+                    onClick={() => { amending(item._id) }}
                   >
                     <CloseOutlined size="small" />
                   </StyledIconButton>}
@@ -183,7 +198,7 @@ export const Attendance = () => {
                   </StyledIconButton> : <StyledIconButton
                     size="small"
                     aria-label="delete Hotel"
-
+                    onClick={() => { aproving(item._id) }}
                   >
                     <CloseOutlined size="small" />
                   </StyledIconButton>}
