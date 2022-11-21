@@ -134,7 +134,7 @@ export const Attendance = () => {
         <div className="staffCount">count2</div>
       </div>
       <div className="attendanceSearchDiv">
-        <TextField />
+        <TextField size="small"/>
       </div>
       <DeaksTable headings={attendanceHeading}>
         {attendanceData?.map((item, index) => {
