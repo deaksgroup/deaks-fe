@@ -3,82 +3,98 @@ import { useFormik } from "formik";
 import React, { useState } from "react";
 import Backdrops from "../shared/components/Backdrops";
 import * as Yup from 'yup';
-import { Addnewslot } from './hooks/useAttendence'
+import { Addnewslot, patchSlot } from './hooks/useAttendence'
 import { NotificationManager } from "react-notifications";
+import moment from "moment"
 const FormValidation = Yup.object().shape({
-
-  AttendanceCreatedDate: Yup
-    .date()
-    .required('please enter a valid date'),
-  // HotelName: Yup
-  //   .string()
-  //   .required('please enter Hotel name'),
-  AttendanceStatus: Yup
-    .string()
-    .required('please select a valid option'),
-  // OutletName: Yup
-  //   .string()
-  //   .required('please enter Outlet name'),
-  StartTime: Yup
-    .string()
-    .required('please enter a valid Time'),
-  EndTime: Yup
-    .string()
-    .required('please enter a valid Time'),
-  AddStaff: Yup
-    .array()
-    .of(
-      Yup.object().shape({
-        id: Yup.string(),
-        value: Yup.string()
-      })
-    ).min(1, "Please select a valid option")
+  AddStaff: Yup.array().min(1, "Please select a valid option"),
+  PayPerHour: Yup.string().required(),
+  SlotStatus: Yup.string().required(),
+  SlotNAME: Yup.string().required(),
+  StartTime: Yup.string()
+    .test(
+      'not empty',
+      'Start time can not be empty',
+      function (value) {
+        return !!value;
+      }
+    )
+    .test(
+      "start_time_test",
+      "Start time must be before end time",
+      function (value) {
+        const { EndTime } = this.parent;
+        return isSameOrBefore(value, EndTime);
+      }
+    ),
+  EndTime: Yup.string().test(
+    'not empty',
+    'End time can not be empty',
+    function (value) {
+      return !!value;
+    }
+  )
 })
+const isSameOrBefore = (StartTime, EndTime) => {
+  return moment(StartTime, 'HH:mm').isSameOrBefore(moment(EndTime, 'HH:mm'));
+}
 export const AttendanceModal = (props) => {
-  const [selectedExclusiveUsers, setSelectedExclusiveUsers] = useState([]);
-
   const [loading, setLoading] = useState(false);
-  const { userData, availableattendenceData, attendencedata, setslotUsers, slotUsers, selectedSlot } = props;
+  const { userData, availableattendenceData, attendencedata, setslotUsers, slotUsers, selectedSlot, setModalOpen } = props;
   const [initialValues, setInitialValues] = useState({
     AttendanceCreatedDate: attendencedata ? attendencedata?.date : availableattendenceData?.date,
     HotelName: attendencedata ? attendencedata.hotelName : availableattendenceData?.hotelName,
     AttendanceStatus: attendencedata ? attendencedata.status : '',
     OutletName: attendencedata ? attendencedata.outletName : availableattendenceData?.outletName,
-    AddStaff: [],
-    StartTime: attendencedata ? attendencedata.startTime : "",
-    EndTime: attendencedata ? attendencedata.endTime : "",
-    SlotStatus: '',
-    SlotNAME: attendencedata ? attendencedata.slotNAME : "",
-    PayPerHour: attendencedata ? attendencedata.PayPerHour : '',
+    AddStaff: slotUsers ? slotUsers : [],
+    StartTime: selectedSlot ? selectedSlot.startTime : "",
+    EndTime: selectedSlot ? selectedSlot.endTime : "",
+    SlotStatus: selectedSlot ? selectedSlot.status : "",
+    SlotNAME: selectedSlot ? selectedSlot.shiftName : "",
+    PayPerHour: selectedSlot ? selectedSlot.hourlyPay : '',
   });
 
   const formik = useFormik({
     enableReinitialize: true,
     initialValues,
-    validationSchema: '',
+    validationSchema: FormValidation,
     onSubmit: async (values) => {
+      console.log(values)
+      setLoading(true);
       if (attendencedata) {
-        console.log(values);
         const {
-          AttendanceCreatedDate,
-          HotelName,
-          AttendanceStatus,
-          OutletName,
           AddStaff,
           StartTime,
           EndTime,
           PayPerHour,
-          SlotNAME,
           SlotStatus
         } = values;
-        let formData = new FormData();
-        formData.append("AttendanceCreatedDate", AttendanceCreatedDate);
-        formData.append("HotelName", HotelName);
-        formData.append("AttendanceStatus", AttendanceStatus);
-        formData.append("OutletName", OutletName);
-        formData.append("AddStaff", AddStaff);
-        formData.append("StartTime", StartTime);
-        formData.append("EndTime", EndTime);
+        let userArray = [];
+        if (values.AddStaff) {
+          values.AddStaff?.map((item) =>
+            userArray.push(item.id)
+          );
+        }
+        const data = {
+          "slot_id": selectedSlot?._id,
+          "users": userArray,
+          "startTime": StartTime,
+          "endTime": EndTime,
+          "status": SlotStatus,
+          "hourlyPay": PayPerHour
+        }
+        patchSlot(data).then((res) => {
+          setLoading(false);
+          if (res?.message?.code === 200) {
+            NotificationManager.success("Added Successfully");
+            setTimeout(() => {
+              setModalOpen(false);
+            }, 3000);
+
+          } else {
+            NotificationManager.error("Added Failed");
+          }
+        })
       } else {
         const {
           AttendanceCreatedDate,
@@ -88,27 +104,31 @@ export const AttendanceModal = (props) => {
           PayPerHour,
           SlotStatus
         } = values;
-        console.log(values);
         let userArray = [];
         if (values.AddStaff) {
           values.AddStaff?.map((item) =>
             userArray.push(item.id)
           );
         }
-        let formData = new FormData();
-        formData.append("attendance_id", availableattendenceData?._id)
-        formData.append("date", AttendanceCreatedDate);
-        formData.append("hotel_id", availableattendenceData?.hotelId);
-        formData.append("slot_status", SlotStatus);
-        formData.append("outlet_id", availableattendenceData?.outletId);
-        formData.append("users", userArray);
-        formData.append("start", StartTime);
-        formData.append("end", EndTime);
-        formData.append("shift_name", SlotNAME);
-        formData.append("hourlypay", PayPerHour)
-        Addnewslot(formData).then((res) => {
+        const data = {
+          "attendance_id": availableattendenceData?._id,
+          "date": AttendanceCreatedDate,
+          "hotel_id": availableattendenceData?.hotelId,
+          "status": SlotStatus,
+          "outlet_id": availableattendenceData?.outletId,
+          "users": userArray,
+          "start": StartTime,
+          "end": EndTime,
+          "shift_name": SlotNAME,
+          "hourlypay": PayPerHour,
+        }
+        Addnewslot(data).then((res) => {
+          setLoading(false);
           if (res?.message?.code === 200) {
             NotificationManager.success("Added Successfully");
+            setTimeout(() => {
+              setModalOpen(false);
+            }, 3000);
           } else {
             NotificationManager.error("Added Failed");
           }
@@ -125,11 +145,7 @@ export const AttendanceModal = (props) => {
   }
   // Saving selected users in useState
   const onChangeSelectedUsers = (users) => {
-    console.log(users);
     setslotUsers(users);
-    let userArray = [];
-    users?.map((item) => userArray.push(item.id));
-    setSelectedExclusiveUsers(userArray);
   };
   return (
     <div>
@@ -146,62 +162,44 @@ export const AttendanceModal = (props) => {
             InputLabelProps={{ shrink: true, required: true }}
             disabled
           />
-          {attendencedata?._id ?
             <TextField
               id="HotelName"
               name="HotelName"
               label="Hotel Name"
-              value={attendencedata?.hotelName}
+              value={attendencedata?.hotelName??availableattendenceData?.hotelName}
               disabled
             />
-            :
-            <TextField
-              id="HotelName"
-              name="HotelName"
-              label="Hotel Name"
-              value={availableattendenceData?.hotelName}
-              disabled />
-          }
-
-          {attendencedata?._id ?
             <TextField
               id="OutletName"
               name="OutletName"
               label="Outlet Name"
-              value={attendencedata?.outletName}
+              value={attendencedata?.outletName??availableattendenceData?.outletName}
               disabled
-            /> :
-            <TextField
-              id="OutletName"
-              name="OutletName"
-              label="Outlet Name"
-              value={availableattendenceData?.outletName}
-              disabled
-            >
-            </TextField>}
+            />            
           {attendencedata?._id ?
             <TextField
               id="SLOTNAME"
               name="SLOTNAME"
               label="Slot Name"
-              value={attendencedata?.slotNAME}
+              value={selectedSlot?.shiftName}
               disabled
             />
             :
             <TextField
               id="SlotNAME"
               name="SlotNAME"
-              label="Slot NAME"
+              label="Shift Name"
               value={formik.values.SlotNAME}
               onChange={handleChange}
+              error={formik.touched.SlotNAME && Boolean(formik.errors.SlotNAME)}
+              helperText={formik.touched.SlotNAME && formik.errors.SlotNAME}
             />
           }
-
-
           {attendencedata?._id ?
             <Autocomplete
               multiple
-              id="tags-outlined-group"
+              id="AddStaff"
+              name="AddStaff"
               getOptionSelected={(option, value) =>
                 option.label === value.label
               }
@@ -219,9 +217,16 @@ export const AttendanceModal = (props) => {
               filterSelectedOptions
               onChange={(event, newValue) => {
                 onChangeSelectedUsers(newValue);
+                setInitialValues({
+                  ...initialValues,
+                  AddStaff: newValue,
+                });
               }}
               renderInput={(params) => (
-                <TextField {...params} label="Select Users" />
+                <TextField {...params} label="Select Users" 
+                error={formik.touched.AddStaff && Boolean(formik.errors.AddStaff)}
+                  helperText={formik.touched.AddStaff && formik.errors.AddStaff}
+                />
               )}
             />
             :
@@ -241,20 +246,19 @@ export const AttendanceModal = (props) => {
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  label="Add Staff"
+                  label="Select users"
                   error={formik.touched.AddStaff && Boolean(formik.errors.AddStaff)}
                   helperText={formik.touched.AddStaff && formik.errors.AddStaff}
                 />
               )}
             />
-
           }
           {attendencedata?._id ?
             <TextField
               id="PayPerHour"
               name="PayPerHour"
               label="Pay Per Hour"
-              value={attendencedata?.PayPerHour}
+              value={formik.values.PayPerHour}
               disabled
             />
             :
@@ -264,6 +268,8 @@ export const AttendanceModal = (props) => {
               label="Pay Per Hour"
               value={formik.values.PayPerHour}
               onChange={handleChange}
+              error={formik.touched.PayPerHour && Boolean(formik.errors.PayPerHour)}
+              helperText={formik.touched.PayPerHour && formik.errors.PayPerHour}
             />
           }
           {attendencedata?._id ?
@@ -273,7 +279,9 @@ export const AttendanceModal = (props) => {
               label="Start Time"
               type="time"
               onChange={handleChange}
-              value={selectedSlot?.startTime}
+              value={formik.values.StartTime}
+              error={formik.touched.StartTime && Boolean(formik.errors.StartTime)}
+              helperText={formik.touched.StartTime && formik.errors.StartTime}
             /> :
             <TextField
               id="StartTime"
@@ -281,6 +289,8 @@ export const AttendanceModal = (props) => {
               label="Start Time"
               type="time"
               onChange={handleChange}
+              error={formik.touched.StartTime && Boolean(formik.errors.StartTime)}
+              helperText={formik.touched.StartTime && formik.errors.StartTime}
             />
           }
           {attendencedata?._id ?
@@ -290,7 +300,9 @@ export const AttendanceModal = (props) => {
               type="time"
               label="End Time"
               onChange={handleChange}
-              value={selectedSlot?.endTime}
+              value={formik.values.EndTime}
+              error={formik.touched.EndTime && Boolean(formik.errors.EndTime)}
+              helperText={formik.touched.EndTime && formik.errors.EndTime}
             /> :
             <TextField
               id="EndTime"
@@ -298,6 +310,8 @@ export const AttendanceModal = (props) => {
               type="time"
               label="End Time"
               onChange={handleChange}
+              error={formik.touched.EndTime && Boolean(formik.errors.EndTime)}
+              helperText={formik.touched.EndTime && formik.errors.EndTime}
             />}
           {attendencedata?._id ?
             <FormControl sx={{ minWidth: 180 }}>
@@ -306,29 +320,22 @@ export const AttendanceModal = (props) => {
               </InputLabel>
               <Select
                 size="small"
-                name="slotStatus"
-                labelId="slotStatus"
-                id="slotStatus"
-                value={selectedSlot?.status}
+                name="SlotStatus"
+                labelId="SlotStatus"
+                id="SlotStatus"
+                value={formik.values.SlotStatus}
                 onChange={handleChange}
                 label="Slot Status"
               >
-                <MenuItem size="small" value={"PENDING STAFF"}>
-                  PENDING STAFF
+                <MenuItem size="small" value={"OPEN"}>
+                  OPEN
                 </MenuItem>
-                <MenuItem size="small" value={"READY TO SEND"}>
-                  READY TO SEND
-                </MenuItem>
-                <MenuItem size="small" value={"SEND"}>
-                  SEND
-                </MenuItem>
-                <MenuItem size="small" value={"RECEIVED BACK"}>
-                  RECEIVED BACK
-                </MenuItem>
-                <MenuItem size="small" value={"COMPLETED"}>
-                  COMPLETED
+                <MenuItem size="small" value={"CLOSED"}>
+                  CLOSED
                 </MenuItem>
               </Select>
+              {formik.touched.SlotStatus && formik.errors.SlotStatus &&
+                <p>{formik.errors.SlotStatus}</p>}
             </FormControl> :
             <FormControl sx={{ minWidth: 180 }}>
               <InputLabel size="small" id="SlotStatus">
@@ -342,23 +349,18 @@ export const AttendanceModal = (props) => {
                 value={formik.values.SlotStatus}
                 onChange={handleChange}
                 label="Slot Status"
+                error={formik.touched.SlotStatus && Boolean(formik.errors.SlotStatus)}
+
               >
-                <MenuItem size="small" value={"PENDING STAFF"}>
-                  PENDING STAFF
+                <MenuItem size="small" value={"OPEN"}>
+                  OPEN
                 </MenuItem>
-                <MenuItem size="small" value={"READY TO SEND"}>
-                  READY TO SEND
-                </MenuItem>
-                <MenuItem size="small" value={"SEND"}>
-                  SEND
-                </MenuItem>
-                <MenuItem size="small" value={"RECEIVED BACK"}>
-                  RECEIVED BACK
-                </MenuItem>
-                <MenuItem size="small" value={"COMPLETED"}>
-                  COMPLETED
+                <MenuItem size="small" value={"CLOSED"}>
+                  CLOSED
                 </MenuItem>
               </Select>
+              {formik.touched.SlotStatus && formik.errors.SlotStatus &&
+                <p>{formik.errors.SlotStatus}</p>}
             </FormControl>}
         </div>
         <Button

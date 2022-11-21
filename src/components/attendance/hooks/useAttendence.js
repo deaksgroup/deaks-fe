@@ -22,3 +22,8 @@ export const Addnewslot = async (params) =>{
   console.log(data);
   return data.data;
 }
+//update Slot
+export const patchSlot = async (params) =>{
+  const data =await axios.patch(`/attendance/updateSlot`,params);
+  return data.data;
+}
