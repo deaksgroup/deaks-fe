@@ -32,3 +32,8 @@ export const updateAprove = async (attendance_id) =>{
   const data =await axios.patch(`/attendance/approve/${attendance_id}`);
   return data.data;
 }
+//update Slot
+export const patchSlot = async (params) =>{
+  const data =await axios.patch(`/attendance/updateSlot`,params);
+  return data.data;
+}

@@ -53,11 +53,16 @@ export const AttendanceEdit = () => {
         }));
         setUserData(exclusiveUserOptionData);
     }
+    const getUser = (data) => {
+        const value = data.map((item) => ({
+            label: item?.name,
+            id: item._id,
+        }));
+        return value
+    }
     const getuserDataBYId = () => {
-        console.log(attendanceId);
         UseAttendenceQuery(attendanceId).then((res) => {
             if (res.message && res.message.code === 200 && res.data) {
-                console.log(res.data);
                 setData(res.data);
                 setInitialValues({
                     _id: res.data._id,
@@ -165,7 +170,7 @@ export const AttendanceEdit = () => {
                 {data?.slots?.map((item, index) => {
                     return (
                         <div className="slotsection" key={index}>
-                            <Typography className="heading">{item.name}</Typography>
+                            <Typography className="heading">{item.shiftName}</Typography>
                             <Autocomplete
                                 multiple
                                 id="tags-outlined-group"
@@ -181,17 +186,22 @@ export const AttendanceEdit = () => {
                                 value={
                                     !item?.users
                                         ? [{ label: "Loading...", id: 0 }]
-                                        : item?.users
+                                        : getUser(item?.users)
                                 }
                                 filterSelectedOptions
-                                onChange={(event, newValue) => {
-                                    //  onChangeSelectedUsers(newValue);
-                                }}
                                 renderInput={(params) => (
                                     <TextField {...params} label="Select Users" />
                                 )}
                             />
                             <div className="textfield">
+                                <TextField
+                                    id="hourlypay"
+                                    name="hourlypay"
+                                    label="Hourly Pay"
+                                    value={item.hourlyPay}
+                                    size="small"
+                                    disabled
+                                />
                                 <TextField
                                     id="startTime"
                                     name="startTime"
@@ -218,23 +228,13 @@ export const AttendanceEdit = () => {
                                         labelId="slotStatus"
                                         id="slotStatus"
                                         value={item.status}
-                                        onChange={formik.handleChange}
                                         label="Slot Status"
                                     >
-                                        <MenuItem size="small" value={"PENDING STAFF"}>
-                                            PENDING STAFF
+                                        <MenuItem size="small" value={"OPEN"}>
+                                            OPEN
                                         </MenuItem>
-                                        <MenuItem size="small" value={"READY TO SEND"}>
-                                            READY TO SEND
-                                        </MenuItem>
-                                        <MenuItem size="small" value={"SEND"}>
-                                            SEND
-                                        </MenuItem>
-                                        <MenuItem size="small" value={"RECEIVED BACK"}>
-                                            RECEIVED BACK
-                                        </MenuItem>
-                                        <MenuItem size="small" value={"COMPLETED"}>
-                                            COMPLETED
+                                        <MenuItem size="small" value={"CLOSED"}>
+                                            CLOSED
                                         </MenuItem>
                                     </Select>
                                 </FormControl>
@@ -252,7 +252,7 @@ export const AttendanceEdit = () => {
                                 onClick={() => {
                                     setModalOpen(true);
                                     setSelectedSlot(item);
-                                    setslotUsers(item.users);
+                                    setslotUsers(getUser(item.users));
                                     setmodalType(item.name)
                                 }}
                             >
