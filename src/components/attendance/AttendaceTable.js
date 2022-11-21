@@ -15,6 +15,7 @@ import { useEffect } from "react";
 export const Attendance = () => {
   const navigate = useNavigate();
   const [totalCount, setTotalCount] = useState("");
+  const [totalStaff, setTotalStaff] = useState("");
   const [attendanceData, setAttendanceData] = useState([]);
   const Paginations = usePagination(totalCount);
   useEffect(() => {
@@ -36,7 +37,8 @@ export const Attendance = () => {
       console.log(res.data);
       if (res?.data?.attendanceList) {
         setAttendanceData(res?.data?.attendanceList);
-        setTotalCount(2);
+        setTotalCount(res?.data?.totalRecords);
+        setTotalStaff(res?.data?.userCount)
       }
     });
   }
@@ -130,8 +132,8 @@ export const Attendance = () => {
 
       </div>
       <div className="attendanceCountDiv">
-        <div className="attendanceCount">count1</div>
-        <div className="staffCount">count2</div>
+        <div className="attendanceCount">Total No.of Attendances :{"  "+totalCount}</div>
+        <div className="staffCount">Total Staff Working : {" "+ totalStaff}</div>
       </div>
       <div className="attendanceSearchDiv">
         <TextField size="small"/>
