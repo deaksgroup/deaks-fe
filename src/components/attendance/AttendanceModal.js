@@ -89,10 +89,6 @@ export const AttendanceModal = (props) => {
             NotificationManager.success("Added Successfully");
             getAttendanceDataBYId()
             setModalOpen(false);
-            // setTimeout(() => {
-              
-            // }, 3000);
-
           } else {
             NotificationManager.error("Added Failed");
           }
@@ -353,7 +349,6 @@ export const AttendanceModal = (props) => {
                 onChange={handleChange}
                 label="Slot Status"
                 error={formik.touched.SlotStatus && Boolean(formik.errors.SlotStatus)}
-
               >
                 <MenuItem size="small" value={"OPEN"}>
                   OPEN

@@ -14,6 +14,7 @@ import { updateAmend, updateAprove, UseAttendencelist } from './hooks/useAttende
 import { useEffect } from "react";
 import { getHotels } from "../shared/services/hotelServices";
 import { getOutlets } from "../shared/services/outletServices";
+import { NotificationManager } from "react-notifications";
 export const Attendance = () => {
   const navigate = useNavigate();
   const [totalCount, setTotalCount] = useState("");
@@ -48,9 +49,8 @@ export const Attendance = () => {
     try {
       const response = await getHotels(queryParams);
       setHotelData(response.data);
-      console.log(response.data)
     } catch (error) {
-      // NotificationManager.error(error);
+      NotificationManager.error(error);
     }
   }, [queryParams]);
   useEffect(() => {
@@ -76,7 +76,7 @@ export const Attendance = () => {
       const outletData = await getOutlets(searchParams);
       setOutlets(outletData?.data);
     } catch (error) {
-      // NotificationManager.error(error);
+      NotificationManager.error(error);
     }
   }, [searchParams]);
 
@@ -135,17 +135,13 @@ export const Attendance = () => {
   }
   const amending = (id) => {
     updateAmend(id).then((res) => {
-      console.log(res)
       getAllAttendancelist()
-      //window.location.reload(false);
     })
 
   }
   const aproving = (id) => {
     updateAprove(id).then((res) => {
-      console.log(res)
-    //  window.location.reload(false);
-    getAllAttendancelist()
+      getAllAttendancelist()
     })
 
   }
@@ -155,13 +151,11 @@ export const Attendance = () => {
     setInitialValues((prev) => {
       return { ...prev, [name]: value }
     })
-    console.log(e.target.value);
     if (name === "hotel") {
-      console.log(value);
       setSelectedHotel(value)
     }
-    if(name === "searchQuery"){
-getAllAttendancelist()
+    if (name === "searchQuery") {
+      getAllAttendancelist()
     }
   }
 
@@ -262,8 +256,8 @@ getAllAttendancelist()
 
       </div>
       <div className="attendanceCountDiv">
-        <div className="attendanceCount">Total No.of Attendances :{"  "+totalCount}</div>
-        <div className="staffCount">Total Staff Working : {" "+ totalStaff}</div>
+        <div className="attendanceCount">Total No.of Attendances :{"  " + totalCount}</div>
+        <div className="staffCount">Total Staff Working : {" " + totalStaff}</div>
       </div>
       <div className="attendanceSearchDiv">
         <TextField size="small"
@@ -276,24 +270,23 @@ getAllAttendancelist()
           return (
             <StyledTableRow hover role="attendance" tabIndex={-1} key={item._id}>
               <>
-                <TableCell  align="left">
+                <TableCell align="left">
                   {item.id}
                 </TableCell>
-                <TableCell  align="left">
+                <TableCell align="left">
                   {item.attendanceName}
                 </TableCell>
                 <TableCell align="left">
                   {item.hotelName}
                 </TableCell>
-                <TableCell  align="left">
+                <TableCell align="left">
                   {item.outletName}
                 </TableCell>
-                <TableCell  align="left">
+                <TableCell align="left">
                   <Stack direction="row" spacing={1}>
                     <StyledIconButton
                       size="small"
                       aria-label="delete Hotel"
-
                     >
                       <DeleteOutlinedIcon size="small" />
                     </StyledIconButton>
@@ -308,11 +301,10 @@ getAllAttendancelist()
                     </StyledIconButton>
                   </Stack>
                 </TableCell>
-                <TableCell  align="left">
+                <TableCell align="left">
                   {item.isAmended ? <StyledIconButton
                     size="small"
                     aria-label="delete Hotel"
-
                   >
                     <DoneOutlineOutlined size="small" />
                   </StyledIconButton> : <StyledIconButton
@@ -327,7 +319,6 @@ getAllAttendancelist()
                   {item.isApproved ? <StyledIconButton
                     size="small"
                     aria-label="delete Hotel"
-
                   >
                     <DoneOutlineOutlined size="small" />
                   </StyledIconButton> : <StyledIconButton
