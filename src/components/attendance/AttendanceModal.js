@@ -122,7 +122,7 @@ export const AttendanceModal = (props) => {
           "start": StartTime,
           "end": EndTime,
           "shift_name": SlotNAME,
-          "hourlypay": PayPerHour,
+          "hourlyPay": PayPerHour,
         }
         Addnewslot(data).then((res) => {
           setLoading(false);
