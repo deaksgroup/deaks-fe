@@ -34,16 +34,18 @@
 }
 .attendanceCount{
   width: 20%;
-  background-color: blue;
+  background-color: #005c68;
   text-align: center;
   padding: 1%;
+  color: #fff;
 }
 .staffCount{
   width: 20%;
-  background-color: rgb(255, 0, 38);
+  background-color: #4c5008;
   text-align: center;
   /* height: 35px; */
   padding: 1%;
+  color: #fff;
 }
 .attendanceformWrapper{
   display:grid;
