@@ -1,17 +1,16 @@
-import React, { useState, useCallback, useMemo } from "react";
+import React, { useState, useCallback, useMemo,useEffect } from "react";
 import { ContentWrapper } from "../shared/components/ContentWrapper";
 import { DeaksTable } from "../shared/components/DeaksTable";
 import { usePagination } from "../shared/hooks/usePagination";
 import "./style/attendenceStyle.css";
 import { StyledIconButton, StyledTableRow } from "../users/utils/userUtils";
 import { attendanceHeading } from "./attendanceheading";
-import { Button, MenuItem, Select, Stack, TableCell, TextField, FormControl, InputLabel } from "@mui/material";
+import { Button, MenuItem, Select, Stack, TableCell, TextField, FormControl, InputLabel, Pagination } from "@mui/material";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import ModeEditOutlineOutlined from "@mui/icons-material/ModeEditOutlineOutlined";
 import { CloseOutlined, DoneOutlineOutlined } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { updateAmend, updateAprove, UseAttendencelist } from './hooks/useAttendence'
-import { useEffect } from "react";
 import { getHotels } from "../shared/services/hotelServices";
 import { getOutlets } from "../shared/services/outletServices";
 import { NotificationManager } from "react-notifications";
@@ -34,7 +33,10 @@ export const Attendance = () => {
   })
   useEffect(() => {
     getAllAttendancelist();
-  }, [])
+  }, [
+    Paginations.props.rowsPerPage,
+    Paginations.props.page,
+  ])
   //Fetch all hotel details
   const queryParams = React.useMemo(() => {
     return {
