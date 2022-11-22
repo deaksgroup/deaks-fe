@@ -33,7 +33,7 @@ export const Attendance = () => {
   })
   useEffect(() => {
     getAllAttendancelist();
-  }, [initialValues])
+  }, [])
   //Fetch all hotel details
   const queryParams = React.useMemo(() => {
     return {
@@ -114,19 +114,38 @@ export const Attendance = () => {
       "outlet": "",
       "searchQuery": "",
     })
-    getAllAttendancelist();
+    const params = {
+      "startDate": "2022-11-04T18:30:00.000+00:00",
+      "endDate": "2022-11-20T18:30:00.000+00:00",
+      "status": "",
+      "hotel": "",
+      "outlet": "",
+      "searchQuery": "",
+      "pageNum": 1,
+      "pageSize": Paginations.props.rowsPerPage,
+      "skip": Paginations.props.page * Paginations.props.rowsPerPage,
+    }
+    UseAttendencelist(params).then((res) => {
+      if (res?.data?.attendanceList) {
+        setAttendanceData(res?.data?.attendanceList);
+        setTotalCount(res?.data?.totalRecords);
+        setTotalStaff(res?.data?.userCount)
+      }
+    });
   }
   const amending = (id) => {
     updateAmend(id).then((res) => {
       console.log(res)
-      window.location.reload(false);
+      getAllAttendancelist()
+      //window.location.reload(false);
     })
 
   }
   const aproving = (id) => {
     updateAprove(id).then((res) => {
       console.log(res)
-      window.location.reload(false);
+    //  window.location.reload(false);
+    getAllAttendancelist()
     })
 
   }
@@ -140,6 +159,9 @@ export const Attendance = () => {
     if (name === "hotel") {
       console.log(value);
       setSelectedHotel(value)
+    }
+    if(name === "searchQuery"){
+getAllAttendancelist()
     }
   }
 
@@ -250,23 +272,23 @@ export const Attendance = () => {
           value={initialValues.searchQuery} />
       </div>
       <DeaksTable headings={attendanceHeading}>
-        {attendanceData?.map((item, index) => {
+        {attendanceData?.map((item) => {
           return (
-            <StyledTableRow hover role="attendance" tabIndex={-1} key={index}>
+            <StyledTableRow hover role="attendance" tabIndex={-1} key={item._id}>
               <>
-                <TableCell key={`${item.id}`} align="left">
+                <TableCell  align="left">
                   {item.id}
                 </TableCell>
-                <TableCell key={`${item.attendanceName}`} align="left">
+                <TableCell  align="left">
                   {item.attendanceName}
                 </TableCell>
-                <TableCell key={`${item.hotelName}`} align="left">
+                <TableCell align="left">
                   {item.hotelName}
                 </TableCell>
-                <TableCell key={`${item.outletName}`} align="left">
+                <TableCell  align="left">
                   {item.outletName}
                 </TableCell>
-                <TableCell key={`${item._id}`} align="left">
+                <TableCell  align="left">
                   <Stack direction="row" spacing={1}>
                     <StyledIconButton
                       size="small"
@@ -286,7 +308,7 @@ export const Attendance = () => {
                     </StyledIconButton>
                   </Stack>
                 </TableCell>
-                <TableCell key={`${item.isAmended}`} align="left">
+                <TableCell  align="left">
                   {item.isAmended ? <StyledIconButton
                     size="small"
                     aria-label="delete Hotel"
@@ -301,7 +323,7 @@ export const Attendance = () => {
                     <CloseOutlined size="small" />
                   </StyledIconButton>}
                 </TableCell>
-                <TableCell key={`${item.isApproved}`} align="left">
+                <TableCell align="left">
                   {item.isApproved ? <StyledIconButton
                     size="small"
                     aria-label="delete Hotel"
