@@ -22,6 +22,7 @@ import ProtectedRoute from "./components/shared/components/ProtectedRoute";
 import { Attendance } from "./components/attendance/AttendaceTable";
 import { StaffAttendance } from "./components/staffAttendance";
 import {AttendanceEdit} from "./components/attendance/AttendanceEdit"
+import { SelfAttendanceEdit } from "./components/staffAttendance/SelfAttendanceEdit";
 function App() {
   return (
     <div>
@@ -60,6 +61,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <StaffAttendance/>
+              </ProtectedRoute>
+            }
+          />
+            <Route
+            path={"/staff-attendance-edit/:attendanceId"}
+            element={
+              <ProtectedRoute>
+                <SelfAttendanceEdit/>
               </ProtectedRoute>
             }
           />
