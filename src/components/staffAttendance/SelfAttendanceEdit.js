@@ -30,7 +30,9 @@ const FormValidation = Yup.object().shape({
         function (value) {
             return !!value;
         }
-    )
+    ),
+    hourlyPay: Yup.number().required(),
+    status: Yup.string().required(),
 })
 const isSameOrBefore = (StartTime, EndTime) => {
     return moment(StartTime, 'HH:mm').isSameOrBefore(moment(EndTime, 'HH:mm'));
@@ -192,7 +194,7 @@ export const SelfAttendanceEdit = () => {
                     />
                     <FormControl>
                         <InputLabel size="small" id="status">
-                            Status
+                            Attendance Status
                         </InputLabel>
                         <Select
                             className="card"
@@ -203,6 +205,7 @@ export const SelfAttendanceEdit = () => {
                             id="status"
                             onChange={handleChange}
                             label="Attendance Status"
+                            InputLabelProps={{required: true }}
                         >
                             <MenuItem size="small" value={"PENDING"}>
                                 PENDING
@@ -250,40 +253,41 @@ export const SelfAttendanceEdit = () => {
                         onChange={handleChange}
                         value={formik.values.breakTime}
                         InputProps={{ sx: { height: 55 } }}
-                        InputLabelProps={{ shrink: true, required: true }}
+                        InputLabelProps={{ shrink: true}}
                     />
                     <TextField
                         id="hourlyPay"
                         name="hourlyPay"
-                        type="text"
+                        type="number"
                         label="Hourly Pay"
                         size="small"
                         onChange={handleChange}
                         value={formik.values.hourlyPay}
-                        InputProps={{ sx: { height: 55 } }}
                         InputLabelProps={{ shrink: true, required: true }}
+                        error={formik.touched.hourlyPay && Boolean(formik.errors.hourlyPay)}
+                        helperText={formik.touched.hourlyPay && formik.errors.hourlyPay}
                     />
                     <TextField
                         id="extraPay"
                         name="extraPay"
-                        type="text"
+                        type="number"
                         label="Extra Pay"
                         size="small"
                         onChange={handleChange}
                         value={formik.values.extraPay}
                         InputProps={{ sx: { height: 55 } }}
-                        InputLabelProps={{ shrink: true, required: true }}
+                        InputLabelProps={{ shrink: true}}
                     />
                     <TextField
                         id="deduction"
                         name="deduction"
-                        type="text"
+                        type="number"
                         label="Deduction"
                         size="small"
                         onChange={handleChange}
                         value={formik.values.deduction}
                         InputProps={{ sx: { height: 55 } }}
-                        InputLabelProps={{ shrink: true, required: true }}
+                        InputLabelProps={{ shrink: true}}
                     />
                     <TextField
                         id="remarks"
@@ -294,7 +298,7 @@ export const SelfAttendanceEdit = () => {
                         value={formik.values.remarks}
                         onChange={handleChange}
                         InputProps={{ sx: { height: 55 } }}
-                        InputLabelProps={{ shrink: true, required: true }}
+                        InputLabelProps={{ shrink: true}}
                     />
                     <Button
                         sx={{
