@@ -20,7 +20,11 @@ export const StaffAttendance = () => {
   const [hotelData, setHotelData] = useState([]);
   const [outlets, setOutlets] = useState([]);
   const [selectedHotel, setSelectedHotel] = useState("");
-  const [totalCount, setTotalCount] = useState("");
+  const [users, setTotalusers] = useState("");
+  const [deduction, setTotalDeduct] = useState("");
+  const [extraPay, setTotalExtraPay] = useState("");
+  const [payment, setTotalPayment] = useState("");
+  const [hour, setTotalWorkHour] = useState("");
   const [initialValues, setInitialValues] = useState({
     "startDate": "2022-11-04T18:30:00.000+00:00",
     "endDate": "2022-11-20T18:30:00.000+00:00",
@@ -50,7 +54,12 @@ export const StaffAttendance = () => {
     UseStaffAttendencelist(param).then((res) => {
       if (res?.data?.staff_attendance_list) {
         setStaffAttendance(res?.data?.staff_attendance_list);
-        setTotalCount(res?.data?.total_users);
+        setTotalusers(res?.data?.total_users);
+        setTotalDeduct(res?.data?.total_deductions);
+        setTotalExtraPay(res?.data?.total_extra_payment);
+        setTotalPayment(res?.data?.total_payment);
+        setTotalWorkHour(res?.data?.total_working_hours);
+
       }
     });
   }
@@ -236,6 +245,13 @@ export const StaffAttendance = () => {
           <Button onClick={onclickCancel}>CANCEL</Button>
         </div>
 
+      </div>
+      <div className="attendanceCountDiv">
+        <div className="attendanceCount">Total No.of Staff :{"  " + users}</div>
+        <div className="staffCount">Total hour Working : {" " + hour}</div>
+        <div className="attendanceCount">Total extra payment::{"  " + extraPay}</div>
+        <div className="staffCount">Total deducted payment: : {" " + deduction}</div>
+        <div className="attendanceCount">Total payment::{"  " + payment}</div>
       </div>
       <DeaksTable headings={staffAttendanceHeading}>
         {staffAttendance.map((item, index) => {

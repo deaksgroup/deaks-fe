@@ -255,7 +255,6 @@ export const Attendance = () => {
           <Button onClick={getAllAttendancelist}>SUBMIT</Button>
           <Button onClick={onclickCancel}>CANCEL</Button>
         </div>
-
       </div>
       <div className="attendanceCountDiv">
         <div className="attendanceCount">Total No.of Attendances :{"  " + totalCount}</div>
