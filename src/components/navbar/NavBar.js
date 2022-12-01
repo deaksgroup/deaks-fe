@@ -106,7 +106,7 @@ export default function NavBar() {
     setAnchorEl(null);
 
     Logout().then((response)=>{
-
+ localStorage.setItem("Token","")
       console.log(response);
       navigation("/login");
     })
