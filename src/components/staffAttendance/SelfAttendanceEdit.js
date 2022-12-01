@@ -1,6 +1,6 @@
 import { Button, TextField, FormControl, MenuItem, Select, InputLabel } from "@mui/material";
 import { useFormik } from "formik";
-import React, { useState ,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import Backdrops from "../shared/components/Backdrops";
 import * as Yup from 'yup';
 import { NotificationManager } from "react-notifications";
@@ -9,48 +9,48 @@ import moment from "moment"
 import { patchStaffAttendance, UseStaffAttendenceQuery } from "./hooks/useSelfAttendance";
 const FormValidation = Yup.object().shape({
     startTime: Yup.string()
-      .test(
-        'not empty',
-        'Start time can not be empty',
-        function (value) {
-          return !!value;
-        }
-      )
-      .test(
-        "start_time_test",
-        "Start time must be before end time",
-        function (value) {
-          const { endTime } = this.parent;
-          return isSameOrBefore(value, endTime);
-        }
-      ),
+        .test(
+            'not empty',
+            'Start time can not be empty',
+            function (value) {
+                return !!value;
+            }
+        )
+        .test(
+            "start_time_test",
+            "Start time must be before end time",
+            function (value) {
+                const { endTime } = this.parent;
+                return isSameOrBefore(value, endTime);
+            }
+        ),
     endTime: Yup.string().test(
-      'not empty',
-      'End time can not be empty',
-      function (value) {
-        return !!value;
-      }
+        'not empty',
+        'End time can not be empty',
+        function (value) {
+            return !!value;
+        }
     )
-  })
-  const isSameOrBefore = (StartTime, EndTime) => {
+})
+const isSameOrBefore = (StartTime, EndTime) => {
     return moment(StartTime, 'HH:mm').isSameOrBefore(moment(EndTime, 'HH:mm'));
-  }
+}
 export const SelfAttendanceEdit = () => {
     const { attendanceId } = useParams();
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [initialValues, setInitialValues] = useState({
         _id: "",
-        attendanceNo:"",
+        attendanceNo: "",
         hotelName: "",
         outletName: "",
-        status:"",
-        date:"",
-        breakTime:"",
+        status: "",
+        date: "",
+        breakTime: "",
         contactDetails: "",
-        deduction:"",
+        deduction: "",
         endTime: "",
-        extraPay:"",
+        extraPay: "",
         fullName: "",
         hourlyPay: "",
         startTime: "",
@@ -91,26 +91,26 @@ export const SelfAttendanceEdit = () => {
         onSubmit: async (values) => {
             console.log(values);
             if (attendanceId) {
-                const data={
-                    "_id":attendanceId,
-                    "status":values.status,
-                    "startTime":values.startTime,
-                    "endTime":values.endTime,
-                    "breakTime":values.breakTime,
-                    "hourlyPay":values.hourlyPay,
-                    "extraPay":values.extraPay,
-                    "deduction":values.deduction,
-                    "remarks":values.remarks
+                const data = {
+                    "_id": attendanceId,
+                    "status": values.status,
+                    "startTime": values.startTime,
+                    "endTime": values.endTime,
+                    "breakTime": values.breakTime,
+                    "hourlyPay": values.hourlyPay,
+                    "extraPay": values.extraPay,
+                    "deduction": values.deduction,
+                    "remarks": values.remarks
                 }
                 patchStaffAttendance(data).then((res) => {
                     setLoading(false);
                     if (res?.message?.code === 200) {
-                      NotificationManager.success("Updated Successfully");
-                      navigate(`/staff-attendance`);
+                        NotificationManager.success("Updated Successfully");
+                        navigate(`/staff-attendance`);
                     } else {
-                      NotificationManager.error("Added Failed");
+                        NotificationManager.error("Added Failed");
                     }
-                  })
+                })
             }
         }
     })
@@ -141,7 +141,7 @@ export const SelfAttendanceEdit = () => {
                         type="text"
                         label="Full Name"
                         size="small"
-                         value={formik.values.fullName}
+                        value={formik.values.fullName}
                         InputProps={{ sx: { height: 55 } }}
                         InputLabelProps={{ shrink: true, required: true }}
                         disabled
@@ -174,18 +174,18 @@ export const SelfAttendanceEdit = () => {
                         type="text"
                         label="Hotel Name"
                         size="small"
-                      value={formik.values.hotelName}
+                        value={formik.values.hotelName}
                         InputProps={{ sx: { height: 55 } }}
                         InputLabelProps={{ shrink: true, required: true }}
                         disabled
                     />
-                     <TextField
+                    <TextField
                         id="outletName"
                         name="outletName"
                         type="text"
                         label="Outlet Name"
                         size="small"
-                      value={formik.values.outletName}
+                        value={formik.values.outletName}
                         InputProps={{ sx: { height: 55 } }}
                         InputLabelProps={{ shrink: true, required: true }}
                         disabled
@@ -204,20 +204,20 @@ export const SelfAttendanceEdit = () => {
                             onChange={handleChange}
                             label="Attendance Status"
                         >
-                            <MenuItem size="small" value={"PENDING STAFF"}>
-                                PENDING STAFF
+                            <MenuItem size="small" value={"PENDING"}>
+                                PENDING
                             </MenuItem>
-                            <MenuItem size="small" value={"READY TO SEND"}>
-                                READY TO SEND
+                            <MenuItem size="small" value={"CONFIRMED"}>
+                                CONFIRMED
                             </MenuItem>
-                            <MenuItem size="small" value={"SEND"}>
-                                SEND
+                            <MenuItem size="small" value={"OTW"}>
+                                OTW
                             </MenuItem>
-                            <MenuItem size="small" value={"RECEIVED BACK"}>
-                                RECEIVED BACK
+                            <MenuItem size="small" value={"REPORTED"}>
+                                REPORTED
                             </MenuItem>
-                            <MenuItem size="small" value={"COMPLETED"}>
-                                COMPLETED
+                            <MenuItem size="small" value={"NO SHOW"}>
+                                NO SHOW
                             </MenuItem>
                         </Select>
                     </FormControl>
@@ -259,7 +259,7 @@ export const SelfAttendanceEdit = () => {
                         label="Hourly Pay"
                         size="small"
                         onChange={handleChange}
-                         value={formik.values.hourlyPay}
+                        value={formik.values.hourlyPay}
                         InputProps={{ sx: { height: 55 } }}
                         InputLabelProps={{ shrink: true, required: true }}
                     />
@@ -274,25 +274,25 @@ export const SelfAttendanceEdit = () => {
                         InputProps={{ sx: { height: 55 } }}
                         InputLabelProps={{ shrink: true, required: true }}
                     />
-                     <TextField
+                    <TextField
                         id="deduction"
                         name="deduction"
                         type="text"
                         label="Deduction"
                         size="small"
                         onChange={handleChange}
-                         value={formik.values.deduction}
+                        value={formik.values.deduction}
                         InputProps={{ sx: { height: 55 } }}
                         InputLabelProps={{ shrink: true, required: true }}
                     />
-                     <TextField
+                    <TextField
                         id="remarks"
                         name="remarks"
                         type="text"
                         label="Remarks"
                         size="small"
-                         value={formik.values.remarks}
-                         onChange={handleChange}
+                        value={formik.values.remarks}
+                        onChange={handleChange}
                         InputProps={{ sx: { height: 55 } }}
                         InputLabelProps={{ shrink: true, required: true }}
                     />
@@ -319,7 +319,7 @@ export const SelfAttendanceEdit = () => {
                             marginRight: "10px"
                         }}
                         variant="contained"
-                    onClick={()=>{ navigate(`/staff-attendance`)}}
+                        onClick={() => { navigate(`/staff-attendance`) }}
                     >
                         Cancel
                     </Button>
