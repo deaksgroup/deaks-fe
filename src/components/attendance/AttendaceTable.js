@@ -10,11 +10,13 @@ import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import ModeEditOutlineOutlined from "@mui/icons-material/ModeEditOutlineOutlined";
 import { CloseOutlined, DoneOutlineOutlined } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
-import { updateAmend, updateAprove, UseAttendencelist } from './hooks/useAttendence'
+import { createPdf, deleteAttendanceItem, downloadPdf, updateAmend, updateAprove, UseAttendencelist } from './hooks/useAttendence'
 import { useEffect } from "react";
 import { getHotels } from "../shared/services/hotelServices";
 import { getOutlets } from "../shared/services/outletServices";
 import { NotificationManager } from "react-notifications";
+import DownloadingIcon from '@mui/icons-material/Downloading';
+import SendIcon from '@mui/icons-material/Send';
 export const Attendance = () => {
   const navigate = useNavigate();
   const [totalCount, setTotalCount] = useState("");
@@ -145,7 +147,12 @@ export const Attendance = () => {
     })
 
   }
+  const deleteAttendance = (id) => {
+    deleteAttendanceItem(id).then((res) => {
+      getAllAttendancelist()
+    })
 
+  }
   const handleChange = (e) => {
     const { name, value } = e.target;
     setInitialValues((prev) => {
@@ -287,6 +294,7 @@ export const Attendance = () => {
                     <StyledIconButton
                       size="small"
                       aria-label="delete Hotel"
+                      onClick={()=>{deleteAttendance(item._id)}}
                     >
                       <DeleteOutlinedIcon size="small" />
                     </StyledIconButton>
@@ -302,14 +310,46 @@ export const Attendance = () => {
                   </Stack>
                 </TableCell>
                 <TableCell align="left">
+                  <Stack direction="row" spacing={1}>
+                    <StyledIconButton
+                      size="small"
+                      aria-label="download attendance"
+                      onClick={()=>{
+                        const name = item.attendanceName;                     
+                        createPdf(item._id).then((response) => {
+                          //console.log(item.attendanceName,"yjybjyh")
+                            const url = window.URL.createObjectURL(new Blob([response]));
+                            const link = document.createElement('a');
+                            link.href = "http://localhost:5001/api/attendance/download";
+                            link.setAttribute('download', name);
+                            document.body.appendChild(link);
+                            link.click();
+                            // link.parentNode.removeChild(link);
+                       })
+                      }}
+                    >
+                      <DownloadingIcon size="small" />
+                    </StyledIconButton>
+                    <StyledIconButton
+                      size="small"
+                      aria-label="send attendance"
+                      // onClick={() => {
+                      //   navigate(`/edit-attendance/${item._id}`)
+                      // }}
+                    >
+                      <SendIcon size="small" />
+                    </StyledIconButton>
+                  </Stack>
+                </TableCell>
+                <TableCell align="left">
                   {item.isAmended ? <StyledIconButton
                     size="small"
-                    aria-label="delete Hotel"
+                    aria-label="amend attendance"
                   >
                     <DoneOutlineOutlined size="small" />
                   </StyledIconButton> : <StyledIconButton
                     size="small"
-                    aria-label="delete Hotel"
+                    aria-label="amend attendance"
                     onClick={() => { amending(item._id) }}
                   >
                     <CloseOutlined size="small" />
@@ -318,12 +358,12 @@ export const Attendance = () => {
                 <TableCell align="left">
                   {item.isApproved ? <StyledIconButton
                     size="small"
-                    aria-label="delete Hotel"
+                    aria-label="aprove attendance"
                   >
                     <DoneOutlineOutlined size="small" />
                   </StyledIconButton> : <StyledIconButton
                     size="small"
-                    aria-label="delete Hotel"
+                    aria-label="aprove attendance"
                     onClick={() => { aproving(item._id) }}
                   >
                     <CloseOutlined size="small" />

@@ -37,3 +37,18 @@ export const patchSlot = async (params) =>{
   const data =await axios.patch(`/attendance/updateSlot`,params);
   return data.data;
 }
+//delete attendance
+export const deleteAttendanceItem = async (attendance_id) =>{
+  const data =await axios.delete(`/attendance/delete/${attendance_id}`);
+  return data.data;
+}
+//create pdf
+export const createPdf = async (attendance_id) =>{
+  const data =await axios.get(`/attendance/createAttendancePDF/${attendance_id}`);
+  return data.data;
+}
+export const downloadPdf = async () =>{
+  const data =await axios.get(`/attendance/download`);
+  console.log(data)
+  return data.data;
+}
