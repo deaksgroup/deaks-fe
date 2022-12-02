@@ -43,7 +43,6 @@ export const AttendanceEdit = () => {
     useEffect(() => {
         userList();
         getAttendanceDataBYId();
-
     }, []);
     const userList = async () => {
         const list = await getUsersList();
@@ -74,10 +73,7 @@ export const AttendanceEdit = () => {
                     slots: res.data.slots
                 })
             }
-
         });
-
-
     }
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -101,7 +97,6 @@ export const AttendanceEdit = () => {
                 } else {
                     NotificationManager.console.error("Update Failed");
                 }
-
             })
         },
     })

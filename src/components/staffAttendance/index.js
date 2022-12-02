@@ -6,7 +6,7 @@ import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import { StyledIconButton, StyledTableRow } from "../users/utils/userUtils";
 import ModeEditOutlineOutlined from "@mui/icons-material/ModeEditOutlineOutlined";
 import { CloseOutlined, DoneOutlineOutlined } from "@mui/icons-material";
-import { Button, MenuItem, Select, Stack, TableCell, TextField, FormControl, InputLabel } from "@mui/material";
+import { Button, MenuItem, Select, Stack, TableCell, TextField, Chip, FormControl, InputLabel } from "@mui/material";
 import { DeaksTable } from "../shared/components/DeaksTable";
 import { usePagination } from "../shared/hooks/usePagination";
 import "../attendance/style/attendenceStyle.css";
@@ -14,6 +14,11 @@ import { staffAttendanceHeading } from "./utils";
 import { UseStaffAttendencelist } from "./hooks/useSelfAttendance";
 import { getHotels } from "../shared/services/hotelServices";
 import { getOutlets } from "../shared/services/outletServices";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import moment from "moment";
+import { addDays } from "date-fns";
+import { DeaksModal } from "../shared/components/DeaksModal";
+import { DateRangePicker } from "react-date-range";
 export const StaffAttendance = () => {
   const navigate = useNavigate();
   const [staffAttendance, setStaffAttendance] = useState([]);
@@ -25,6 +30,7 @@ export const StaffAttendance = () => {
   const [extraPay, setTotalExtraPay] = useState("");
   const [payment, setTotalPayment] = useState("");
   const [hour, setTotalWorkHour] = useState("");
+  const [datePopup, setDatePopup] = useState(false);
   const [initialValues, setInitialValues] = useState({
     "startDate": "2022-11-04T18:30:00.000+00:00",
     "endDate": "2022-11-20T18:30:00.000+00:00",
@@ -34,16 +40,57 @@ export const StaffAttendance = () => {
     "searchQuery": "",
   })
   const Paginations = usePagination(20);
+  const [date, setDate] = useState([
+    {
+      startDate: new Date(),
+      endDate: addDays(new Date(), 7),
+      key: "selection",
+    },
+  ]);
+  const dateRange = useMemo(() => {
+    return {
+      start_date: date?.[0]?.startDate,
+      end_date: date?.[0]?.endDate,
+    };
+  }, [date]);
+  const { start_date, end_date } = dateRange;
+  const dateRangeText = `${moment(start_date).format("MMM Do")} - ${moment(
+    end_date
+  ).format("MMM Do")}`;
   useEffect(() => {
     getAllStaffAttendancelist();
   }, [
     Paginations.props.rowsPerPage,
     Paginations.props.page,
   ])
+  
   const getAllStaffAttendancelist = () => {
     const param = {
       "startDate":initialValues.startDate,
-      "endDate": initialValues.endDate,
+      "endDate":initialValues.endDate,
+      "status": initialValues.status,
+      "hotel": initialValues.hotel,
+      "outlet": initialValues.outlet,
+      "pageNum": 1,
+      "pageSize": Paginations.props.rowsPerPage,
+      "skip": Paginations.props.page * Paginations.props.rowsPerPage,
+    }
+    UseStaffAttendencelist(param).then((res) => {
+      if (res?.data?.staff_attendance_list) {
+        setStaffAttendance(res?.data?.staff_attendance_list);
+        setTotalusers(res?.data?.total_users);
+        setTotalDeduct(res?.data?.total_deductions);
+        setTotalExtraPay(res?.data?.total_extra_payment);
+        setTotalPayment(res?.data?.total_payment);
+        setTotalWorkHour(res?.data?.total_working_hours);
+
+      }
+    });
+  }
+  const getAllsearchStaffAttendancelist = () => {
+    const param = {
+      "startDate":date?.[0]?.startDate,
+      "endDate": date?.[0]?.endDate,
       "status": initialValues.status,
       "hotel": initialValues.hotel,
       "outlet": initialValues.outlet,
@@ -153,24 +200,13 @@ export const StaffAttendance = () => {
   return (
     <ContentWrapper headerName="Staff Attendance">
             <div className="attendanceFilterDiv">
-        <TextField
-          label="Starting Date"
-          InputLabelProps={{ shrink: true }}
-          className="card"
-          type="date"
-          name="startDate"
-          value={initialValues.startDate}
-          onChange={handleChange}
-          size="small" />
-        <TextField
-          label="Ending Date"
-          InputLabelProps={{ shrink: true }}
-          className="card"
-          type="date"
-          name="endDate"
-          value={initialValues.endDate}
-          onChange={handleChange}
-          size="small" />
+           <Chip
+          icon={<CalendarMonthIcon size="small" />}
+          label={dateRangeText}
+          onClick={() => {
+            setDatePopup(true);
+          }}
+        />
         <FormControl sx={{ minWidth: 120 }} size="small">
           <InputLabel id="demo-simple-select-helper-label">
             Select Hotel
@@ -241,11 +277,25 @@ export const StaffAttendance = () => {
           </Select>
         </FormControl>
         <div className="card">
-          <Button onClick={getAllStaffAttendancelist}>SUBMIT</Button>
+          <Button onClick={getAllsearchStaffAttendancelist}>SUBMIT</Button>
           <Button onClick={onclickCancel}>CANCEL</Button>
         </div>
 
       </div>
+      <DeaksModal
+        modalOpen={datePopup}
+        setModalOpen={setDatePopup}
+        modalHeader="Select Date"
+      >
+        <DateRangePicker
+          onChange={(item) => setDate([item.selection])}
+          showSelectionPreview={true}
+          moveRangeOnFirstSelection={false}
+          months={2}
+          ranges={date}
+          direction="horizontal"
+        />
+      </DeaksModal>
       <div className="attendanceCountDiv">
         <div className="attendanceCount">Total No.of Staff :{"  " + users}</div>
         <div className="staffCount">Total hour Working : {" " + hour}</div>
