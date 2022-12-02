@@ -1,10 +1,9 @@
 import React from "react";
-import { Routes, Route, Navigate, BrowserRouter } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import LoginForm from "./login";
 import TermsConditions from "./components/leagal/TermsConditions";
 import PrivacyPolicy from "./components/leagal/PrivacyPolicy";
 import SupportChannel from "./components/leagal/SupportChannel";
-import { LeftMenuBar } from "./components/navigation/LeftMenuBar ";
 import "react-date-range/dist/styles.css"; // main css file
 import "react-date-range/dist/theme/default.css"; // theme css file
 import { NotificationContainer } from "react-notifications";
@@ -23,113 +22,36 @@ import { Attendance } from "./components/attendance/AttendaceTable";
 import { StaffAttendance } from "./components/staffAttendance";
 import {AttendanceEdit} from "./components/attendance/AttendanceEdit"
 import { SelfAttendanceEdit } from "./components/staffAttendance/SelfAttendanceEdit";
+import NavBar from "./components/navbar/NavBar";
+
 function App() {
   return (
     <div>
+
       <Routes>
-        <Route path="/login" element={<LoginForm />}></Route>
+        <Route path="/login" element={<LoginForm />}/>
+        <Route index path={"/"}  element={<Navigate replace to="/login"/>}/>
+        <Route path="/" element={<NavBar/>}>
+                <Route path={"/users"} element={<Users/>}/>
+                {/* <Route path={"/attendance"} element={<Attendance/>}/> */}
+                <Route path={"/attendance"} element={ <Attendance /> }/>
+                <Route path="/edit-attendance/:attendanceId" element={ <AttendanceEdit /> } />
+                <Route path={"/staff-attendance"} element={ <StaffAttendance/> } />
+                <Route path={"/staff-attendance-edit/:attendanceId"} element={ <SelfAttendanceEdit/>} />
+                <Route path={"/hotels"} element={<Hotels/>}/>
+                <Route path={"/outlets" } element={<Outlet/>}/>
+                <Route path={"/slots"} element={<Slots/>}/>
+                <Route path={"/groups"} element={<Groups/>}/>
+                <Route path={"/addNewSlots" }element={<AddNewSlots/>}/>
+                <Route path={"/slot/details/:slotId" }element={<SlotDetails/>}/>
+                <Route path={"/daily"} element ={<DailyAttendance/>}/>
+                <Route path={"/termsConditions" }element={<TermsConditions/>}/>
+                <Route path={"/privacyPolicy" }element={<PrivacyPolicy/>}/>
+                <Route path={"/supportChannel" }element={<SupportChannel/>}/>
+        </Route>
       </Routes>
-      <LeftMenuBar>
-        <Routes>
-          <Route path={"/"} element={<Navigate replace to="/login" />}></Route>
-          <Route
-            path={"/users"}
-            element={
-              <ProtectedRoute>
-                <Users />
-              </ProtectedRoute>
-            }
-          />
-            <Route
-            path={"/attendance"}
-            element={
-              <ProtectedRoute>
-                <Attendance />
-              </ProtectedRoute>
-            }
-          />
-           <Route
-            path="/edit-attendance/:attendanceId"
-            element={
-              <ProtectedRoute>
-                <AttendanceEdit />
-              </ProtectedRoute>
-            }
-          ></Route>
-            <Route
-            path={"/staff-attendance"}
-            element={
-              <ProtectedRoute>
-                <StaffAttendance/>
-              </ProtectedRoute>
-            }
-          />
-            <Route
-            path={"/staff-attendance-edit/:attendanceId"}
-            element={
-              <ProtectedRoute>
-                <SelfAttendanceEdit/>
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path={"/hotels"}
-            element={
-              <ProtectedRoute>
-                <Hotels />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path={"/outlets"}
-            element={
-              <ProtectedRoute>
-                <Outlet />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path={"/slots"}
-            element={
-              <ProtectedRoute>
-                <Slots />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/addNewSlots"
-            element={
-              <ProtectedRoute>
-                <AddNewSlots />
-              </ProtectedRoute>
-            }
-          ></Route>
-          <Route
-            path="/daily"
-            element={
-              <ProtectedRoute>
-                <DailyAttendance />
-              </ProtectedRoute>
-            }
-          ></Route>
-          <Route
-            path="/slot/details/:slotId"
-            element={
-              <ProtectedRoute>
-                <SlotDetails />
-              </ProtectedRoute>
-            }
-          ></Route>
-          <Route path={"/groups"} element={<Groups />} />
-          <Route path={"/privacy-policy"} element={<PrivacyPolicy />}></Route>
-          <Route
-            path={"/terms-condition"}
-            element={<TermsConditions />}
-          ></Route>
-          <Route path={"/support-channel"} element={<SupportChannel />}></Route>
-        </Routes>
-      </LeftMenuBar>
       <NotificationContainer />
+      
     </div>
   );
 }
