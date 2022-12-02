@@ -16,7 +16,7 @@ export const LeftMenuBar = (props) => {
     <div className="applicationWrapper">
       <div className="menubarParent">
         <div className="menubarWrapper">
-          <img className="appLogo" src={logo} alt="app logp" />
+         
           <div className="appMenuList">
             <ul>
               <li>

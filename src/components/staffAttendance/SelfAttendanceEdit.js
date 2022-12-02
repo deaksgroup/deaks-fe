@@ -1,4 +1,4 @@
-import { Button, TextField, FormControl, MenuItem, Select, InputLabel } from "@mui/material";
+import { Button, TextField, FormControl, MenuItem, Select, InputLabel,Typography } from "@mui/material";
 import { useFormik } from "formik";
 import React, { useState, useEffect } from "react";
 import Backdrops from "../shared/components/Backdrops";
@@ -6,6 +6,7 @@ import * as Yup from 'yup';
 import { NotificationManager } from "react-notifications";
 import { useNavigate, useParams } from "react-router-dom";
 import moment from "moment"
+import './style/selfAttendanceStyle.css'
 import { patchStaffAttendance, UseStaffAttendenceQuery } from "./hooks/useSelfAttendance";
 const FormValidation = Yup.object().shape({
     startTime: Yup.string()
@@ -125,7 +126,8 @@ export const SelfAttendanceEdit = () => {
     return (
         <div>
             <form onSubmit={formik.handleSubmit}>
-                <div className="hotelsFormWrapper">
+            <Typography className="heading">Edit Self Attendance </Typography>
+                <div className="selfAttendanceFormWrapper">
                     <TextField
                         id="attendanceNo"
                         name="attendanceNo"
@@ -206,6 +208,7 @@ export const SelfAttendanceEdit = () => {
                             onChange={handleChange}
                             label="Attendance Status"
                             InputLabelProps={{required: true }}
+                            InputProps={{ sx: { height: 55 } }}
                         >
                             <MenuItem size="small" value={"PENDING"}>
                                 PENDING
@@ -263,6 +266,7 @@ export const SelfAttendanceEdit = () => {
                         size="small"
                         onChange={handleChange}
                         value={formik.values.hourlyPay}
+                        InputProps={{ sx: { height: 55 } }}
                         InputLabelProps={{ shrink: true, required: true }}
                         error={formik.touched.hourlyPay && Boolean(formik.errors.hourlyPay)}
                         helperText={formik.touched.hourlyPay && formik.errors.hourlyPay}
@@ -300,11 +304,11 @@ export const SelfAttendanceEdit = () => {
                         InputProps={{ sx: { height: 55 } }}
                         InputLabelProps={{ shrink: true}}
                     />
+                    <div>
                     <Button
                         sx={{
-                            marginTop: "20px",
                             background: "#1976d2",
-                            float: "right",
+                            // float: "right",
                             width: "110px",
                             height: "45px",
                         }}
@@ -315,18 +319,18 @@ export const SelfAttendanceEdit = () => {
                     </Button>
                     <Button
                         sx={{
-                            marginTop: "20px",
                             background: "#d21991",
-                            float: "right",
+                            // float: "right",
                             width: "110px",
                             height: "45px",
-                            marginRight: "10px"
+                            marginLeft: "10px"
                         }}
                         variant="contained"
                         onClick={() => { navigate(`/staff-attendance`) }}
                     >
                         Cancel
                     </Button>
+                    </div>
                 </div>
                 <Backdrops open={loading} />
             </form>
