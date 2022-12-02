@@ -126,7 +126,7 @@ export const SelfAttendanceEdit = () => {
     return (
         <div>
             <form onSubmit={formik.handleSubmit}>
-            <Typography className="heading">Edit Self Attendance </Typography>
+            <Typography className="heading">Edit Staff Attendance </Typography>
                 <div className="selfAttendanceFormWrapper">
                     <TextField
                         id="attendanceNo"
