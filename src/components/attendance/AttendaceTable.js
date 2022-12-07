@@ -5,6 +5,7 @@ import { usePagination } from "../shared/hooks/usePagination";
 import "./style/attendenceStyle.css";
 import { StyledIconButton, StyledTableRow } from "../users/utils/userUtils";
 import { attendanceHeading } from "./attendanceheading";
+import Backdrops from "../shared/components/Backdrops";
 import { Button, MenuItem, Select, Stack, TableCell, TextField, FormControl, InputLabel, Chip } from "@mui/material";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import ModeEditOutlineOutlined from "@mui/icons-material/ModeEditOutlineOutlined";
@@ -31,6 +32,7 @@ export const Attendance = () => {
   const [outlets, setOutlets] = useState([]);
   const [selectedHotel, setSelectedHotel] = useState("")
   const [datePopup, setDatePopup] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [initialValues, setInitialValues] = useState({
     "startDate": "2022-11-04T18:30:00.000+00:00",
     "endDate": "2022-11-20T18:30:00.000+00:00",
@@ -362,6 +364,7 @@ export const Attendance = () => {
                       size="small"
                       aria-label="download attendance"
                       onClick={()=>{
+                      setLoading(!loading)
                         const name = item.attendanceName;                     
                         createPdf(item._id).then((response) => {
                           //console.log(item.attendanceName,"yjybjyh")
@@ -372,7 +375,9 @@ export const Attendance = () => {
                             document.body.appendChild(link);
                             link.click();
                             // link.parentNode.removeChild(link);
+                            setLoading(false)
                        })
+                       
                       }}
                     >
                       <DownloadingIcon size="small" />
@@ -380,9 +385,11 @@ export const Attendance = () => {
                     <StyledIconButton
                       size="small"
                       aria-label="send attendance"
-                      // onClick={() => {
-                      //   navigate(`/edit-attendance/${item._id}`)
-                      // }}
+                      onClick={() => {
+                        setLoading(!loading)
+                        setLoading(false)
+
+                      }}
                     >
                       <SendIcon size="small" />
                     </StyledIconButton>
@@ -421,7 +428,7 @@ export const Attendance = () => {
           );
         })}
       </DeaksTable>
-
+      <Backdrops open={loading} />
 
 
 

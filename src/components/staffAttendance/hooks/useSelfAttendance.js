@@ -17,3 +17,8 @@ export const patchStaffAttendance = async (params) =>{
     const data =await axios.patch(`/staffAttendance/update`,params);
     return data.data;
   }
+  //delete attendance
+export const deleteAttendanceItem = async (attendance_id) =>{
+  const data =await axios.patch(`/staffAttendance/delete/${attendance_id}`);
+  return data.data;
+}

@@ -38,7 +38,7 @@ const FormValidation = Yup.object().shape({
 const isSameOrBefore = (StartTime, EndTime) => {
     return moment(StartTime, 'HH:mm').isSameOrBefore(moment(EndTime, 'HH:mm'));
 }
-export const SelfAttendanceEdit = () => {
+export const StaffAttendanceEdit = () => {
     const { attendanceId } = useParams();
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
@@ -305,22 +305,12 @@ export const SelfAttendanceEdit = () => {
                         InputLabelProps={{ shrink: true}}
                     />
                     <div>
-                    <Button
-                        sx={{
-                            background: "#1976d2",
-                            // float: "right",
-                            width: "110px",
-                            height: "45px",
-                        }}
-                        variant="contained"
-                        type="submit"
-                    >
-                        Save
-                    </Button>
+                    </div>
+                    </div>
                     <Button
                         sx={{
                             background: "#d21991",
-                            // float: "right",
+                            float: "right",
                             width: "110px",
                             height: "45px",
                             marginLeft: "10px"
@@ -330,8 +320,20 @@ export const SelfAttendanceEdit = () => {
                     >
                         Cancel
                     </Button>
-                    </div>
-                </div>
+                    <Button
+                        sx={{
+                            background: "#1976d2",
+                             float: "right",
+                            width: "110px",
+                            height: "45px",
+                        }}
+                        variant="contained"
+                        type="submit"
+                    >
+                        Save
+                    </Button>
+                    
+               
                 <Backdrops open={loading} />
             </form>
         </div>

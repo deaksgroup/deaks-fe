@@ -21,7 +21,7 @@ import ProtectedRoute from "./components/shared/components/ProtectedRoute";
 import { Attendance } from "./components/attendance/AttendaceTable";
 import { StaffAttendance } from "./components/staffAttendance";
 import {AttendanceEdit} from "./components/attendance/AttendanceEdit"
-import { SelfAttendanceEdit } from "./components/staffAttendance/SelfAttendanceEdit";
+import { StaffAttendanceEdit } from "./components/staffAttendance/StaffAttendanceEdit";
 import NavBar from "./components/navbar/NavBar";
 
 function App() {
@@ -37,7 +37,7 @@ function App() {
                 <Route path={"/attendance"} element={ <Attendance /> }/>
                 <Route path="/edit-attendance/:attendanceId" element={ <AttendanceEdit /> } />
                 <Route path={"/staff-attendance"} element={ <StaffAttendance/> } />
-                <Route path={"/staff-attendance-edit/:attendanceId"} element={ <SelfAttendanceEdit/>} />
+                <Route path={"/staff-attendance-edit/:attendanceId"} element={ <StaffAttendanceEdit/>} />
                 <Route path={"/hotels"} element={<Hotels/>}/>
                 <Route path={"/outlets" } element={<Outlet/>}/>
                 <Route path={"/slots"} element={<Slots/>}/>

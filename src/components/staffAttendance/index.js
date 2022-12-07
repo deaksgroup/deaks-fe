@@ -5,13 +5,12 @@ import { ContentWrapper } from "../shared/components/ContentWrapper";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import { StyledIconButton, StyledTableRow } from "../users/utils/userUtils";
 import ModeEditOutlineOutlined from "@mui/icons-material/ModeEditOutlineOutlined";
-import { CloseOutlined, DoneOutlineOutlined } from "@mui/icons-material";
 import { Button, MenuItem, Select, Stack, TableCell, TextField, Chip, FormControl, InputLabel } from "@mui/material";
 import { DeaksTable } from "../shared/components/DeaksTable";
 import { usePagination } from "../shared/hooks/usePagination";
 import "../attendance/style/attendenceStyle.css";
 import { staffAttendanceHeading } from "./utils";
-import { UseStaffAttendencelist } from "./hooks/useSelfAttendance";
+import { UseStaffAttendencelist,deleteAttendanceItem } from "./hooks/useSelfAttendance";
 import { getHotels } from "../shared/services/hotelServices";
 import { getOutlets } from "../shared/services/outletServices";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
@@ -197,6 +196,18 @@ export const StaffAttendance = () => {
       getAllStaffAttendancelist()
     }
   }
+  const deleteAttendance = (id) => {
+    deleteAttendanceItem(id).then((res) => {
+      if (res?.message?.code === 200) {
+        NotificationManager.success("Deleted Successfully");
+        getAllStaffAttendancelist()
+    } else {
+        NotificationManager.error("Deletion Failed");
+    }
+     
+    })
+
+  }
   return (
     <ContentWrapper headerName="Staff Attendance">
             <div className="attendanceFilterDiv">
@@ -351,7 +362,7 @@ export const StaffAttendance = () => {
                     <StyledIconButton
                       size="small"
                       aria-label="delete Hotel"
-
+                      onClick={()=>{deleteAttendance(item._id)}}
                     >
                       <DeleteOutlinedIcon size="small" />
                     </StyledIconButton>
