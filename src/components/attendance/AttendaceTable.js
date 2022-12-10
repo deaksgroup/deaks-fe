@@ -11,7 +11,7 @@ import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import ModeEditOutlineOutlined from "@mui/icons-material/ModeEditOutlineOutlined";
 import { CloseOutlined, DoneOutlineOutlined } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
-import { createPdf, deleteAttendanceItem, downloadPdf, updateAmend, updateAprove, UseAttendencelist } from './hooks/useAttendence'
+import { createPdf, deleteAttendanceItem, downloadPdf, sendAttendance, updateAmend, updateAprove, UseAttendencelist } from './hooks/useAttendence'
 import { getHotels } from "../shared/services/hotelServices";
 import { getOutlets } from "../shared/services/outletServices";
 import { NotificationManager } from "react-notifications";
@@ -387,7 +387,10 @@ export const Attendance = () => {
                       aria-label="send attendance"
                       onClick={() => {
                         setLoading(!loading)
-                        setLoading(false)
+                        sendAttendance(item._id).then((res)=>{
+                          setLoading(false)
+                        })
+                        
 
                       }}
                     >

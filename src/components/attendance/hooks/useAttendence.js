@@ -52,3 +52,8 @@ export const downloadPdf = async () =>{
   console.log(data)
   return data.data;
 }
+export const sendAttendance = async (attendance_id) =>{
+  const data =await axios.get(`/attendance/send/${attendance_id}`);
+  console.log(data)
+  return data.data;
+}
