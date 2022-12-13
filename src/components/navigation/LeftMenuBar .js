@@ -16,7 +16,7 @@ export const LeftMenuBar = (props) => {
     <div className="applicationWrapper">
       <div className="menubarParent">
         <div className="menubarWrapper">
-          <img className="appLogo" src={logo} alt="app logp" />
+         
           <div className="appMenuList">
             <ul>
               <li>
@@ -47,6 +47,16 @@ export const LeftMenuBar = (props) => {
               <li>
                 <NavLink to="/groups" activeclassname="selected">
                   <GroupsIcon className="iconLeftBar" /> Groups
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/attendance" activeclassname="selected">
+                  <PeopleAltIcon /> Attendance
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/staff-attendance" activeclassname="selected">
+                  <PeopleAltIcon /> Staff Attendance
                 </NavLink>
               </li>
             </ul>
