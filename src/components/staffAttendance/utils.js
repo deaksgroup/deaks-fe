@@ -1,0 +1,16 @@
+export const staffAttendanceHeading = [
+    { name: "ID", width: 50 },
+    { name: "AD_NO", width: 50 },
+    { name: "FULLNAME", width: 50 },
+    { name: "CONTACT DETRAILS", width: 50 },
+    { name: "HOTEL", width: 50 },
+    {name : "OUTLET",width:50},
+    {name: "DATE",width:50},
+    {name:"STATUS",width:50},
+    {name:"STARTING TIME",width:50},
+    {name:"ENDING TIME",width:50},
+    {name:"TOTAL HOUR",width:50},
+    {name:"PAY/HOUR",width:50},
+    {name:"TOTAL PAYMENT",width:50},
+    {name:"ACTION",width:50},
+  ];

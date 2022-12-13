@@ -17,6 +17,11 @@ import { Groups } from "./components/groups";
 import { AddNewSlots } from "./components/slots/components/AddNewSlots";
 import { SlotDetails } from "./components/slots/slotDetails/SlotDetails";
 import { DailyAttendance } from "./components/dailyAttendance";
+import ProtectedRoute from "./components/shared/components/ProtectedRoute";
+import { Attendance } from "./components/attendance/AttendaceTable";
+import { StaffAttendance } from "./components/staffAttendance";
+import {AttendanceEdit} from "./components/attendance/AttendanceEdit"
+import { StaffAttendanceEdit } from "./components/staffAttendance/StaffAttendanceEdit";
 import NavBar from "./components/navbar/NavBar";
 
 function App() {
@@ -29,6 +34,10 @@ function App() {
         <Route path="/" element={<NavBar/>}>
                 <Route path={"/users"} element={<Users/>}/>
                 {/* <Route path={"/attendance"} element={<Attendance/>}/> */}
+                <Route path={"/attendance"} element={ <Attendance /> }/>
+                <Route path="/edit-attendance/:attendanceId" element={ <AttendanceEdit /> } />
+                <Route path={"/staff-attendance"} element={ <StaffAttendance/> } />
+                <Route path={"/staff-attendance-edit/:attendanceId"} element={ <StaffAttendanceEdit/>} />
                 <Route path={"/hotels"} element={<Hotels/>}/>
                 <Route path={"/outlets" } element={<Outlet/>}/>
                 <Route path={"/slots"} element={<Slots/>}/>
@@ -41,7 +50,6 @@ function App() {
                 <Route path={"/supportChannel" }element={<SupportChannel/>}/>
         </Route>
       </Routes>
-
       <NotificationContainer />
       
     </div>

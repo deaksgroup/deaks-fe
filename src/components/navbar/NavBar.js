@@ -19,7 +19,8 @@ import { LeftMenuBar } from '../navigation/LeftMenuBar ';
 import ProtectedRoute from '../shared/components/ProtectedRoute';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { Logout } from './UseNavBar';
-
+import { Height, Margin } from '@mui/icons-material';
+const logo = require("../../assets/logo.jpg");
 
 
 
@@ -129,6 +130,8 @@ export default function NavBar() {
           >
             <MenuIcon />
           </IconButton>
+          <img style={{borderRadius:"20px",Height:"80px",
+          width:"80px",marginRight:"10px"}} src={logo} alt="app logp" />
           <Typography variant="h6" noWrap component="div" style={{flex:1}}>
             Deaks
           </Typography>
@@ -170,6 +173,7 @@ export default function NavBar() {
           '& .MuiDrawer-paper': {
             width: drawerWidth,
             boxSizing: 'border-box',
+           
           },
         }}
         variant="persistent"

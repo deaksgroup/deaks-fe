@@ -28,6 +28,7 @@ const LoginForm = () => {
         password,
       })
       .then(function (res) {
+        console.log(res);
         localStorage.setItem("Token", res.data.token);
         axios.defaults.headers.common["secret_token"] = res?.data?.token;
         localStorage.setItem("roles", res.data.user.roles);
