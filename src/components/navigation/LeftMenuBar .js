@@ -9,7 +9,7 @@ import GroupsIcon from "@mui/icons-material/Groups";
 import LightModeIcon from "@mui/icons-material/LightMode";
 
 import "./style/LeftMenuBar.css";
-const logo = require("../../assets/logo.jpg");
+// const logo = require("../../assets/logo.jpg");
 
 export const LeftMenuBar = (props) => {
   return (
